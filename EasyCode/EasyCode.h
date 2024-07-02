@@ -14,5 +14,3 @@ FOUNDATION_EXPORT double EasyCodeVersionNumber;
 FOUNDATION_EXPORT const unsigned char EasyCodeVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <EasyCode/PublicHeader.h>
-
-
