@@ -17,10 +17,10 @@ public enum EncryptionError: Error, CustomDebugStringConvertible {
 
     public var debugDescription: String {
         switch self {
-        case .decryptionFailed: return "Ошибка при расшивровки пароля"
-        case .alreadyExists: return "Пароль уже существует"
-        case .passwordMismatch: return "Ошибка при получении пароля:"
-        case .unexpectedData: return "Ошибка при получении данных"
+        case .decryptionFailed: return "Error during password decryption"
+        case .alreadyExists: return "Password already exists"
+        case .passwordMismatch: return "Error retrieving the password:"
+        case .unexpectedData: return "Error retrieving data"
         default: return ""
         }
     }

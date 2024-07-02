@@ -9,7 +9,7 @@ import Foundation
 
 public class PerformManager {
 
-   public typealias PerformTask = (() async -> Void)
+    public typealias PerformTask = (() async -> Void)
 
     public private(set) var tasks = [PerformTask]()
     private var executionTask: Task<Void, Never>?

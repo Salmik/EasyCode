@@ -15,6 +15,6 @@ public class MeasureTest {
         closure()
         let end = CACurrentMediaTime()
         let elapsedTime = end - start
-        print("Время выполнения: \(elapsedTime) секунд")
+        print("Execution time: \(elapsedTime) seconds")
     }
 }

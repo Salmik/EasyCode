@@ -31,7 +31,6 @@ public extension KeyboardNotificationProtocol {
     }
 
     private func scrollToFrameIfNeeded(keyboardFrame: CGRect) {
-        // The previous realization works same as this. We have to find new solution to scroll smoothly
         scrollView.contentInset.bottom = keyboardFrame.height
     }
 
@@ -42,7 +41,7 @@ public extension KeyboardNotificationProtocol {
 
 public extension KeyboardNotificationProtocol {
 
-    func performOnTrigger(_ notification: BaseNotification, object: Any?, userInfo: [AnyHashable: Any]?) {
+    func performOnTrigger(_ notification: NotificationAction, object: Any?, userInfo: [AnyHashable: Any]?) {
         guard let userInfo = userInfo, 
               let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return

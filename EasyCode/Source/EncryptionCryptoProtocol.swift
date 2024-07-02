@@ -69,7 +69,11 @@ public extension EncryptionCryptoProtocol {
             data as CFData,
             &error
         ) else {
-            throw error!.takeRetainedValue() as Error
+            if let error = error?.takeRetainedValue() {
+                throw error as Error
+            } else {
+                throw NSError(domain: "UnknownError", code: -1, userInfo: nil)
+            }
         }
         return encryptedData as Data
     }
@@ -82,7 +86,11 @@ public extension EncryptionCryptoProtocol {
             data as CFData,
             &error
         ) else {
-            throw error!.takeRetainedValue() as Error
+            if let error = error?.takeRetainedValue() {
+                throw error as Error
+            } else {
+                throw NSError(domain: "UnknownError", code: -1, userInfo: nil)
+            }
         }
         return decryptedData as Data
     }

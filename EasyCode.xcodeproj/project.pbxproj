@@ -16,7 +16,7 @@
 		BBAFFBE22C340EB6005703B0 /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */; };
 		BBAFFBE42C340EE7005703B0 /* CoredataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */; };
 		BBAFFBE62C341881005703B0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE52C341881005703B0 /* NotificationManager.swift */; };
-		BBAFFBE82C3418AA005703B0 /* BaseNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE72C3418AA005703B0 /* BaseNotification.swift */; };
+		BBAFFBE82C3418AA005703B0 /* NotificationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE72C3418AA005703B0 /* NotificationAction.swift */; };
 		BBAFFBEA2C34194A005703B0 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */; };
 		BBAFFBEC2C341987005703B0 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBEB2C341987005703B0 /* String+extension.swift */; };
 		BBAFFBEE2C341A98005703B0 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBED2C341A98005703B0 /* Array+extension.swift */; };
@@ -50,6 +50,8 @@
 		BBAFFC282C342862005703B0 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */; };
 		BBAFFC2A2C342877005703B0 /* Encodable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC292C342877005703B0 /* Encodable+extension.swift */; };
 		BBAFFC2C2C342887005703B0 /* SelfSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */; };
+		BBAFFC2E2C342A0D005703B0 /* KeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2D2C342A0D005703B0 /* KeyValueStore.swift */; };
+		BBAFFC302C345AF9005703B0 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2F2C345AF9005703B0 /* LocalFileManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +75,7 @@
 		BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
 		BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataManager.swift; sourceTree = "<group>"; };
 		BBAFFBE52C341881005703B0 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		BBAFFBE72C3418AA005703B0 /* BaseNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNotification.swift; sourceTree = "<group>"; };
+		BBAFFBE72C3418AA005703B0 /* NotificationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAction.swift; sourceTree = "<group>"; };
 		BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		BBAFFBEB2C341987005703B0 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		BBAFFBED2C341A98005703B0 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
@@ -107,6 +109,8 @@
 		BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
 		BBAFFC292C342877005703B0 /* Encodable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+extension.swift"; sourceTree = "<group>"; };
 		BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedTableView.swift; sourceTree = "<group>"; };
+		BBAFFC2D2C342A0D005703B0 /* KeyValueStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStore.swift; sourceTree = "<group>"; };
+		BBAFFC2F2C345AF9005703B0 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,45 +171,47 @@
 		BBAFFBDA2C340DC9005703B0 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				BBAFFBED2C341A98005703B0 /* Array+extension.swift */,
+				BBAFFBE72C3418AA005703B0 /* NotificationAction.swift */,
 				BBAFFBDB2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift */,
-				BBAFFBF32C341C59005703B0 /* EncryptionError.swift */,
-				BBAFFBF12C341C31005703B0 /* EncryptionCryptoProtocol.swift */,
-				BBAFFBF52C341CC2005703B0 /* UIView+extension.swift */,
-				BBAFFBF72C341D33005703B0 /* UIView+constraints.swift */,
-				BBAFFBFB2C341DCB005703B0 /* KeychainService.swift */,
-				BBAFFBFF2C342012005703B0 /* RegularExpression.swift */,
-				BBAFFC172C342430005703B0 /* UIViewController+extension.swift */,
-				BBAFFC232C342840005703B0 /* DynamicHeightCollectionView.swift */,
-				BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */,
-				BBAFFC292C342877005703B0 /* Encodable+extension.swift */,
-				BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */,
-				BBAFFC252C342850005703B0 /* UITableView+extension.swift */,
-				BBAFFC1B2C342689005703B0 /* KeyboardNotificationProtocol.swift */,
-				BBAFFBFD2C341FE4005703B0 /* JailbreakDetection.swift */,
-				BBAFFBF92C341DA1005703B0 /* NSLayoutConstraint+extension.swift */,
-				BBAFFBDD2C340E20005703B0 /* PerformManager.swift */,
-				BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */,
-				BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */,
-				BBAFFBE72C3418AA005703B0 /* BaseNotification.swift */,
-				BBAFFBE52C341881005703B0 /* NotificationManager.swift */,
-				BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */,
-				BBAFFBEB2C341987005703B0 /* String+extension.swift */,
 				BBAFFC012C342126005703B0 /* Character+extension.swift */,
+				BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */,
+				BBAFFC2F2C345AF9005703B0 /* LocalFileManager.swift */,
 				BBAFFC032C342152005703B0 /* Date+extension.swift */,
-				BBAFFC1F2C34278A005703B0 /* UIImage+extension.swift */,
 				BBAFFC132C342328005703B0 /* DebounceProvider.swift */,
-				BBAFFC152C342349005703B0 /* HostingView.swift */,
-				BBAFFC052C342171005703B0 /* Locale+extension.swift */,
 				BBAFFC212C3427C0005703B0 /* Decimal+extension.swift */,
-				BBAFFC112C3422DD005703B0 /* NetworkMonitor.swift */,
-				BBAFFC0D2C34225C005703B0 /* JSONFileReader.swift */,
+				BBAFFBEF2C341B35005703B0 /* Dictionary+extension.swift */,
 				BBAFFC0F2C342274005703B0 /* DispatchWorker.swift */,
-				BBAFFC072C34218B005703B0 /* URL+extension.swift */,
+				BBAFFC232C342840005703B0 /* DynamicHeightCollectionView.swift */,
+				BBAFFC292C342877005703B0 /* Encodable+extension.swift */,
+				BBAFFBF12C341C31005703B0 /* EncryptionCryptoProtocol.swift */,
+				BBAFFBF32C341C59005703B0 /* EncryptionError.swift */,
+				BBAFFC152C342349005703B0 /* HostingView.swift */,
+				BBAFFBFD2C341FE4005703B0 /* JailbreakDetection.swift */,
+				BBAFFC0D2C34225C005703B0 /* JSONFileReader.swift */,
+				BBAFFC1B2C342689005703B0 /* KeyboardNotificationProtocol.swift */,
+				BBAFFBFB2C341DCB005703B0 /* KeychainService.swift */,
+				BBAFFC2D2C342A0D005703B0 /* KeyValueStore.swift */,
+				BBAFFC052C342171005703B0 /* Locale+extension.swift */,
 				BBAFFC092C3421EF005703B0 /* Logger.swift */,
 				BBAFFC0B2C34220F005703B0 /* MeasureTest.swift */,
-				BBAFFBED2C341A98005703B0 /* Array+extension.swift */,
-				BBAFFBEF2C341B35005703B0 /* Dictionary+extension.swift */,
+				BBAFFC112C3422DD005703B0 /* NetworkMonitor.swift */,
+				BBAFFBE52C341881005703B0 /* NotificationManager.swift */,
+				BBAFFBF92C341DA1005703B0 /* NSLayoutConstraint+extension.swift */,
 				BBAFFC192C34252F005703B0 /* Observable.swift */,
+				BBAFFBDD2C340E20005703B0 /* PerformManager.swift */,
+				BBAFFBFF2C342012005703B0 /* RegularExpression.swift */,
+				BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */,
+				BBAFFBEB2C341987005703B0 /* String+extension.swift */,
+				BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */,
+				BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */,
+				BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */,
+				BBAFFC1F2C34278A005703B0 /* UIImage+extension.swift */,
+				BBAFFC252C342850005703B0 /* UITableView+extension.swift */,
+				BBAFFBF72C341D33005703B0 /* UIView+constraints.swift */,
+				BBAFFBF52C341CC2005703B0 /* UIView+extension.swift */,
+				BBAFFC172C342430005703B0 /* UIViewController+extension.swift */,
+				BBAFFC072C34218B005703B0 /* URL+extension.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -339,9 +345,10 @@
 				BBAFFC122C3422DD005703B0 /* NetworkMonitor.swift in Sources */,
 				BBAFFC1A2C34252F005703B0 /* Observable.swift in Sources */,
 				BBAFFBF22C341C31005703B0 /* EncryptionCryptoProtocol.swift in Sources */,
-				BBAFFBE82C3418AA005703B0 /* BaseNotification.swift in Sources */,
+				BBAFFBE82C3418AA005703B0 /* NotificationAction.swift in Sources */,
 				BBAFFBEE2C341A98005703B0 /* Array+extension.swift in Sources */,
 				BBAFFC182C342430005703B0 /* UIViewController+extension.swift in Sources */,
+				BBAFFC2E2C342A0D005703B0 /* KeyValueStore.swift in Sources */,
 				BBAFFC2C2C342887005703B0 /* SelfSizedTableView.swift in Sources */,
 				BBAFFBF62C341CC2005703B0 /* UIView+extension.swift in Sources */,
 				BBAFFC042C342152005703B0 /* Date+extension.swift in Sources */,
@@ -359,6 +366,7 @@
 				BBAFFC222C3427C0005703B0 /* Decimal+extension.swift in Sources */,
 				BBAFFC262C342850005703B0 /* UITableView+extension.swift in Sources */,
 				BBAFFBEC2C341987005703B0 /* String+extension.swift in Sources */,
+				BBAFFC302C345AF9005703B0 /* LocalFileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

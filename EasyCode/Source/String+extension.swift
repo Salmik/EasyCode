@@ -96,6 +96,8 @@ public extension String {
         return predicate.evaluate(with: self)
     }
 
+    var localized: String { NSLocalizedString(self, comment: "") }
+
     func matches(_ regex: String) -> Bool { self.range(of: regex, options: .regularExpression) != nil }
 
     func image(
@@ -122,8 +124,6 @@ public extension String {
 
         return image.withRenderingMode(renderingMode)
     }
-
-    var localized: String { NSLocalizedString(self, comment: "") }
 
     func decode<T: Decodable>() -> T? {
         guard let data = data(using: .utf8) else { return nil }

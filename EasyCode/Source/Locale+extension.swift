@@ -31,10 +31,11 @@ public extension Locale {
 
     static func countryFlag(country: String) -> String {
         let base: UInt32 = 127397
-        var s = ""
-        for v in country.unicodeScalars {
-            s.unicodeScalars.append(UnicodeScalar(base + v.value)!)
+        var string = ""
+        for countryUnicode in country.unicodeScalars {
+            guard let unicode = UnicodeScalar(base + countryUnicode.value) else { continue }
+            string.unicodeScalars.append(unicode)
         }
-        return String(s)
+        return String(string)
     }
 }

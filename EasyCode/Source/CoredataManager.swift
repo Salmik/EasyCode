@@ -7,15 +7,15 @@
 
 import CoreData
 
+public protocol DataBaseNameProtocol {
+    var rawValue: String { get }
+}
+
 public class CoreDataManager {
 
-    public enum DataBaseName: String {
-        case `default`
-    }
+    private let databaseName: DataBaseNameProtocol
 
-    private let databaseName: DataBaseName
-
-    public init(databaseName: DataBaseName) {
+    public init(databaseName: DataBaseNameProtocol) {
         self.databaseName = databaseName
     }
 

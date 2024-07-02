@@ -8,63 +8,93 @@
 import Foundation
 import Security
 
+public protocol KeychainKeyProtocol {
+
+    var rawValue: String { get }
+}
+
+public enum KeychainError: Error {
+
+    case itemNotFound
+    case unexpectedData
+    case unhandledError(status: OSStatus)
+}
+
 public class KeychainService {
 
-    public enum KeychainKey: String {
-
-        case mySecretKey = "MySecretKey"
-        case userToken = "UserToken"
-        case sessionData = "SessionData"
-    }
+    private let secClass = kSecClass as String
+    private let secAttrAccount = kSecAttrAccount as String
+    private let secValueData = kSecValueData as String
+    private let secReturnData = kSecReturnData as String
+    private let secMatchLimit = kSecMatchLimit as String
+    private let secClassGenericPassword = kSecClassGenericPassword as String
+    private let secMatchLimitOne = kSecMatchLimitOne as String
 
     @discardableResult
-    static func save(key: KeychainKey, data: Data) -> Bool {
+    public func save(key: KeychainKeyProtocol, data: Data) throws -> Bool {
         let query = [
-            kSecClass as String: kSecClassGenericPassword as String,
-            kSecAttrAccount as String: key.rawValue,
-            kSecValueData as String: data
+            secClass: secClassGenericPassword,
+            secAttrAccount: key.rawValue,
+            secValueData: data
         ] as [String: Any]
 
         SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
-        return status == noErr
+
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
+        }
+        return true
     }
 
-    static func load(key: KeychainKey) -> Data? {
+    public func load(key: KeychainKeyProtocol) throws -> Data {
         let query = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key.rawValue,
-            kSecReturnData as String: kCFBooleanTrue ?? "",
-            kSecMatchLimit as String: kSecMatchLimitOne
+            secClass: secClassGenericPassword,
+            secAttrAccount: key.rawValue,
+            secReturnData: kCFBooleanTrue ?? "",
+            secMatchLimit: secMatchLimitOne
         ] as [String: Any]
 
         var dataTypeRef: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-        guard status == noErr else { return nil }
-        return dataTypeRef as? Data
+
+        guard status != errSecItemNotFound else {
+            throw KeychainError.itemNotFound
+        }
+
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
+        }
+
+        guard let data = dataTypeRef as? Data else {
+            throw KeychainError.unexpectedData
+        }
+
+        return data
     }
 
     @discardableResult
-    static func update(key: KeychainKey, data: Data) -> Bool {
-        let query = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key.rawValue
-        ] as [String: Any]
-
-        let attributesToUpdate = [kSecValueData as String: data] as [String: Any]
-
+    public func update(key: KeychainKeyProtocol, data: Data) throws -> Bool {
+        let query = [secClass: secClassGenericPassword, secAttrAccount: key.rawValue] as [String: Any]
+        let attributesToUpdate = [secValueData: data] as [String: Any]
         let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
-        return status == noErr
+
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
+        }
+
+        return true
     }
 
     @discardableResult
-    static func delete(key: KeychainKey) -> Bool {
-        let query = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key.rawValue
-        ] as [String: Any]
-
+    public func delete(key: KeychainKeyProtocol) throws -> Bool {
+        let query = [secClass: secClassGenericPassword, secAttrAccount: key.rawValue] as [String: Any]
         let status = SecItemDelete(query as CFDictionary)
-        return status == noErr
+
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
+        }
+
+        return true
     }
 }

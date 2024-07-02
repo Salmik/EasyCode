@@ -10,7 +10,7 @@ import SwiftUI
 
 public class HostingView<T: View>: UIView {
 
-    private(set) var hostingController: UIHostingController<T>
+    public private(set) var hostingController: UIHostingController<T>
 
     public var rootView: T {
         get { hostingController.rootView }

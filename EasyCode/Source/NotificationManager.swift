@@ -9,7 +9,7 @@ import Foundation
 
 public protocol NotificationManagerDelegate: AnyObject {
 
-    func performOnTrigger(_ notification: BaseNotification, object: Any?, userInfo: [AnyHashable: Any]?)
+    func performOnTrigger(_ notification: NotificationAction, object: Any?, userInfo: [AnyHashable: Any]?)
 }
 
 public class NotificationManager {
@@ -19,20 +19,20 @@ public class NotificationManager {
 
     public init() {}
 
-    public func subscribe(to notification: BaseNotification, object: Any? = nil) {
+    public func subscribe(to notification: NotificationAction, object: Any? = nil) {
         notificationCenter.addObserver(self, selector: #selector(selector), name: notification.name, object: object)
     }
 
-    public func unsubscribe(from notification: BaseNotification, object: Any? = nil) {
+    public func unsubscribe(from notification: NotificationAction, object: Any? = nil) {
         notificationCenter.removeObserver(self, name: notification.name, object: object)
     }
 
-    public func trigger(notification: BaseNotification, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
+    public func trigger(notification: NotificationAction, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         notificationCenter.post(name: notification.name, object: object, userInfo: userInfo)
     }
 
     @objc private func selector(_ notification: Notification) {
-        let baseNotification = BaseNotification(name: notification.name)
+        let baseNotification = NotificationAction(name: notification.name)
         delegate?.performOnTrigger(baseNotification, object: notification.object, userInfo: notification.userInfo)
     }
 }

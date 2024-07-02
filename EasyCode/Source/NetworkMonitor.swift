@@ -54,12 +54,12 @@ public class NetworkMonitor {
     public weak var delegate: NetworkMonitorDelegate?
 
     public func startMonitoring() {
-        monitor.start(queue: queue)
         monitor.pathUpdateHandler = { [weak self] path in
             guard let monitor = self else { return }
             monitor.isConnected = path.status == .satisfied
             monitor.getConnectionType(path: path)
         }
+        monitor.start(queue: queue)
     }
 
     public func stopMonitoring() { monitor.cancel() }

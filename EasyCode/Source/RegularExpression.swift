@@ -27,7 +27,8 @@ public struct RegularExpression {
         options: NSRegularExpression.MatchingOptions = [],
         subgroupPosition: Int = 0
     ) -> String? {
-        guard let match = regex.firstMatch(in: string, options: options, range: NSRange(string.startIndex..., in: string)),
+        let range = NSRange(string.startIndex..., in: string)
+        guard let match = regex.firstMatch(in: string, options: options, range: range),
               let matchingRange = Range(match.range(at: subgroupPosition), in: string) else {
             return nil
         }
