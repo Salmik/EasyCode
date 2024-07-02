@@ -39,6 +39,8 @@ public class NetworkMonitor {
 
     private var connectionType: ConnectionType = .unknown
 
+    public init() {}
+
     private func getConnectionType(path: NWPath) {
         if path.usesInterfaceType(.wifi) {
             connectionType = .wifi

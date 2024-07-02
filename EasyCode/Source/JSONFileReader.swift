@@ -9,6 +9,8 @@ import Foundation
 
 public class JSONFileReader {
 
+    public init() {}
+
     public func read<T: Decodable>(fromFile fileName: String) -> T? {
         let name = fileName.drop(suffix: ".json")
         guard let url = Bundle.main.url(forResource: name, withExtension: "json"),

@@ -30,6 +30,8 @@ public class KeychainService {
     private let secClassGenericPassword = kSecClassGenericPassword as String
     private let secMatchLimitOne = kSecMatchLimitOne as String
 
+    public init() {}
+
     @discardableResult
     public func save(key: KeychainKeyProtocol, data: Data) throws -> Bool {
         let query = [

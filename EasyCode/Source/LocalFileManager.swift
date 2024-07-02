@@ -31,6 +31,8 @@ public class LocalFileManager {
         }
     }
 
+    public init() {}
+
     private let fileManager = FileManager.default
 
     private func documentDirectoryUrl() throws -> URL {

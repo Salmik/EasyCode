@@ -14,6 +14,8 @@ public class PerformManager {
     public private(set) var tasks = [PerformTask]()
     private var executionTask: Task<Void, Never>?
 
+    public init() {}
+
     public func addTask(_ task: @escaping PerformTask) {
         tasks.append(task)
     }
