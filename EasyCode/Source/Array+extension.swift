@@ -125,3 +125,20 @@ public extension Array where Element: Equatable {
         return self.enumerated().filter { $0.element == item }.map { $0.offset }
     }
 }
+
+public extension Array where Element == Any {
+
+    func flattenArray() -> [Any] {
+        var flattened: [Any] = []
+
+        for element in self {
+            if let subArray = element as? [Any] {
+                flattened.append(contentsOf: subArray.flattenArray())
+            } else {
+                flattened.append(element)
+            }
+        }
+
+        return flattened
+    }
+}

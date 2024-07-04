@@ -67,6 +67,39 @@ public class CoreDataManager {
         saveContext()
     }
 
+    public func performBackgroundTask<T: NSManagedObject>(
+        predicate: NSPredicate? = nil,
+        sortDescriptors: [NSSortDescriptor]? = nil,
+        fetchLimit: Int? = nil,
+        fetchOffset: Int? = nil,
+        completion: @escaping (Result<[T], Error>) -> Void
+    ) {
+        persistentContainer.performBackgroundTask { context in
+            let request: NSFetchRequest<T> = NSFetchRequest<T>(entityName: String(describing: T.self))
+            request.predicate = predicate
+            request.sortDescriptors = sortDescriptors
+            request.returnsObjectsAsFaults = false
+            if let fetchLimit {
+                request.fetchLimit = fetchLimit
+            }
+            if let fetchOffset {
+                request.fetchOffset = fetchOffset
+            }
+            do {
+                let result = try context.fetch(request)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func count<T: NSManagedObject>(entity: T.Type, predicate: NSPredicate? = nil) throws -> Int {
+        let fetchRequest: NSFetchRequest<T> = NSFetchRequest<T>(entityName: String(describing: T.self))
+        fetchRequest.predicate = predicate
+        return try context.count(for: fetchRequest)
+    }
+
     public func all<T: NSManagedObject>(
         with predicate: NSPredicate? = nil,
         sortDescriptors: [NSSortDescriptor]? = nil
@@ -99,6 +132,52 @@ public class CoreDataManager {
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url)
         } catch {
             dump(error, name: "CoreDataManager")
+        }
+    }
+
+    public func batchInsert<T: NSManagedObject>(entity: T.Type, objects: [[String: Any]]) throws {
+        let batchRequest = NSBatchInsertRequest(entity: T.entity(), objects: objects)
+        batchRequest.resultType = .statusOnly
+        do {
+            let result = try context.execute(batchRequest) as? NSBatchInsertResult
+            if result?.result as? Bool == true {
+                print("Batch insert was successful.")
+            }
+        } catch {
+            throw error
+        }
+    }
+
+    public func batchUpdate<T: NSManagedObject>(
+        entity: T.Type,
+        predicate: NSPredicate?,
+        propertiesToUpdate: [String: Any]
+    ) throws {
+        let batchRequest = NSBatchUpdateRequest(entityName: String(describing: T.self))
+        batchRequest.predicate = predicate
+        batchRequest.propertiesToUpdate = propertiesToUpdate
+        batchRequest.resultType = .updatedObjectsCountResultType
+        do {
+            let result = try context.execute(batchRequest) as? NSBatchUpdateResult
+            print("Updated \(result?.result ?? 0) records")
+        } catch {
+            throw error
+        }
+    }
+
+    public func batchDelete<T: NSManagedObject>(entity: T.Type, predicate: NSPredicate?) throws {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: String(describing: entity))
+        fetchRequest.predicate = predicate
+        let batchRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        batchRequest.resultType = .resultTypeObjectIDs
+        do {
+            let result = try context.execute(batchRequest) as? NSBatchDeleteResult
+            let objectIDArray = result?.result as? [NSManagedObjectID]
+            let changes = [NSDeletedObjectsKey: objectIDArray ?? []]
+            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
+        } catch {
+            
+            throw error
         }
     }
 }

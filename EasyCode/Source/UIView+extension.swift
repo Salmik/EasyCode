@@ -96,7 +96,7 @@ public extension UIView {
         animation.duration = 2
         animation.fromValue = -bounds.width
         animation.toValue = bounds.width
-        animation.repeatCount = Float.infinity
+        animation.repeatCount = .infinity
 
         gradientLayer.add(animation, forKey: "shimmer")
     }

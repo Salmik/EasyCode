@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import CoreImage
 
 public extension UIImage {
+
+    var pngSizeString: String? { self.pngData()?.sizeString }
+
+    var jpegSizeString: String? { self.jpegData(compressionQuality: 1)?.sizeString }
 
     /// Get resized image by keeping its aspect ratio
     ///
@@ -72,6 +77,21 @@ public extension UIImage {
     /// - Returns: UIImage if possible
     func fitThenCenter(in size: CGSize) -> UIImage {
         return fitted(in: size).centered(in: size)
+    }
+
+    func addFilter(filter : String) -> UIImage? {
+        guard let filter = CIFilter(name: filter),
+              let ciInput = CIImage(image: self) else {
+            return nil
+        }
+        let ciContext = CIContext()
+        filter.setValue(ciInput, forKey: "inputImage")
+
+        guard let ciOutput = filter.outputImage,
+              let cgImage = ciContext.createCGImage(ciOutput, from: (ciOutput.extent)) else {
+            return nil
+        }
+        return UIImage(cgImage: cgImage)
     }
 
     /// Get pixel color

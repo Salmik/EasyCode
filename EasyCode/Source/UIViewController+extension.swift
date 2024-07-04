@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import MessageUI
 
 public extension UIViewController {
 
@@ -126,20 +127,15 @@ public extension UIViewController {
         present(sfSafariViewController, animated: true)
     }
 
-    /// Set button for navigation bar
-    /// - Parameters:
-    ///   - image: Button image
-    ///   - action: Action to perform on tap event
-    func setNavigationBarButton(withIcon image: UIImage, action: Selector) {
-        let button = UIButton(frame: CGRect(x: 0, y: -6, width: 56, height: 56))
-        button.setBackgroundImage(image.centered(in: button.frame.size), for: .normal)
-        button.addTarget(self, action: action, for: .touchUpInside)
-        let containerView = UIView(frame: button.frame)
-        containerView.addSubview(button)
-        let rightBarButtonItem = UIBarButtonItem(customView: containerView)
-        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativeSpacer.width = -16
-        navigationItem.setRightBarButtonItems([negativeSpacer, rightBarButtonItem], animated: false)
+    func presentMailPage(with configuration: MailConfiguration) {
+        guard MFMailComposeViewController.canSendMail() else { return }
+
+        let viewController = MFMailComposeViewController()
+        viewController.mailComposeDelegate = self
+        viewController.setSubject(configuration.subject)
+        viewController.setToRecipients(configuration.recipients)
+        viewController.setMessageBody(configuration.messageBody, isHTML: configuration.isBodyHtml)
+        present(viewController, animated: true)
     }
 
     func presentWithTransitionFromRight(_ viewController: UIViewController) {
@@ -164,5 +160,29 @@ public extension UIViewController {
         dismiss(animated: false) { [unowned self] in
             self.view.window?.layer.removeAnimation(forKey: kCATransition)
         }
+    }
+
+    func saveImageToGallery(_ image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+
+    @objc
+    private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error {
+            print("Error saving image: \(error.localizedDescription)")
+        } else {
+            print("Image successfully saved to gallery")
+        }
+    }
+}
+
+extension UIViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
+
+    public func mailComposeController(
+        _ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult,
+        error: Error?
+    ) {
+        controller.dismiss(animated: true)
     }
 }

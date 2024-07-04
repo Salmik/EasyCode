@@ -1,0 +1,146 @@
+//
+//  NaturalLanguage+extension.swift
+//  EasyCode
+//
+//  Created by Zhanibek Lukpanov on 03.07.2024.
+//
+
+import Foundation
+import NaturalLanguage
+
+public extension NLLanguage {
+
+    var stringValue: String {
+        if #available(iOS 16.0, *), self == .kazakh {
+            return "Kazakh"
+        } else {
+            switch self {
+            case .amharic: return "Amharic"
+            case .arabic: return "Arabic"
+            case .armenian: return "Armenian"
+            case .bengali: return "Bengali"
+            case .bulgarian: return "Bulgarian"
+            case .burmese: return "Burmese"
+            case .catalan: return "Catalan"
+            case .cherokee: return "Cherokee"
+            case .croatian: return "Croatian"
+            case .czech: return "Czech"
+            case .danish: return "Danish"
+            case .dutch: return "Dutch"
+            case .english: return "English"
+            case .finnish: return "Finnish"
+            case .french: return "French"
+            case .georgian: return "Georgian"
+            case .german: return "German"
+            case .greek: return "Greek"
+            case .gujarati: return "Gujarati"
+            case .hebrew: return "Hebrew"
+            case .hindi: return "Hindi"
+            case .hungarian: return "Hungarian"
+            case .icelandic: return "Icelandic"
+            case .indonesian: return "Indonesian"
+            case .italian: return "Italian"
+            case .japanese: return "Japanese"
+            case .kannada: return "Kannada"
+            case .khmer: return "Khmer"
+            case .korean: return "Korean"
+            case .lao: return "Lao"
+            case .malay: return "Malay"
+            case .malayalam: return "Malayalam"
+            case .marathi: return "Marathi"
+            case .mongolian: return "Mongolian"
+            case .norwegian: return "Norwegian"
+            case .oriya: return "Oriya"
+            case .persian: return "Persian"
+            case .polish: return "Polish"
+            case .portuguese: return "Portuguese"
+            case .punjabi: return "Punjabi"
+            case .romanian: return "Romanian"
+            case .russian: return "Russian"
+            case .simplifiedChinese: return "Simplified Chinese"
+            case .sinhalese: return "Sinhalese"
+            case .slovak: return "Slovak"
+            case .spanish: return "Spanish"
+            case .swedish: return "Swedish"
+            case .tamil: return "Tamil"
+            case .telugu: return "Telugu"
+            case .thai: return "Thai"
+            case .tibetan: return "Tibetan"
+            case .traditionalChinese: return "Traditional Chinese"
+            case .turkish: return "Turkish"
+            case .ukrainian: return "Ukrainian"
+            case .urdu: return "Urdu"
+            case .vietnamese: return "Vietnamese"
+            case .undetermined: return "Unknown"
+            default: return "Unknown"
+            }
+        }
+    }
+
+    var languageCode: String {
+        if #available(iOS 16.0, *), self == .kazakh {
+            return "Kazakh"
+        } else {
+            switch self {
+            case .amharic: return "am"
+            case .arabic: return "ar"
+            case .armenian: return "hy"
+            case .bengali: return "bn"
+            case .bulgarian: return "bg"
+            case .burmese: return "my"
+            case .catalan: return "ca"
+            case .cherokee: return "chr"
+            case .croatian: return "hr"
+            case .czech: return "cs"
+            case .danish: return "da"
+            case .dutch: return "nl"
+            case .english: return "en"
+            case .finnish: return "fi"
+            case .french: return "fr"
+            case .georgian: return "ka"
+            case .german: return "de"
+            case .greek: return "el"
+            case .gujarati: return "gu"
+            case .hebrew: return "he"
+            case .hindi: return "hi"
+            case .hungarian: return "hu"
+            case .icelandic: return "is"
+            case .indonesian: return "id"
+            case .italian: return "it"
+            case .japanese: return "ja"
+            case .kannada: return "kn"
+            case .khmer: return "km"
+            case .korean: return "ko"
+            case .lao: return "lo"
+            case .malay: return "ms"
+            case .malayalam: return "ml"
+            case .marathi: return "mr"
+            case .mongolian: return "mn"
+            case .norwegian: return "no"
+            case .oriya: return "or"
+            case .persian: return "fa"
+            case .polish: return "pl"
+            case .portuguese: return "pt"
+            case .punjabi: return "pa"
+            case .romanian: return "ro"
+            case .russian: return "ru"
+            case .simplifiedChinese: return "zh-Hans"
+            case .sinhalese: return "si"
+            case .slovak: return "sk"
+            case .spanish: return "es"
+            case .swedish: return "sv"
+            case .tamil: return "ta"
+            case .telugu: return "te"
+            case .thai: return "th"
+            case .tibetan: return "bo"
+            case .traditionalChinese: return "zh-Hant"
+            case .turkish: return "tr"
+            case .ukrainian: return "uk"
+            case .urdu: return "ur"
+            case .vietnamese: return "vi"
+            case .undetermined: return ""
+            default: return ""
+            }
+        }
+    }
+}

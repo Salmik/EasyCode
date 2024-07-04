@@ -32,4 +32,5 @@ public extension NotificationAction {
     static var screenCapturedDidChange: NotificationAction { .init(name: UIScreen.capturedDidChangeNotification) }
     static var keyboardWillShow: NotificationAction { .init(name: UIResponder.keyboardWillShowNotification) }
     static var keyboardWillHide: NotificationAction { .init(name: UIResponder.keyboardWillHideNotification) }
+    static var didTakeScreenshot: NotificationAction { .init(name: UIApplication.userDidTakeScreenshotNotification) }
 }

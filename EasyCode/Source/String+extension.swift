@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CryptoKit
+import NaturalLanguage
 
 public extension String {
 
@@ -85,9 +86,21 @@ public extension String {
     }
 
     var words: [String] {
-        let characterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
-        let components = components(separatedBy: characterSet)
-        return components.filter { !$0.isEmpty }
+        let tokenizer = NLTokenizer(unit: .word)
+        tokenizer.string = self
+        return tokenizer.tokens(for: self.startIndex..<self.endIndex).map { String(self[$0]) }
+    }
+
+    var language: NLLanguage? {
+        let recognizer = NLLanguageRecognizer()
+        recognizer.processString(self)
+        return recognizer.dominantLanguage
+    }
+
+    var languages: [NLLanguage: Double]{
+        let recognizer = NLLanguageRecognizer()
+        recognizer.processString(self)
+        return recognizer.languageHypotheses(withMaximum: 5)
     }
 
     var isLatin: Bool {
@@ -167,7 +180,7 @@ public extension String {
     func slicing(from index: Int, length: Int) -> String? {
         guard length >= 0, index >= 0, index < count else { return nil }
         guard index.advanced(by: length) <= count else { return self[safe: index..<count] }
-        guard length > 0 else { return "" }
+        guard length > 0 else { return nil }
         return self[safe: index..<index.advanced(by: length)]
     }
 

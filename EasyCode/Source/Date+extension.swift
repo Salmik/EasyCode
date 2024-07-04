@@ -75,9 +75,7 @@ public extension Date {
         return dateFormatter.string(from: self)
     }
 
-    func isEqual(to date: Date) -> Bool {
-        return Calendar.current.startOfDay(for: self) == Calendar.current.startOfDay(for: date)
-    }
+    func isEqual(to date: Date) -> Bool { calendar.startOfDay(for: self) == calendar.startOfDay(for: date) }
 
     func changing(_ component: Calendar.Component, value: Int) -> Date? {
         switch component {

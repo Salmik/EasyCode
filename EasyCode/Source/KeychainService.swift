@@ -9,12 +9,10 @@ import Foundation
 import Security
 
 public protocol KeychainKeyProtocol {
-
     var rawValue: String { get }
 }
 
 public enum KeychainError: Error {
-
     case itemNotFound
     case unexpectedData
     case unhandledError(status: OSStatus)

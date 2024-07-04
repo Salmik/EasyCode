@@ -9,6 +9,14 @@ import Foundation
 
 public extension URL {
 
+    var sizeString: String? {
+        guard let resourceValues = try? self.resourceValues(forKeys: [.fileSizeKey]),
+              let fileSize = resourceValues.fileSize else {
+            return nil
+        }
+        return ByteCountFormatter.string(fromByteCount: Int64(fileSize), countStyle: .file)
+    }
+
     var queryParameters: [String: String]? {
         guard let queryItems = URLComponents(url: self, resolvingAgainstBaseURL: false)?.queryItems else {
             return nil

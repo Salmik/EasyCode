@@ -27,3 +27,22 @@ public extension BinaryFloatingPoint {
         return (self * factor).rounded(rule) / factor
     }
 }
+
+public extension Int {
+
+    var string: String { return String(self) }
+}
+
+public extension Float {
+
+    var string: String { return String(self) }
+
+    func toString( _ precision: Int = 2) -> String { String(format: "%.\(precision)f", self) }
+}
+
+public extension Double {
+
+    var string: String { return String(self) }
+
+    func toString( _ precision: Int = 2) -> String { String(format: "%.\(precision)f", self) }
+}

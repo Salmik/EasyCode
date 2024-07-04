@@ -8,14 +8,12 @@
 import Foundation
 
 public protocol KeyValueStoreKey {
-
     var rawValue: String { get }
 }
 
 public class KeyValueStore {
 
     enum DefaultKey: String, KeyValueStoreKey {
-
         case languageCode
         case theme
         case fcmToken
