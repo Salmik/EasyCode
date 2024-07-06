@@ -8,16 +8,19 @@
 import Foundation
 import Security
 
+/// A protocol that defines the required property for a key used in the Keychain.
 public protocol KeychainKeyProtocol {
     var rawValue: String { get }
 }
 
+/// An enumeration representing possible errors that can occur when interacting with the Keychain.
 public enum KeychainError: Error {
     case itemNotFound
     case unexpectedData
     case unhandledError(status: OSStatus)
 }
 
+/// A class that provides methods to interact with the Keychain for saving, loading, updating, and deleting data.
 public class KeychainService {
 
     private let secClass = kSecClass as String
@@ -30,6 +33,18 @@ public class KeychainService {
 
     public init() {}
 
+    /// Saves data to the Keychain for the specified key.
+    ///
+    /// - Parameters:
+    ///   - key: The key to associate with the data.
+    ///   - data: The data to save.
+    /// - Returns: A Boolean value indicating whether the save operation was successful.
+    /// - Throws: A KeychainError if the save operation fails.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// try KeychainService().save(key: myKey, data: myData)
+    /// ```
     @discardableResult
     public func save(key: KeychainKeyProtocol, data: Data) throws -> Bool {
         let query = [
@@ -47,6 +62,16 @@ public class KeychainService {
         return true
     }
 
+    /// Loads data from the Keychain for the specified key.
+    ///
+    /// - Parameter key: The key associated with the data to load.
+    /// - Returns: The data associated with the specified key.
+    /// - Throws: A KeychainError if the load operation fails.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let data = try KeychainService().load(key: myKey)
+    /// ```
     public func load(key: KeychainKeyProtocol) throws -> Data {
         let query = [
             secClass: secClassGenericPassword,
@@ -73,6 +98,18 @@ public class KeychainService {
         return data
     }
 
+    /// Updates data in the Keychain for the specified key.
+    ///
+    /// - Parameters:
+    ///   - key: The key associated with the data to update.
+    ///   - data: The new data to save.
+    /// - Returns: A Boolean value indicating whether the update operation was successful.
+    /// - Throws: A KeychainError if the update operation fails.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// try KeychainService().update(key: myKey, data: myUpdatedData)
+    /// ```
     @discardableResult
     public func update(key: KeychainKeyProtocol, data: Data) throws -> Bool {
         let query = [secClass: secClassGenericPassword, secAttrAccount: key.rawValue] as [String: Any]
@@ -86,6 +123,16 @@ public class KeychainService {
         return true
     }
 
+    /// Deletes data from the Keychain for the specified key.
+    ///
+    /// - Parameter key: The key associated with the data to delete.
+    /// - Returns: A Boolean value indicating whether the delete operation was successful.
+    /// - Throws: A KeychainError if the delete operation fails.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// try KeychainService().delete(key: myKey)
+    /// ```
     @discardableResult
     public func delete(key: KeychainKeyProtocol) throws -> Bool {
         let query = [secClass: secClassGenericPassword, secAttrAccount: key.rawValue] as [String: Any]

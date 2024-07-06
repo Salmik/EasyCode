@@ -11,10 +11,18 @@ public extension Date {
 
     var calendar: Calendar { Calendar.current }
 
+    /// Defines various date formats for string representation.
     enum Format {
-
+        /// Defines various time formats for string representation.
         public enum Time {
-            case full(separator: String = "'T'"), fullMilliseconds, fullTimeZone, fullMillisecondsTimeZone
+            /// Full time format with optional separator.
+            case full(separator: String = "'T'")
+            /// Full time format including milliseconds.
+            case fullMilliseconds
+            /// Full time format including timezone.
+            case fullTimeZone
+            /// Full time format including milliseconds and timezone.
+            case fullMillisecondsTimeZone
         }
 
         case ddMMyyyy(separator: String, time: Time? = nil)
@@ -26,11 +34,12 @@ public extension Date {
         case yyMM(separator: String, time: Time? = nil)
         case MMyy(separator: String, time: Time? = nil)
 
+        /// Computed property to get the string representation of the date format.
         var string: String {
             var string: String
             switch self {
-            case .ddMMyyyy(let seperator, let time):
-                string = ["dd", "MM", "yyyy"].joined(separator: seperator)
+            case .ddMMyyyy(let separator, let time):
+                string = ["dd", "MM", "yyyy"].joined(separator: separator)
                 time.map { string += getString(for: $0) }
             case .yyyyMMdd(let separator, let time):
                 string = ["yyyy", "MM", "dd"].joined(separator: separator)
@@ -54,7 +63,6 @@ public extension Date {
                 string = ["MM", "yy"].joined(separator: separator)
                 time.map { string += getString(for: $0) }
             }
-
             return string
         }
 
@@ -68,6 +76,19 @@ public extension Date {
         }
     }
 
+    /// Returns a string representation of the date using the specified format and locale.
+    ///
+    /// - Parameters:
+    ///   - dateFormat: The format in which the date should be represented.
+    ///   - locale: The locale to use for formatting (default is current locale).
+    /// - Returns: A string representation of the date.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let date = Date()
+    /// let formattedDate = date.string(withFormat: .yyyyMMdd(separator: "-", time: .fullMillisecondsTimeZone))
+    /// print(formattedDate) // Output: "2024-07-05T14:30:00.123Z"
+    /// ```
     func string(withFormat dateFormat: Date.Format, locale: Locale = .current) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat.string
@@ -75,8 +96,33 @@ public extension Date {
         return dateFormatter.string(from: self)
     }
 
-    func isEqual(to date: Date) -> Bool { calendar.startOfDay(for: self) == calendar.startOfDay(for: date) }
+    /// Compares the date with another date to check if they represent the same calendar day.
+    ///
+    /// - Parameter date: The date to compare against.
+    /// - Returns: `true` if both dates represent the same calendar day, otherwise `false`.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let today = Date()
+    /// let tomorrow = today.changing(.day, value: 1)!
+    /// print(today.isEqual(to: tomorrow)) // Output: false
+    /// ```
+    func isEqual(to date: Date) -> Bool {
+        return calendar.startOfDay(for: self) == calendar.startOfDay(for: date)
+    }
 
+    /// Returns a new date by adding or setting a value to a specified component (e.g., year, month, day).
+    ///
+    /// - Parameters:
+    ///   - component: The calendar component to change (e.g., year, month, day).
+    ///   - value: The value to add or set for the specified component.
+    /// - Returns: A new `Date` object after modifying the specified component, or `nil` if the modification is invalid.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let nextYear = Date().changing(.year, value: 1)!
+    /// print(nextYear) // Output: Date one year from now
+    /// ```
     func changing(_ component: Calendar.Component, value: Int) -> Date? {
         switch component {
         case .nanosecond:

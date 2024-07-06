@@ -7,13 +7,20 @@
 
 import Foundation
 
+/// An enumeration representing different password validation rules.
 public enum ValidationRule: Hashable {
 
+    /// Rule to ensure the password contains only Latin characters.
     case latinCharacters
+    /// Rule to ensure the password meets a minimum length.
     case minLength(minLength: Int = 7)
+    /// Rule to ensure the password contains at least one uppercase character.
     case uppercase
+    /// Rule to ensure the password contains at least one digit.
     case digit
+    /// Rule to ensure the password contains specific special characters.
     case specialCharacters(characters: String = "!?*#$&%@_-", count: Int = 2)
+    /// Rule to apply a custom validation function to the password.
     case custom(name: String, (String) -> Bool)
 
     private var key: String {
@@ -32,6 +39,7 @@ public enum ValidationRule: Hashable {
     public static func == (lhs: ValidationRule, rhs: ValidationRule) -> Bool { lhs.key == rhs.key }
 }
 
+/// Protocol defining a strategy for validating passwords.
 public protocol PasswordValidationStrategy {
     var rule: ValidationRule { get set }
     func isValid(password: String) -> Bool
@@ -116,14 +124,82 @@ class CustomValidation: PasswordValidationStrategy {
     func isValid(password: String) -> Bool { validationClosure(password) }
 }
 
+
+/// Class responsible for validating passwords using various strategies.
+/// - Parameter strategies: The list of strategies to be used for validation.
+///
+/// # Example:
+/// ``` swift
+/// // Define the validation rules
+/// let rules: [ValidationRule] = [
+///     .latinCharacters,
+///     .minLength(minLength: 8),
+///     .uppercase,
+///     .digit,
+///     .specialCharacters(characters: "!@#$", count: 1),
+///     .custom(name: "No whitespace") { password in
+///         return !password.contains { $0.isWhitespace }
+///     }
+/// ]
+///
+/// // Create the validation strategies using the factory
+/// let strategies = PasswordValidationFactory.createStrategies(rules: rules)
+///
+/// // Initialize the password validator with the strategies
+/// let validator = PasswordValidator(strategies: strategies)
+///
+/// // Validate a password
+/// let password = "Password123!"
+/// let results = validator.isValid(password: password)
+///
+/// // Print validation results
+/// for (rule, isValid) in results {
+///     print("Rule: \(rule), Is Valid: \(isValid)")
+/// }
+/// ```
 public class PasswordValidator {
 
     private var strategies: [PasswordValidationStrategy]
 
+    /// Initializes the PasswordValidator with a list of validation strategies.
+    /// - Parameter strategies: The list of strategies to be used for validation.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// // Define the validation rules
+    /// let rules: [ValidationRule] = [
+    ///     .latinCharacters,
+    ///     .minLength(minLength: 8),
+    ///     .uppercase,
+    ///     .digit,
+    ///     .specialCharacters(characters: "!@#$", count: 1),
+    ///     .custom(name: "No whitespace") { password in
+    ///         return !password.contains { $0.isWhitespace }
+    ///     }
+    /// ]
+    ///
+    /// // Create the validation strategies using the factory
+    /// let strategies = PasswordValidationFactory.createStrategies(rules: rules)
+    ///
+    /// // Initialize the password validator with the strategies
+    /// let validator = PasswordValidator(strategies: strategies)
+    ///
+    /// // Validate a password
+    /// let password = "Password123!"
+    /// let results = validator.isValid(password: password)
+    ///
+    /// // Print validation results
+    /// for (rule, isValid) in results {
+    ///     print("Rule: \(rule), Is Valid: \(isValid)")
+    /// }
+    /// ```
     public init(strategies: [PasswordValidationStrategy]) {
         self.strategies = strategies
     }
 
+    /// Validates the password using the defined strategies.
+    /// - Parameter password: The password to be validated.
+    /// - Returns: A dictionary with the validation results for each rule.
     public func isValid(password: String) -> [ValidationRule: Bool] {
         var results: [ValidationRule: Bool] = [:]
         for strategy in strategies {
@@ -133,12 +209,76 @@ public class PasswordValidator {
     }
 }
 
+/// Factory class for creating password validation strategies based on rules.
+///
+/// # Example:
+/// ``` swift
+/// // Define the validation rules
+/// let rules: [ValidationRule] = [
+///     .latinCharacters,
+///     .minLength(minLength: 8),
+///     .uppercase,
+///     .digit,
+///     .specialCharacters(characters: "!@#$", count: 1),
+///     .custom(name: "No whitespace") { password in
+///         return !password.contains { $0.isWhitespace }
+///     }
+/// ]
+///
+/// // Create the validation strategies using the factory
+/// let strategies = PasswordValidationFactory.createStrategies(rules: rules)
+///
+/// // Now you can use these strategies to initialize the PasswordValidator
+/// let validator = PasswordValidator(strategies: strategies)
+///
+/// // Validate a password
+/// let password = "Password123!"
+/// let results = validator.isValid(password: password)
+///
+/// // Print validation results
+/// for (rule, isValid) in results {
+///     print("Rule: \(rule), Is Valid: \(isValid)")
+/// }
+/// ```
 public class PasswordValidationFactory {
 
+    /// Creates a list of password validation strategies based on the given rules.
+    /// - Parameter rules: The validation rules to be used.
+    /// - Returns: A list of password validation strategies.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// // Define the validation rules
+    /// let rules: [ValidationRule] = [
+    ///     .latinCharacters,
+    ///     .minLength(minLength: 8),
+    ///     .uppercase,
+    ///     .digit,
+    ///     .specialCharacters(characters: "!@#$", count: 1),
+    ///     .custom(name: "No whitespace") { password in
+    ///         return !password.contains { $0.isWhitespace }
+    ///     }
+    /// ]
+    ///
+    /// // Create the validation strategies using the factory
+    /// let strategies = PasswordValidationFactory.createStrategies(rules: rules)
+    ///
+    /// // Now you can use these strategies to initialize the PasswordValidator
+    /// let validator = PasswordValidator(strategies: strategies)
+    ///
+    /// // Validate a password
+    /// let password = "Password123!"
+    /// let results = validator.isValid(password: password)
+    ///
+    /// // Print validation results
+    /// for (rule, isValid) in results {
+    ///     print("Rule: \(rule), Is Valid: \(isValid)")
+    /// }
+    /// ```
     public static func createStrategies(rules: [ValidationRule]) -> [PasswordValidationStrategy] {
         return rules.map { rule in
             switch rule {
-            case .latinCharacters: 
+            case .latinCharacters:
                 return LatinCharactersValidation(rule: rule)
             case .minLength(let length):
                 return LengthValidation(minLength: length, rule: rule)

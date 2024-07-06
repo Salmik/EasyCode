@@ -10,14 +10,22 @@ import CoreImage
 
 public extension UIImage {
 
+    /// Returns the size string of the image in PNG format.
     var pngSizeString: String? { self.pngData()?.sizeString }
 
+    /// Returns the size string of the image in JPEG format.
     var jpegSizeString: String? { self.jpegData(compressionQuality: 1)?.sizeString }
 
-    /// Get resized image by keeping its aspect ratio
+    /// Resizes the image while maintaining its aspect ratio to fit within a maximum size.
     ///
-    /// - Parameter size: maximum size
-    /// - Returns: resized image
+    /// - Parameter size: The maximum size to fit the image.
+    /// - Returns: The resized UIImage object.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let resizedImage = originalImage.fitted(in: CGSize(width: 300, height: 200))
+    /// ```
+    /// This resizes `originalImage` to fit within a size of 300x200 while maintaining aspect ratio.
     func fitted(in size: CGSize) -> UIImage {
         let newSize: CGSize
         let aspectRatio = self.size.width / self.size.height
@@ -43,10 +51,16 @@ public extension UIImage {
         return resized(to: newSize)
     }
 
-    /// Get resized image
+    /// Resizes the image to the specified size.
     ///
-    /// - Parameter size: new image size
-    /// - Returns: resized UIImage object
+    /// - Parameter size: The new size for the image.
+    /// - Returns: The resized UIImage object.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let resizedImage = originalImage.resized(to: CGSize(width: 800, height: 600))
+    /// ```
+    /// This resizes `originalImage` to a new size of 800x600.
     func resized(to size: CGSize) -> UIImage {
         autoreleasepool {
             return UIGraphicsImageRenderer(size: size).image { _ in
@@ -55,8 +69,16 @@ public extension UIImage {
         }
     }
 
-    /// Get image centered inside the transparent area with provided size;
-    /// If provided width (height) is less than the original width (height) then return fitted then centered image
+    /// Centers the image inside a transparent area of the provided size.
+    ///
+    /// - Parameter size: The size of the transparent area.
+    /// - Returns: The centered UIImage object.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let centeredImage = originalImage.centered(in: CGSize(width: 500, height: 500))
+    /// ```
+    /// This centers `originalImage` inside a size of 500x500, maintaining transparency.
     func centered(in size: CGSize) -> UIImage {
         if size.width < self.size.width || size.height < self.size.height {
             return fitThenCenter(in: size)
@@ -72,13 +94,30 @@ public extension UIImage {
         return result
     }
 
-    /// Fit image for provided size then center in it so the unfilled space is transparent
-    /// - Parameter size: final image size
-    /// - Returns: UIImage if possible
+    /// Fits the image to the provided size and centers it within, maintaining transparency.
+    ///
+    /// - Parameter size: The final size for the image.
+    /// - Returns: The UIImage object if possible.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let fittedAndCenteredImage = originalImage.fitThenCenter(in: CGSize(width: 600, height: 400))
+    /// ```
+    /// This fits `originalImage` within 600x400 and centers it, preserving transparency.
     func fitThenCenter(in size: CGSize) -> UIImage {
         return fitted(in: size).centered(in: size)
     }
 
+    /// Applies a Core Image filter to the image.
+    ///
+    /// - Parameter filter: The name of the Core Image filter to apply.
+    /// - Returns: The filtered UIImage object if successful, otherwise `nil`.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let filteredImage = originalImage.addFilter(filter: "CIColorControls")
+    /// ```
+    /// This applies the "CIColorControls" filter to `originalImage`.
     func addFilter(filter : String) -> UIImage? {
         guard let filter = CIFilter(name: filter),
               let ciInput = CIImage(image: self) else {
@@ -94,7 +133,20 @@ public extension UIImage {
         return UIImage(cgImage: cgImage)
     }
 
-    /// Get pixel color
+    /// Retrieves the UIColor of the pixel at the specified coordinates in the image.
+    ///
+    /// - Parameters:
+    ///   - x: The x-coordinate of the pixel.
+    ///   - y: The y-coordinate of the pixel.
+    /// - Returns: The UIColor of the pixel at the specified coordinates, or `nil` if out of bounds.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// if let pixelColor = image[x: 100, y: 200] {
+    ///     print("Pixel color at (100, 200): \(pixelColor)")
+    /// }
+    /// ```
+    /// This retrieves the color of the pixel at coordinates (100, 200) in `image`.
     subscript (x x: Int, y y: Int) -> UIColor? {
         let width = Int(size.width)
         guard x >= 0 && x < width && y >= 0 && y < Int(size.height),

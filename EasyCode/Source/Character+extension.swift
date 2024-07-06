@@ -9,6 +9,20 @@ import Foundation
 
 public extension Character {
 
+    /// Checks if the character is an emoji.
+    ///
+    /// - Returns: A boolean value indicating whether the character is an emoji.
+    ///
+    /// This method determines if the character falls within the Unicode ranges that correspond to emoji characters.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let smiley: Character = "😊"
+    /// print(smiley.isEmoji) // true
+    ///
+    /// let letter: Character = "A"
+    /// print(letter.isEmoji) // false
+    /// ```
     var isEmoji: Bool {
         guard let scalarValue = String(self).unicodeScalars.first?.value else { return false }
 

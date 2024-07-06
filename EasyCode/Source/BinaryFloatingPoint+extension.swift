@@ -30,19 +30,68 @@ public extension BinaryFloatingPoint {
 
 public extension Int {
 
+    /// Converts the integer to a string.
+    ///
+    /// - Returns: A string representation of the integer.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let number = 42
+    /// print(number.string) // "42"
+    /// ```
     var string: String { return String(self) }
 }
 
 public extension Float {
 
+    /// Converts the float to a string.
+    ///
+    /// - Returns: A string representation of the float.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let number: Float = 3.14
+    /// print(number.string) // "3.14"
+    /// ```
     var string: String { return String(self) }
 
-    func toString( _ precision: Int = 2) -> String { String(format: "%.\(precision)f", self) }
+    /// Converts the float to a string with a specified precision.
+    ///
+    /// - Parameter precision: The number of decimal places to include in the string. Default is 2.
+    /// - Returns: A string representation of the float with the specified precision.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let number: Float = 3.14159
+    /// print(number.toString()) // "3.14"
+    /// print(number.toString(3)) // "3.142"
+    /// ```
+    func toString(_ precision: Int = 2) -> String { String(format: "%.\(precision)f", self) }
 }
 
 public extension Double {
 
+    /// Converts the double to a string.
+    ///
+    /// - Returns: A string representation of the double.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let number: Double = 3.14
+    /// print(number.string) // "3.14"
+    /// ```
     var string: String { return String(self) }
 
-    func toString( _ precision: Int = 2) -> String { String(format: "%.\(precision)f", self) }
+    /// Converts the double to a string with a specified precision.
+    ///
+    /// - Parameter precision: The number of decimal places to include in the string. Default is 2.
+    /// - Returns: A string representation of the double with the specified precision.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let number: Double = 3.14159
+    /// print(number.toString()) // "3.14"
+    /// print(number.toString(3)) // "3.142"
+    /// ```
+    func toString(_ precision: Int = 2) -> String { String(format: "%.\(precision)f", self) }
 }

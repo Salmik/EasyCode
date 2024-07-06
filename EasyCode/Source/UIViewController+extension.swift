@@ -11,13 +11,16 @@ import MessageUI
 
 public extension UIViewController {
 
+    /// Returns the frame of the status bar.
     var statusBarFrame: CGRect? { UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame }
 
+    /// Returns the frame of the application's main window.
     var windowFrame: CGRect? { UIApplication.shared.windows.first?.safeAreaLayoutGuide.layoutFrame }
 
-    /// (Visible) view controller placed at the top
+    /// Returns the topmost visible view controller in the hierarchy.
     var topmostViewController: UIViewController { getTopmostViewControllerInChain(containing: self) }
 
+    /// Checks if the view controller is presented modally.
     var isModal: Bool {
         if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
             return false
@@ -32,9 +35,15 @@ public extension UIViewController {
         }
     }
 
-    /// Get (visible) view controller placed at the top
-    /// - Parameter viewController: view controller placed in chainisUnauthorized
-    /// - Returns: view controller at the top
+    /// Retrieves the topmost view controller in the navigation chain containing the given view controller.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let topmostViewController = viewController.getTopmostViewControllerInChain(containing: self)
+    /// ```
+    ///
+    /// - Parameter viewController: The view controller placed in the navigation chain.
+    /// - Returns: The topmost view controller.
     func getTopmostViewControllerInChain(containing viewController: UIViewController) -> UIViewController {
         if let presentedViewController = viewController.presentedViewController {
             return getTopmostViewControllerInChain(containing: presentedViewController)
@@ -51,12 +60,17 @@ public extension UIViewController {
         return viewController
     }
 
-    /// Customized shortcut push method
+    /// Pushes a view controller onto the navigation stack with optional removal of the current controller.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.push(viewController, removeCurrent: true, animated: true)
+    /// ```
     ///
     /// - Parameters:
-    ///   - viewController: View controller to push to navigation stack
-    ///   - removeCurrent: Remove currently displayed controller right after push
-    ///   - animated: Perform push with animation
+    ///   - viewController: The view controller to push onto the stack.
+    ///   - removeCurrent: Whether to remove the current view controller after pushing.
+    ///   - animated: Whether to animate the transition.
     func push(_ viewController: UIViewController, removeCurrent: Bool = false, animated: Bool = true) {
         defer {
             if removeCurrent,
@@ -79,6 +93,17 @@ public extension UIViewController {
         navigationController?.pushViewController(viewController, animated: animated)
     }
 
+    /// Pushes a view controller onto the navigation stack and removes controllers at specific indices.
+    ///
+    /// Example:
+    /// ```
+    /// self.push(viewController, removeControllersWithIndices: [0, 1], animated: true)
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller to push onto the stack.
+    ///   - indices: Indices of controllers to remove from the navigation stack.
+    ///   - animated: Whether to animate the transition.
     func push(_ viewController: UIViewController, removeControllersWithIndices indices: [Int], animated: Bool = true) {
         defer {
             if let navigationController = navigationController {
@@ -104,6 +129,16 @@ public extension UIViewController {
         navigationController?.pushViewController(viewController, animated: animated)
     }
 
+    /// Pops view controllers from the navigation stack up to a specified view controller.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.pop(to: anotherViewController, animated: true)
+    /// ```
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller to pop to. If `nil`, pops to the previous view controller.
+    ///   - animated: Whether to animate the transition.
     func pop(to viewController: UIViewController? = nil, animated: Bool = true) {
         guard let navigationController = navigationController else { return }
         if let viewController = viewController {
@@ -116,17 +151,39 @@ public extension UIViewController {
         }
     }
 
+    /// Pops all view controllers from the navigation stack, leaving only the root view controller.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.popToRoot(animated: true)
+    /// ```
+    ///
+    /// - Parameter animated: Whether to animate the transition.
     func popToRoot(animated: Bool = true) {
         navigationController?.popToRootViewController(animated: animated)
     }
 
-    /// Show web page
-    /// - Parameter url: url of the web page
+    /// Presents a web page using SFSafariViewController.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.presentWebPage(with: url)
+    /// ```
+    ///
+    /// - Parameter url: The URL of the web page to present.
     func presentWebPage(with url: URL) {
         let sfSafariViewController = SFSafariViewController(url: url)
         present(sfSafariViewController, animated: true)
     }
 
+    /// Presents a mail composer view controller with specified configuration.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.presentMailPage(with: mailConfiguration)
+    /// ```
+    ///
+    /// - Parameter configuration: The configuration for the mail composer.
     func presentMailPage(with configuration: MailConfiguration) {
         guard MFMailComposeViewController.canSendMail() else { return }
 
@@ -138,6 +195,14 @@ public extension UIViewController {
         present(viewController, animated: true)
     }
 
+    /// Presents a view controller with a right-to-left transition animation.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.presentWithTransitionFromRight(viewController)
+    /// ```
+    ///
+    /// - Parameter viewController: The view controller to present.
     func presentWithTransitionFromRight(_ viewController: UIViewController) {
         let transition = CATransition()
         transition.duration = 0.3
@@ -150,6 +215,12 @@ public extension UIViewController {
         }
     }
 
+    /// Dismisses the view controller with a left-to-right transition animation.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.dismissWithTransitionFromLeft()
+    /// ```
     func dismissWithTransitionFromLeft() {
         let transition = CATransition()
         transition.duration = 0.3
@@ -162,6 +233,14 @@ public extension UIViewController {
         }
     }
 
+    /// Saves an image to the device's photo gallery.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.saveImageToGallery(image)
+    /// ```
+    ///
+    /// - Parameter image: The image to save.
     func saveImageToGallery(_ image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
@@ -176,6 +255,7 @@ public extension UIViewController {
     }
 }
 
+// MARK: - MFMailComposeViewControllerDelegate
 extension UIViewController: MFMailComposeViewControllerDelegate, UINavigationControllerDelegate {
 
     public func mailComposeController(

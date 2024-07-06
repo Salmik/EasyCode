@@ -9,7 +9,20 @@ import UIKit
 
 public extension UIColor {
 
-    /// Initialize from integral RGB values (+ alpha channel in range 0-100)
+    /// Initializes a color object using the specified opacity and RGB component values.
+    ///
+    /// - Parameters:
+    ///   - rgb: A variadic parameter representing the red, green, and blue color components as values from 0 to 255.
+    ///   - alpha: The opacity value of the color object, specified as a value from 0 to 100. The default is 100.
+    /// - Note: If the number of RGB values is not exactly 3, the behavior is undefined.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let customColor = UIColor(rgb: 100, 200, 50, alpha: 80)
+    /// ```
+    /// This creates a UIColor object with RGB values (100, 200, 50) and alpha value 0.8 (80% opacity).
+    ///
+    /// If you provide fewer than 3 RGB values or more than 3, the behavior is not guaranteed.
     convenience init(rgb: UInt8..., alpha: UInt = 100) {
         self.init(
             red: CGFloat(rgb[0]) / 255,
@@ -19,6 +32,21 @@ public extension UIColor {
         )
     }
 
+    /// Initializes a color object using the specified hex string.
+    ///
+    /// - Parameter hex: The hex string representation of the color. It should start with '#' and be followed by exactly 6 hex digits.
+    /// - Returns: A UIColor object if the hex string is valid, otherwise `nil`.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// if let customColor = UIColor(hex: "#FFA500") {
+    ///     // Use customColor for UI elements
+    ///     view.backgroundColor = customColor
+    /// } else {
+    ///     print("Invalid hex color format.")
+    /// }
+    /// ```
+    /// This example creates a UIColor object from the hex color string "#FFA500", which represents the color orange.
     convenience init?(hex: String) {
         guard hex.hasPrefix("#") else { return nil }
 

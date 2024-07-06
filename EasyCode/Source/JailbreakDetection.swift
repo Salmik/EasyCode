@@ -12,8 +12,22 @@ public protocol JailbreakDetectionService {
     var isJailbrokenDevice: Bool { get }
 }
 
+/// A class for detecting jailbroken devices using various checks.
 public class JailbreakDetection: JailbreakDetectionService {
 
+    /// Checks if the device is jailbroken.
+    ///
+    /// - Returns: `true` if the device is jailbroken, `false` otherwise.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let detector = JailbreakDetection()
+    /// if detector.isJailbrokenDevice {
+    ///     print("Device is jailbroken!")
+    /// } else {
+    ///     print("Device is not jailbroken.")
+    /// }
+    /// ```
     public var isJailbrokenDevice: Bool {
 
         // Check for simulator

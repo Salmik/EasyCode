@@ -7,12 +7,16 @@
 
 import Foundation
 
+/// Extension providing additional functionality to the `Data` type.
 public extension Data {
 
+    /// Converts the data to a hexadecimal string representation.
     var hexString: String { map { String(format: "%02hhx", $0) }.joined() }
 
+    /// Converts the size of the data to a human-readable string representation.
     var sizeString: String { ByteCountFormatter.string(fromByteCount: Int64(self.count), countStyle: .file) }
 
+    /// Converts the data to a JSON formatted string, if possible.
     var jsonString: String? {
         guard let jsonObject = try? JSONSerialization.jsonObject(with: self),
               let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted]) else {
@@ -21,6 +25,7 @@ public extension Data {
         return String(data: data, encoding: .utf8)
     }
 
+    /// Determines the MIME type of the data based on its initial byte.
     var mimeType: String {
         var buffer = UInt8(0)
         copyBytes(to: &buffer, count: 1)

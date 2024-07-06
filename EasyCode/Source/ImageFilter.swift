@@ -8,8 +8,10 @@
 import CoreImage
 import UIKit
 
+/// An enumeration representing various image filters and their configurations.
 public enum ImageFilter {
 
+    /// An enumeration representing the type of QR code to generate.
     public enum QRType {
         case string(text: String)
         case url(url: String)
@@ -29,6 +31,15 @@ public enum ImageFilter {
     case coolTone
     case motionBlur(CGFloat)
 
+    /// Applies the selected filter to the given image.
+    ///
+    /// - Parameter inputImage: The input image to which the filter should be applied.
+    /// - Returns: A new image with the filter applied, or `nil` if the filter could not be applied.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let filteredImage = ImageFilter.sepiaTone(1.0).apply(to: originalImage)
+    /// ```
     public func apply(to inputImage: UIImage) -> UIImage? {
         switch self {
         case .qrCode(let type, let scaleX, let scaleY):

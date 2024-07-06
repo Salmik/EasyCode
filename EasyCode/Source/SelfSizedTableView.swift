@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// A `UITableView` subclass that adjusts its height based on its content size, with an optional maximum height.
 public class SelfSizedTableView: UITableView {
 
     public var maxHeight = UIScreen.main.bounds.height

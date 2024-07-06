@@ -7,12 +7,14 @@
 
 import LocalAuthentication
 
+/// Enum representing the type of biometric authentication available on the device.
 public enum BiometryType {
     case none
     case touchID
     case faceID
     case unknown
 
+    /// Provides a user-friendly title for each biometric type.
     public var title: String {
         switch self {
         case .none: return ""
@@ -23,8 +25,10 @@ public enum BiometryType {
     }
 }
 
+/// Class handling biometric authentication using LocalAuthentication framework.
 public class BiometricIDAuth {
 
+    /// Possible results of biometric authentication.
     public enum Result {
         case authenticated
         case fallbackAction
@@ -35,15 +39,19 @@ public class BiometricIDAuth {
 
     private var context = LAContext()
 
+    /// Initializes the `BiometricIDAuth` instance and evaluates the biometric policy.
     public init() { evaluatePolicy() }
 
     private func evaluatePolicy() { canEvaluatePolicy(for: context) }
 
-    @discardableResult 
+    @discardableResult
     private func canEvaluatePolicy(for context: LAContext) -> Bool {
         return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
 
+    /// Determines the type of biometric authentication supported by the device.
+    ///
+    /// - Returns: The type of biometric authentication supported (`BiometryType`).
     public var biometryType: BiometryType {
         if #available(iOS 11.0, *) {
             switch context.biometryType {
@@ -57,6 +65,38 @@ public class BiometricIDAuth {
         }
     }
 
+    /// Authenticates the user using biometric authentication.
+    ///
+    /// - Parameters:
+    ///   - reason: The reason displayed to the user for authentication.
+    ///   - fallbackTitle: The title for the fallback button (default is empty, which uses system default).
+    ///   - cancelTitle: The title for the cancel button (default is empty, which uses system default).
+    ///   - completion: A closure called with the authentication result (`Result`).
+    ///
+    /// # Example:
+    ///
+    /// ```swift
+    /// let biometricAuth = BiometricIDAuth()
+    /// biometricAuth.authenticateUser(reason: "Unlock access", completion: { result in
+    ///     switch result {
+    ///     case .authenticated:
+    ///         print("User authenticated successfully.")
+    ///         // Proceed to unlock sensitive data or perform secure action
+    ///     case .fallbackAction:
+    ///         print("User chose fallback action.")
+    ///         // Handle fallback action (e.g., password authentication)
+    ///     case .cancelled:
+    ///         print("Authentication cancelled by user.")
+    ///         // Handle cancellation
+    ///     case .disabledInSystemsAppSettings:
+    ///         print("Biometric authentication is disabled in system settings.")
+    ///         // Inform user or prompt to enable biometrics
+    ///     case .failed:
+    ///         print("Authentication failed.")
+    ///         // Handle authentication failure
+    ///     }
+    /// })
+    /// ```
     public func authenticateUser(
         reason: String = "",
         fallbackTitle: String = "",

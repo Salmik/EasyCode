@@ -9,12 +9,18 @@ import UIKit
 
 public extension NSLayoutConstraint {
 
+    /// Activates the constraint.
+    ///
+    /// - Returns: The activated constraint.
     @discardableResult
     func activate() -> NSLayoutConstraint {
         isActive = true
         return self
     }
 
+    /// Deactivates the constraint.
+    ///
+    /// - Returns: The deactivated constraint.
     @discardableResult
     func deactivate() -> NSLayoutConstraint {
         isActive = false

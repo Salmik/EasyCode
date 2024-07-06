@@ -19,12 +19,37 @@ public protocol KeyboardNotificationProtocol: NotificationManagerDelegate where 
 
 public extension KeyboardNotificationProtocol {
 
+    /// Subscribes to keyboard notifications including keyboard show and hide events.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// class MyViewController: UIViewController, KeyboardNotificationProtocol {
+    ///     var notificationManager: NotificationManager = NotificationManager()
+    ///     var scrollView: UIScrollView = UIScrollView()
+    ///
+    ///     override func viewDidLoad() {
+    ///         super.viewDidLoad()
+    ///         subscribeForKeyboardNotifications()
+    ///     }
+    /// }
+    /// ```
     func subscribeForKeyboardNotifications() {
         notificationManager.subscribe(to: .keyboardWillShow)
         notificationManager.subscribe(to: .keyboardWillHide)
         notificationManager.delegate = self
     }
 
+    /// Unsubscribes from keyboard notifications.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// class MyViewController: UIViewController, KeyboardNotificationProtocol {
+    ///     var notificationManager: NotificationManager = NotificationManager()
+    ///     var scrollView: UIScrollView = UIScrollView()
+    ///
+    ///     deinit { unsubscribeFromKeyboardNotifications() }
+    /// }
+    /// ```
     func unsubscribeFromKeyboardNotifications() {
         notificationManager.unsubscribe(from: .keyboardWillShow)
         notificationManager.unsubscribe(from: .keyboardWillHide)

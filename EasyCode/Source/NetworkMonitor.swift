@@ -8,18 +8,25 @@
 import Foundation
 import Network
 
+/// Delegate protocol for network status changes.
 public protocol NetworkMonitorDelegate: AnyObject {
 
+    /// Called when the network connection status changes.
+    ///
+    /// - Parameters:
+    ///   - networkMonitor: The network monitor reporting the status change.
+    ///   - connected: A Boolean indicating whether the network is connected.
     func networkMonitor(_ networkMonitor: NetworkMonitor, didChangeStatusTo connected: Bool)
 }
 
+/// Class for monitoring network connection status and type.
 public class NetworkMonitor {
 
+    /// Enumeration of possible connection types.
     public enum ConnectionType {
-
         case wifi
         case cellular
-        case enthernet
+        case ethernet
         case unknown
     }
 
@@ -47,14 +54,23 @@ public class NetworkMonitor {
         } else if path.usesInterfaceType(.cellular) {
             connectionType = .cellular
         } else if path.usesInterfaceType(.wiredEthernet) {
-            connectionType = .enthernet
+            connectionType = .ethernet
         } else {
             connectionType = .unknown
         }
     }
 
+    /// The delegate to notify about network status changes.
     public weak var delegate: NetworkMonitorDelegate?
 
+    /// Starts monitoring the network connection.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// let networkMonitor = NetworkMonitor()
+    /// networkMonitor.delegate = self
+    /// networkMonitor.startMonitoring()
+    /// ```
     public func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
             guard let monitor = self else { return }
@@ -64,5 +80,11 @@ public class NetworkMonitor {
         monitor.start(queue: queue)
     }
 
+    /// Stops monitoring the network connection.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// networkMonitor.stopMonitoring()
+    /// ```
     public func stopMonitoring() { monitor.cancel() }
 }
