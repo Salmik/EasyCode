@@ -33,7 +33,7 @@ public protocol ImageCache {
 ///     print("Image successfully removed from cache")
 /// }
 /// ```
-public struct TemporaryImageCache: ImageCache {
+public class TemporaryImageCache: ImageCache {
 
     private let cache: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()
@@ -42,16 +42,24 @@ public struct TemporaryImageCache: ImageCache {
         return cache
     }()
 
+    private let queue = DispatchQueue(label: "com.temporaryImageCache.queue", attributes: .concurrent)
+
     /// Accesses the image associated with the given key for reading and writing.
     /// - Parameter key: The key to identify the image.
     /// - Returns: The image associated with the key, or `nil` if no image exists for the key.
     public subscript(_ key: NSString) -> UIImage? {
-        get { cache.object(forKey: key) }
+        get {
+            queue.sync {
+                cache.object(forKey: key)
+            }
+        }
         set {
-            if let newValue = newValue {
-                cache.setObject(newValue, forKey: key)
-            } else {
-                cache.removeObject(forKey: key)
+            queue.async(flags: .barrier) {
+                if let newValue {
+                    self.cache.setObject(newValue, forKey: key)
+                } else {
+                    self.cache.removeObject(forKey: key)
+                }
             }
         }
     }

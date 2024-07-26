@@ -69,4 +69,16 @@ public extension UIColor {
     static var bg_primary: UIColor { UIColor(hex: "#31AFC6") ?? .black }
     static var sys_green: UIColor { UIColor(hex: "#24B651") ?? .black }
     static var sys_grey: UIColor { UIColor(hex: "#D0D0D0") ?? .black }
+
+    static func makeDynamicColor(light: UIColor, dark: UIColor) -> UIColor {
+        guard #available(iOS 13, *) else { return light }
+
+        return UIColor { (traits) -> UIColor in
+            switch traits.userInterfaceStyle {
+            case .dark: return dark
+            case .light, .unspecified: return light
+            @unknown default: return light
+            }
+        }
+    }
 }

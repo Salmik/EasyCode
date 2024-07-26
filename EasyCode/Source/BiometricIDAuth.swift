@@ -7,24 +7,6 @@
 
 import LocalAuthentication
 
-/// Enum representing the type of biometric authentication available on the device.
-public enum BiometryType {
-    case none
-    case touchID
-    case faceID
-    case unknown
-
-    /// Provides a user-friendly title for each biometric type.
-    public var title: String {
-        switch self {
-        case .none: return ""
-        case .faceID: return "Face ID"
-        case .touchID: return "Touch ID"
-        case .unknown: return ""
-        }
-    }
-}
-
 /// Class handling biometric authentication using LocalAuthentication framework.
 public class BiometricIDAuth {
 
@@ -35,6 +17,24 @@ public class BiometricIDAuth {
         case cancelled
         case disabledInSystemsAppSettings
         case failed
+    }
+
+    /// Enum representing the type of biometric authentication available on the device.
+    public enum BiometryType {
+        case none
+        case touchID
+        case faceID
+        case unknown
+
+        /// Provides a user-friendly title for each biometric type.
+        public var title: String {
+            switch self {
+            case .none: return ""
+            case .faceID: return "Face ID"
+            case .touchID: return "Touch ID"
+            case .unknown: return ""
+            }
+        }
     }
 
     private var context = LAContext()

@@ -19,7 +19,6 @@ public extension String {
         "([0-9])([A-Z])",
     ].compactMap { try? NSRegularExpression(pattern: $0, options: []) }
 
-
     /// Checks if the string contains only letters.
     /// # Example:
     /// ``` swift

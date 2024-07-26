@@ -18,11 +18,19 @@ public extension Data {
 
     /// Converts the data to a JSON formatted string, if possible.
     var jsonString: String? {
+        let writingOptions: JSONSerialization.WritingOptions = [
+            .fragmentsAllowed,
+            .prettyPrinted,
+            .sortedKeys,
+            .withoutEscapingSlashes
+        ]
         guard let jsonObject = try? JSONSerialization.jsonObject(with: self),
-              let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted]) else {
+              let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: writingOptions),
+              let jsonString = String(data: data, encoding: .utf8) else {
             return String(data: self, encoding: .utf8)
         }
-        return String(data: data, encoding: .utf8)
+
+        return jsonString.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
     }
 
     /// Determines the MIME type of the data based on its initial byte.

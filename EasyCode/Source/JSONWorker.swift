@@ -54,12 +54,18 @@ public class JSONWorker {
     /// }
     /// ```
     public func makeJSon<T: Encodable>(from object: T) -> String? {
+        let writingOptions: JSONSerialization.WritingOptions = [
+            .fragmentsAllowed,
+            .prettyPrinted,
+            .sortedKeys,
+            .withoutEscapingSlashes
+        ]
         guard let jsonData = try? JSONEncoder().encode(object),
               let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves),
-              let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted),
+              let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: writingOptions),
               let jsonString = String(data: prettyJsonData, encoding: .utf8) else {
             return nil
         }
-        return jsonString
+        return jsonString.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
     }
 }

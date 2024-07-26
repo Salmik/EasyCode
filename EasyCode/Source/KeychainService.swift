@@ -13,15 +13,15 @@ public protocol KeychainKeyProtocol {
     var rawValue: String { get }
 }
 
-/// An enumeration representing possible errors that can occur when interacting with the Keychain.
-public enum KeychainError: Error {
-    case itemNotFound
-    case unexpectedData
-    case unhandledError(status: OSStatus)
-}
-
 /// A class that provides methods to interact with the Keychain for saving, loading, updating, and deleting data.
 public class KeychainService {
+
+    /// An enumeration representing possible errors that can occur when interacting with the Keychain.
+    public enum KeychainError: Error {
+        case itemNotFound
+        case unexpectedData
+        case unhandledError(status: OSStatus)
+    }
 
     private let secClass = kSecClass as String
     private let secAttrAccount = kSecAttrAccount as String
