@@ -73,7 +73,7 @@ public extension UIColor {
     static func makeDynamicColor(light: UIColor, dark: UIColor) -> UIColor {
         guard #available(iOS 13, *) else { return light }
 
-        return UIColor { (traits) -> UIColor in
+        return UIColor { traits -> UIColor in
             switch traits.userInterfaceStyle {
             case .dark: return dark
             case .light, .unspecified: return light

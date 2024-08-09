@@ -1,0 +1,85 @@
+disabled_rules:
+  - identifier_name
+  - type_name
+  - notification_center_detachment
+  - class_delegate_protocol
+  - type_body_length
+  - cyclomatic_complexity
+  - empty_enum_arguments
+  - nesting
+  - large_tuple
+  - void_function_in_ternary
+  - blanket_disable_command
+  - non_optional_string_data_conversion
+
+opt_in_rules:
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - multiline_arguments
+  - multiline_arguments_brackets
+  - closure_end_indentation
+  - closure_spacing
+  - collection_alignment
+  - contains_over_first_not_nil
+  - discouraged_object_literal
+  - empty_xctest_method
+  - explicit_init
+  - first_where
+  - force_unwrapping
+  - identical_operands
+  - joined_default_parameter
+  - last_where
+  - legacy_random
+  - literal_expression_end_indentation
+  - multiline_literal_brackets
+  - operator_usage_whitespace
+  - prohibited_interface_builder
+  - redundant_type_annotation
+  - sorted_first_last
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+  - implicitly_unwrapped_optional
+  - file_name
+  - fatal_error_message
+  - anonymous_argument_in_multiline_closure
+
+custom_rules:
+  rus_characters:
+    name: "Russian characters"
+    regex: '([А-я]+)'
+    match_kinds:
+      - identifier
+      - parameter
+    message: "Do not use russian characters in identifiers or parameters"
+    severity: error
+
+  force_casting:
+    name: "Force casting"
+    regex: '\bas!\s+\w+'
+    message: "Avoid force casting types"
+    severity: warning
+
+excluded:
+  - Pods
+
+analyzer_rules:
+  - unused_declaration
+
+function_parameter_count:
+  warning: 5
+  error: 6
+
+file_length:
+  warning: 400
+  error: 1200
+  ignore_comment_only_lines: true
+
+line_length:
+  warning: 120
+  ignores_function_declarations: false
+  ignores_comments: true
+  ignores_urls: true
+
+function_body_length: 80

@@ -46,7 +46,7 @@ public protocol PasswordValidationStrategy {
 }
 
 class LatinCharactersValidation: PasswordValidationStrategy {
-    
+
     var rule: ValidationRule
 
     init(rule: ValidationRule) {
@@ -123,7 +123,6 @@ class CustomValidation: PasswordValidationStrategy {
 
     func isValid(password: String) -> Bool { validationClosure(password) }
 }
-
 
 /// Class responsible for validating passwords using various strategies.
 /// - Parameter strategies: The list of strategies to be used for validation.

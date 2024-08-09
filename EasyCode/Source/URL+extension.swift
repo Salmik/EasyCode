@@ -47,9 +47,9 @@ public extension URL {
         guard let queryItems = URLComponents(url: self, resolvingAgainstBaseURL: false)?.queryItems else {
             return nil
         }
-        return Dictionary(queryItems.lazy.compactMap {
-            guard let value = $0.value else { return nil }
-            return ($0.name, value)
+        return Dictionary(queryItems.lazy.compactMap { item in
+            guard let value = item.value else { return nil }
+            return (item.name, value)
         }) { first, _ in first }
     }
 

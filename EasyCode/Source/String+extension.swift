@@ -16,7 +16,7 @@ public extension String {
     private static let camelCasePatterns: [NSRegularExpression] = [
         "([A-Z]+)([A-Z][a-z]|[0-9])",
         "([a-z])([A-Z]|[0-9])",
-        "([0-9])([A-Z])",
+        "([0-9])([A-Z])"
     ].compactMap { try? NSRegularExpression(pattern: $0, options: []) }
 
     /// Checks if the string contains only letters.
@@ -118,13 +118,13 @@ public extension String {
     /// ```
     var camelCaseFromSnakeCase: String {
         return String.camelCasePatterns.reduce(self) { string, regex in
-                regex.stringByReplacingMatches(
-                    in: string,
-                    options: [],
-                    range: NSRange(location: 0, length: string.count),
-                    withTemplate: "$1_$2"
-                )
-            }.lowercased()
+            regex.stringByReplacingMatches(
+                in: string,
+                options: [],
+                range: NSRange(location: 0, length: string.count),
+                withTemplate: "$1_$2"
+            )
+        }.lowercased()
     }
 
     /// Encodes the string to Base64.
@@ -199,7 +199,7 @@ public extension String {
     /// ```
     var isLatin: Bool {
         let latinRegex = "^[a-zA-Z.,0-9$@$!/%*?&#-_ +()|]+$"
-        let predicate = NSPredicate(format:"SELF MATCHES %@", latinRegex)
+        let predicate = NSPredicate(format: "SELF MATCHES %@", latinRegex)
         return predicate.evaluate(with: self)
     }
 

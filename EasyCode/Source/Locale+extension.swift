@@ -24,9 +24,9 @@ public extension Locale {
     /// }
     /// ```
     static func flagEmoji(forRegionCode isoRegionCode: String) -> String? {
-        return isoRegionCode.unicodeScalars.reduce(into: String()) {
-            guard let flagScalar = UnicodeScalar(UInt32(127_397) + $1.value) else { return }
-            $0.unicodeScalars.append(flagScalar)
+        return isoRegionCode.unicodeScalars.reduce(into: String()) { result, scalar in
+            guard let flagScalar = UnicodeScalar(UInt32(127_397) + scalar.value) else { return }
+            result.unicodeScalars.append(flagScalar)
         }
     }
 

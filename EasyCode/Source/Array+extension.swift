@@ -158,10 +158,8 @@ public extension Array where Element: Equatable {
         where condition: (Element) -> Bool,
         with update: (inout Element) -> Void
     ) -> [Element] {
-        for index in indices {
-            if condition(self[index]) {
-                update(&self[index])
-            }
+        for index in indices where condition(self[index]) {
+            update(&self[index])
         }
         return self
     }
