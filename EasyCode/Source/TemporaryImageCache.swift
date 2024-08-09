@@ -9,7 +9,7 @@ import UIKit
 
 /// Protocol for caching images, providing subscript access to store and retrieve images by key.
 public protocol ImageCache {
-    subscript(_ key: NSString) -> UIImage? { get set }
+    subscript(_ key: String) -> UIImage? { get set }
 }
 
 /// Implementation of `ImageCache` using `NSCache` to temporarily store images in memory.
@@ -47,20 +47,26 @@ public class TemporaryImageCache: ImageCache {
     /// Accesses the image associated with the given key for reading and writing.
     /// - Parameter key: The key to identify the image.
     /// - Returns: The image associated with the key, or `nil` if no image exists for the key.
-    public subscript(_ key: NSString) -> UIImage? {
+    public subscript(_ key: String) -> UIImage? {
         get {
-            queue.sync {
-                cache.object(forKey: key)
+            return queue.sync {
+                cache.object(forKey: key as NSString)
             }
         }
         set {
-            queue.async(flags: .barrier) {
+            return queue.async(flags: .barrier) {
                 if let newValue {
-                    self.cache.setObject(newValue, forKey: key)
+                    self.cache.setObject(newValue, forKey: key as NSString)
                 } else {
-                    self.cache.removeObject(forKey: key)
+                    self.cache.removeObject(forKey: key as NSString)
                 }
             }
+        }
+    }
+
+    public func clearCache() {
+        queue.async(flags: .barrier) {
+            self.cache.removeAllObjects()
         }
     }
 }

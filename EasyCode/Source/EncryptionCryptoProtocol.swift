@@ -232,7 +232,8 @@ public extension EncryptionCryptoProtocol {
     }
 
     func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
+        guard length > 0 else { return "" }
+
         var randomBytes = [UInt8](repeating: 0, count: length)
         let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
         if errorCode != errSecSuccess {
