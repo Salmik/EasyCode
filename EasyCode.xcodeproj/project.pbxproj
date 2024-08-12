@@ -15,7 +15,7 @@
 		BBAFFBDC2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBDB2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift */; };
 		BBAFFBDE2C340E20005703B0 /* PerformManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBDD2C340E20005703B0 /* PerformManager.swift */; };
 		BBAFFBE22C340EB6005703B0 /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */; };
-		BBAFFBE42C340EE7005703B0 /* CoredataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */; };
+		BBAFFBE42C340EE7005703B0 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE32C340EE7005703B0 /* CoreDataManager.swift */; };
 		BBAFFBE62C341881005703B0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE52C341881005703B0 /* NotificationManager.swift */; };
 		BBAFFBE82C3418AA005703B0 /* NotificationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE72C3418AA005703B0 /* NotificationAction.swift */; };
 		BBAFFBEA2C34194A005703B0 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */; };
@@ -85,7 +85,7 @@
 		BBAFFBDB2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BinaryFloatingPoint+extension.swift"; sourceTree = "<group>"; };
 		BBAFFBDD2C340E20005703B0 /* PerformManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformManager.swift; sourceTree = "<group>"; };
 		BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
-		BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoredataManager.swift; sourceTree = "<group>"; };
+		BBAFFBE32C340EE7005703B0 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		BBAFFBE52C341881005703B0 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		BBAFFBE72C3418AA005703B0 /* NotificationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAction.swift; sourceTree = "<group>"; };
 		BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
@@ -199,7 +199,7 @@
 				BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */,
 				BBAFFC012C342126005703B0 /* Character+extension.swift */,
 				BBBD51E92C36803600557CD3 /* ContactsWorker.swift */,
-				BBAFFBE32C340EE7005703B0 /* CoredataManager.swift */,
+				BBAFFBE32C340EE7005703B0 /* CoreDataManager.swift */,
 				BBBD51F32C36AC0000557CD3 /* Data+extension.swift */,
 				BBAFFC032C342152005703B0 /* Date+extension.swift */,
 				BBAFFC132C342328005703B0 /* DebounceProvider.swift */,
@@ -372,7 +372,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint; then\n    swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint; then\n    swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -388,7 +388,7 @@
 				BBAFFBE62C341881005703B0 /* NotificationManager.swift in Sources */,
 				BBAFFC0E2C34225C005703B0 /* JSONWorker.swift in Sources */,
 				BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */,
-				BBAFFBE42C340EE7005703B0 /* CoredataManager.swift in Sources */,
+				BBAFFBE42C340EE7005703B0 /* CoreDataManager.swift in Sources */,
 				BBAFFC0C2C34220F005703B0 /* MeasureTest.swift in Sources */,
 				BBAFFC102C342274005703B0 /* DispatchWorker.swift in Sources */,
 				BBAFFBDE2C340E20005703B0 /* PerformManager.swift in Sources */,

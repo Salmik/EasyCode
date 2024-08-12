@@ -1,5 +1,5 @@
 //
-//  CoredataManager.swift
+//  CoreDataManager.swift
 //  EasyCode
 //
 //  Created by Zhanibek Lukpanov on 02.07.2024.
