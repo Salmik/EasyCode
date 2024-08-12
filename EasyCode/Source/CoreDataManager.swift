@@ -1,5 +1,5 @@
 //
-//  CoredataManager.swift
+//  CoreDataManager.swift
 //  EasyCode
 //
 //  Created by Zhanibek Lukpanov on 02.07.2024.
@@ -87,7 +87,7 @@ public class CoreDataManager {
      ```
      */
     public func object<T: NSManagedObject>(with predicate: NSPredicate) throws -> T? {
-        let request: NSFetchRequest<T> = NSFetchRequest<T>(entityName: String(describing: T.self))
+        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
         request.predicate = predicate
 
         let result = try context.fetch(request)
@@ -148,7 +148,7 @@ public class CoreDataManager {
         completion: @escaping (Result<[T], Error>) -> Void
     ) {
         persistentContainer.performBackgroundTask { context in
-            let request: NSFetchRequest<T> = NSFetchRequest<T>(entityName: String(describing: T.self))
+            let request = NSFetchRequest<T>(entityName: String(describing: T.self))
             request.predicate = predicate
             request.sortDescriptors = sortDescriptors
             request.returnsObjectsAsFaults = false
@@ -185,7 +185,7 @@ public class CoreDataManager {
      ```
      */
     public func count<T: NSManagedObject>(entity: T.Type, predicate: NSPredicate? = nil) throws -> Int {
-        let fetchRequest: NSFetchRequest<T> = NSFetchRequest<T>(entityName: String(describing: T.self))
+        let fetchRequest = NSFetchRequest<T>(entityName: String(describing: T.self))
         fetchRequest.predicate = predicate
         return try context.count(for: fetchRequest)
     }
@@ -211,7 +211,7 @@ public class CoreDataManager {
         with predicate: NSPredicate? = nil,
         sortDescriptors: [NSSortDescriptor]? = nil
     ) throws -> [T] {
-        let request: NSFetchRequest<T> = NSFetchRequest<T>(entityName: String(describing: T.self))
+        let request = NSFetchRequest<T>(entityName: String(describing: T.self))
         request.predicate = predicate
         request.sortDescriptors = sortDescriptors
         request.returnsObjectsAsFaults = false

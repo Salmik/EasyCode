@@ -8,7 +8,7 @@
 import Foundation
 
 public extension BinaryFloatingPoint {
-    ///rounded: Returns a rounded value with the specified number of decimal places and rounding rule. If
+    /// rounded: Returns a rounded value with the specified number of decimal places and rounding rule. If
     /// `numberOfDecimalPlaces` is negative, `0` will be used.
     ///
     ///     let num = 3.1415927

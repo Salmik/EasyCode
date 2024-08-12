@@ -124,7 +124,6 @@ public class ContactsWorker {
             try contactStore.execute(saveRequest)
             return true
         } catch {
-            print("Failed to update contact: \(error)")
             return false
         }
     }

@@ -118,7 +118,7 @@ public extension UIImage {
     /// let filteredImage = originalImage.addFilter(filter: "CIColorControls")
     /// ```
     /// This applies the "CIColorControls" filter to `originalImage`.
-    func addFilter(filter : String) -> UIImage? {
+    func addFilter(filter: String) -> UIImage? {
         guard let filter = CIFilter(name: filter),
               let ciInput = CIImage(image: self) else {
             return nil

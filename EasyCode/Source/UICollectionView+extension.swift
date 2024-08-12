@@ -68,7 +68,11 @@ public extension UICollectionView {
     /// ```
     /// This dequeues `MyHeaderView` for the given kind (header) and index path.
     func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind: String, for indexPath: IndexPath) -> T {
-        guard let view = dequeueReusableSupplementaryView(ofKind: ofKind, withReuseIdentifier: T.reuseId, for: indexPath) as? T else {
+        guard let view = dequeueReusableSupplementaryView(
+            ofKind: ofKind,
+            withReuseIdentifier: T.reuseId,
+            for: indexPath
+        ) as? T else {
             fatalError("Could not dequeue supplementary view with identifier: \(T.reuseId)")
         }
         return view

@@ -209,7 +209,7 @@ public extension Dictionary {
     /// - Parameter filter: A closure that takes a key-value pair as its parameter and returns a boolean indicating whether the pair should be included in the resulting array.
     /// - Returns: An array of key-value pairs that satisfy the predicate.
     func toArray(filter: (Element) throws -> Bool = { _ in true }) rethrows -> [(Key, Value)] {
-        return try compactMap { (key, value) in
+        return try compactMap { key, value in
             guard try filter((key, value)) else { return nil }
             return (key, value)
         }

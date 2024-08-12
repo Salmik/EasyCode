@@ -1,5 +1,5 @@
 //
-//  NaturalLanguage+extension.swift
+//  NLLanguage+extension.swift
 //  EasyCode
 //
 //  Created by Zhanibek Lukpanov on 03.07.2024.

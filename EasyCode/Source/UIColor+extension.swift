@@ -39,34 +39,73 @@ public extension UIColor {
     ///
     /// # Example:
     /// ``` swift
-    /// if let customColor = UIColor(hex: "#FFA500") {
-    ///     // Use customColor for UI elements
-    ///     view.backgroundColor = customColor
-    /// } else {
-    ///     print("Invalid hex color format.")
-    /// }
+    ///  let customColor = UIColor(hex: "#FFA500")
+    ///  // Use customColor for UI elements
+    ///  view.backgroundColor = customColor
     /// ```
     /// This example creates a UIColor object from the hex color string "#FFA500", which represents the color orange.
-    convenience init?(hex: String) {
-        guard hex.hasPrefix("#") else { return nil }
-
-        let start = hex.index(hex.startIndex, offsetBy: 1)
-        let hexColor = String(hex[start...])
-        guard hexColor.count == 6 else { return nil }
+    convenience init(hex: String) {
+        let hexColor = hex.filter { $0.isHexDigit }
+        guard hexColor.count == 6 || hexColor.count == 8 else {
+            self.init(red: 0, green: 0, blue: 0, alpha: 1)
+            return
+        }
 
         let scanner = Scanner(string: hexColor)
-        var hexNumber: UInt64 = 0
-        guard scanner.scanHexInt64(&hexNumber) else { return nil }
+        var hexNumber = UInt64.zero
+        guard scanner.scanHexInt64(&hexNumber) else {
+            self.init(red: 0, green: 0, blue: 0, alpha: 1)
+            return
+        }
 
-        let r = CGFloat((hexNumber & 0xff0000) >> 16) / 255
-        let g = CGFloat((hexNumber & 0x00ff00) >> 8) / 255
-        let b = CGFloat((hexNumber & 0x0000ff)) / 255
-
-        self.init(red: r, green: g, blue: b, alpha: 1)
+        if hexColor.count == 6 {
+            let red = CGFloat((hexNumber & 0xff0000) >> 16) / 255
+            let green = CGFloat((hexNumber & 0x00ff00) >> 8) / 255
+            let blue = CGFloat((hexNumber & 0x0000ff)) / 255
+            self.init(red: red, green: green, blue: blue, alpha: 1)
+        } else {
+            let red = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+            let green = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+            let blue = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+            let alpha = CGFloat((hexNumber & 0x000000ff)) / 255
+            self.init(red: red, green: green, blue: blue, alpha: alpha)
+        }
     }
 
-    static var bg_black: UIColor { UIColor(hex: "#151E22") ?? .black }
-    static var bg_primary: UIColor { UIColor(hex: "#31AFC6") ?? .black }
-    static var sys_green: UIColor { UIColor(hex: "#24B651") ?? .black }
-    static var sys_grey: UIColor { UIColor(hex: "#D0D0D0") ?? .black }
+    static var bg_black: UIColor { UIColor(hex: "#151E22") }
+    static var bg_primary: UIColor { UIColor(hex: "#31AFC6") }
+    static var sys_green: UIColor { UIColor(hex: "#24B651") }
+    static var sys_grey: UIColor { UIColor(hex: "#D0D0D0") }
+
+    /// Creates a dynamic `UIColor` that adapts to the user's interface style (light or dark mode).
+    ///
+    /// - Parameters:
+    ///   - light: The color to be used in light mode.
+    ///   - dark: The color to be used in dark mode.
+    /// - Returns: A `UIColor` that dynamically switches between the provided light and dark colors based on the current user interface style.
+    ///
+    /// - Note: This method only works on iOS 13 and later. On earlier versions, the `light` color will be used as the default.
+    ///
+    /// # Example:
+    /// ```swift
+    /// let dynamicColor = UIColor.makeDynamicColor(
+    ///     light: UIColor(hex: "#FFFFFF"),  // White color for light mode
+    ///     dark: UIColor(hex: "#000000")    // Black color for dark mode
+    /// )
+    /// view.backgroundColor = dynamicColor
+    /// ```
+    /// In this example, the background color of the view will be white in light mode and black in dark mode.
+    ///
+    /// - Important: Ensure that the `light` and `dark` colors contrast well with each other to maintain readability and visual consistency in both modes.
+    static func makeDynamicColor(light: UIColor, dark: UIColor) -> UIColor {
+        guard #available(iOS 13, *) else { return light }
+
+        return UIColor { traits -> UIColor in
+            switch traits.userInterfaceStyle {
+            case .dark: return dark
+            case .light, .unspecified: return light
+            @unknown default: return light
+            }
+        }
+    }
 }

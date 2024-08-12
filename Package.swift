@@ -7,9 +7,7 @@ let package = Package(
     name: "EasyCode",
     platforms: [.iOS(.v14)],
     products: [
-        .library(
-            name: "EasyCode",
-            targets: ["EasyCode"]),
+        .library(name: "EasyCode", targets: ["EasyCode"])
     ],
     dependencies: [],
     targets: [
@@ -18,10 +16,7 @@ let package = Package(
             dependencies: [],
             path: "EasyCode/Source"
         ),
-        .testTarget(
-            name: "EasyCodeTests",
-            dependencies: ["EasyCode"]
-        ),
+        .testTarget(name: "EasyCodeTests", dependencies: ["EasyCode"])
     ],
     swiftLanguageVersions: [.v5]
 )

@@ -67,7 +67,7 @@ public extension KeyboardNotificationProtocol {
 public extension KeyboardNotificationProtocol {
 
     func performOnTrigger(_ notification: NotificationAction, object: Any?, userInfo: [AnyHashable: Any]?) {
-        guard let userInfo = userInfo, 
+        guard let userInfo = userInfo,
               let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }

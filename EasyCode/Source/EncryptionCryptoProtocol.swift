@@ -230,4 +230,19 @@ public extension EncryptionCryptoProtocol {
         }
         return decryptedData as Data
     }
+
+    func randomNonceString(length: Int = 32) -> String {
+        guard length > 0 else { return "" }
+
+        var randomBytes = [UInt8](repeating: 0, count: length)
+        let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+        if errorCode != errSecSuccess {
+            fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+        }
+
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        let nonce = randomBytes.map { charset[Int($0) % charset.count] }
+
+        return String(nonce)
+    }
 }
