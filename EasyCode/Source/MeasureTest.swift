@@ -28,6 +28,6 @@ public class MeasureTest {
         closure()
         let end = CACurrentMediaTime()
         let elapsedTime = end - start
-        print("Execution time: \(elapsedTime) seconds")
+        Logger.print("Execution time: \(elapsedTime) seconds")
     }
 }

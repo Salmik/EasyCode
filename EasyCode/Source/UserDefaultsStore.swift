@@ -1,5 +1,5 @@
 //
-//  KeyValueStore.swift
+//  UserDefaultsStore.swift
 //  EasyCode
 //
 //  Created by Zhanibek Lukpanov on 02.07.2024.
@@ -7,16 +7,16 @@
 
 import Foundation
 
-/// A protocol that defines the required property for a key used in the KeyValueStore.
-public protocol KeyValueStoreKey {
+/// A protocol that defines the required property for a key used in the UserDefaultsStore.
+public protocol UserDefaultsStoreKey {
     var rawValue: String { get }
 }
 
 /// A class that provides methods to interact with the UserDefaults for saving, loading, updating, and deleting data.
-public class KeyValueStore {
+public class UserDefaultsStore {
 
     /// Enumeration for default keys used in the KeyValueStore.
-    enum DefaultKey: String, KeyValueStoreKey {
+    enum DefaultKey: String, UserDefaultsStoreKey {
         case languageCode
         case theme
         case fcmToken
@@ -24,7 +24,7 @@ public class KeyValueStore {
 
     private let userDefaults: UserDefaults
 
-    /// Initializes a new instance of the KeyValueStore class.
+    /// Initializes a new instance of the UserDefaultsStore class.
     ///
     /// - Parameter userDefaults: The UserDefaults instance to use. Defaults to `.standard`.
     public init(userDefaults: UserDefaults = .standard) {
@@ -40,7 +40,7 @@ public class KeyValueStore {
     /// ``` swift
     /// let theme: String? = keyValueStore.getValue(for: DefaultKey.theme)
     /// ```
-    public func getValue<T>(for key: KeyValueStoreKey) -> T? {
+    public func getValue<T>(for key: UserDefaultsStoreKey) -> T? {
         return userDefaults.value(forKey: key.rawValue) as? T
     }
 
@@ -54,7 +54,7 @@ public class KeyValueStore {
     /// ``` swift
     /// keyValueStore.set(value: "dark", for: DefaultKey.theme)
     /// ```
-    public func set<T>(value: T, for key: KeyValueStoreKey) {
+    public func set<T>(value: T, for key: UserDefaultsStoreKey) {
         userDefaults.set(value, forKey: key.rawValue)
     }
 
@@ -66,7 +66,7 @@ public class KeyValueStore {
     /// ``` swift
     /// keyValueStore.removeValue(for: DefaultKey.theme)
     /// ```
-    public func removeValue(for key: KeyValueStoreKey) {
+    public func removeValue(for key: UserDefaultsStoreKey) {
         userDefaults.removeObject(forKey: key.rawValue)
     }
 
@@ -84,7 +84,7 @@ public class KeyValueStore {
     ///
     /// let user: User? = keyValueStore.getValue(for: DefaultKey.user)
     /// ```
-    public func getValue<T: Codable>(for key: KeyValueStoreKey) -> T? {
+    public func getValue<T: Codable>(for key: UserDefaultsStoreKey) -> T? {
         guard let data = userDefaults.data(forKey: key.rawValue) else { return nil }
         return try? JSONDecoder().decode(T.self, from: data)
     }
@@ -105,7 +105,7 @@ public class KeyValueStore {
     /// let user = User(name: "John Doe", age: 30)
     /// keyValueStore.set(value: user, for: DefaultKey.user)
     /// ```
-    public func set<T: Codable>(value: T, for key: KeyValueStoreKey) {
+    public func set<T: Codable>(value: T, for key: UserDefaultsStoreKey) {
         if let encoded = try? JSONEncoder().encode(value) {
             userDefaults.set(encoded, forKey: key.rawValue)
         }

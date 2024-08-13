@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB3C2EF82C6A0CBC00149867 /* DependencyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EF72C6A0CBC00149867 /* DependencyFactory.swift */; };
+		BB3C2EFB2C6A0D5A00149867 /* NetworkResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EFA2C6A0D5A00149867 /* NetworkResponseProtocol.swift */; };
+		BB3C2EFD2C6A0D6C00149867 /* EndPointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EFC2C6A0D6C00149867 /* EndPointProtocol.swift */; };
+		BB3C2EFF2C6A0D8900149867 /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EFE2C6A0D8900149867 /* ParameterEncoder.swift */; };
+		BB3C2F012C6A0D9900149867 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F002C6A0D9900149867 /* HTTPMethod.swift */; };
+		BB3C2F032C6A0DA800149867 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F022C6A0DA800149867 /* NetworkError.swift */; };
+		BB3C2F052C6A0DB600149867 /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F042C6A0DB600149867 /* ConsoleLogger.swift */; };
+		BB3C2F072C6A0DE300149867 /* Bundle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */; };
+		BB3C2F092C6A0E2800149867 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F082C6A0E2800149867 /* NetworkManager.swift */; };
+		BB3C2F0B2C6A10F800149867 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */; };
 		BB8A14152C36649C00F18CE8 /* UnmanagedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */; };
 		BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBC42C340D12005703B0 /* EasyCode.docc */; };
 		BBAFFBCB2C340D12005703B0 /* EasyCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBAFFBC02C340D12005703B0 /* EasyCode.framework */; };
@@ -51,7 +61,7 @@
 		BBAFFC282C342862005703B0 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */; };
 		BBAFFC2A2C342877005703B0 /* Encodable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC292C342877005703B0 /* Encodable+extension.swift */; };
 		BBAFFC2C2C342887005703B0 /* SelfSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */; };
-		BBAFFC2E2C342A0D005703B0 /* KeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2D2C342A0D005703B0 /* KeyValueStore.swift */; };
+		BBAFFC2E2C342A0D005703B0 /* UserDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2D2C342A0D005703B0 /* UserDefaultsStore.swift */; };
 		BBAFFC302C345AF9005703B0 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFC2F2C345AF9005703B0 /* LocalFileManager.swift */; };
 		BBB163A22C3701D800182E37 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB163A12C3701D800182E37 /* PasswordValidator.swift */; };
 		BBBD51EA2C36803600557CD3 /* ContactsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBD51E92C36803600557CD3 /* ContactsWorker.swift */; };
@@ -76,6 +86,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BB3C2EF72C6A0CBC00149867 /* DependencyFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyFactory.swift; sourceTree = "<group>"; };
+		BB3C2EFA2C6A0D5A00149867 /* NetworkResponseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseProtocol.swift; sourceTree = "<group>"; };
+		BB3C2EFC2C6A0D6C00149867 /* EndPointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointProtocol.swift; sourceTree = "<group>"; };
+		BB3C2EFE2C6A0D8900149867 /* ParameterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoder.swift; sourceTree = "<group>"; };
+		BB3C2F002C6A0D9900149867 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		BB3C2F022C6A0DA800149867 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		BB3C2F042C6A0DB600149867 /* ConsoleLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
+		BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+extension.swift"; sourceTree = "<group>"; };
+		BB3C2F082C6A0E2800149867 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmanagedWrapper.swift; sourceTree = "<group>"; };
 		BBAFFBC02C340D12005703B0 /* EasyCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAFFBC32C340D12005703B0 /* EasyCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyCode.h; sourceTree = "<group>"; };
@@ -121,7 +141,7 @@
 		BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
 		BBAFFC292C342877005703B0 /* Encodable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+extension.swift"; sourceTree = "<group>"; };
 		BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedTableView.swift; sourceTree = "<group>"; };
-		BBAFFC2D2C342A0D005703B0 /* KeyValueStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStore.swift; sourceTree = "<group>"; };
+		BBAFFC2D2C342A0D005703B0 /* UserDefaultsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStore.swift; sourceTree = "<group>"; };
 		BBAFFC2F2C345AF9005703B0 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		BBB163A12C3701D800182E37 /* PasswordValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		BBBD51E92C36803600557CD3 /* ContactsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsWorker.swift; sourceTree = "<group>"; };
@@ -154,6 +174,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB3C2EF92C6A0D3B00149867 /* Network Layer */ = {
+			isa = PBXGroup;
+			children = (
+				BB3C2EFA2C6A0D5A00149867 /* NetworkResponseProtocol.swift */,
+				BB3C2EFC2C6A0D6C00149867 /* EndPointProtocol.swift */,
+				BB3C2EFE2C6A0D8900149867 /* ParameterEncoder.swift */,
+				BB3C2F022C6A0DA800149867 /* NetworkError.swift */,
+				BB3C2F042C6A0DB600149867 /* ConsoleLogger.swift */,
+				BB3C2F002C6A0D9900149867 /* HTTPMethod.swift */,
+				BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */,
+				BB3C2F082C6A0E2800149867 /* NetworkManager.swift */,
+			);
+			path = "Network Layer";
+			sourceTree = "<group>";
+		};
 		BBAFFBB62C340D12005703B0 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +239,7 @@
 				BBAFFC032C342152005703B0 /* Date+extension.swift */,
 				BBAFFC132C342328005703B0 /* DebounceProvider.swift */,
 				BBAFFC212C3427C0005703B0 /* Decimal+extension.swift */,
+				BB3C2EF72C6A0CBC00149867 /* DependencyFactory.swift */,
 				BBBD51F12C36A92500557CD3 /* DeviceInformation.swift */,
 				BBAFFBEF2C341B35005703B0 /* Dictionary+extension.swift */,
 				BBAFFC0F2C342274005703B0 /* DispatchWorker.swift */,
@@ -217,14 +253,13 @@
 				BBAFFC0D2C34225C005703B0 /* JSONWorker.swift */,
 				BBAFFC1B2C342689005703B0 /* KeyboardNotificationProtocol.swift */,
 				BBAFFBFB2C341DCB005703B0 /* KeychainService.swift */,
-				BBAFFC2D2C342A0D005703B0 /* KeyValueStore.swift */,
 				BBAFFC052C342171005703B0 /* Locale+extension.swift */,
 				BBAFFC2F2C345AF9005703B0 /* LocalFileManager.swift */,
 				BBAFFC092C3421EF005703B0 /* Logger.swift */,
 				BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */,
 				BBAFFC0B2C34220F005703B0 /* MeasureTest.swift */,
-				BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */,
 				BBAFFC112C3422DD005703B0 /* NetworkMonitor.swift */,
+				BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */,
 				BBAFFBE72C3418AA005703B0 /* NotificationAction.swift */,
 				BBAFFBE52C341881005703B0 /* NotificationManager.swift */,
 				BBAFFBF92C341DA1005703B0 /* NSLayoutConstraint+extension.swift */,
@@ -233,6 +268,7 @@
 				BBAFFBDD2C340E20005703B0 /* PerformManager.swift */,
 				BBAFFBFF2C342012005703B0 /* RegularExpression.swift */,
 				BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */,
+				BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */,
 				BBAFFBEB2C341987005703B0 /* String+extension.swift */,
 				BBCC22D02C3513CD00CC19C9 /* TemporaryImageCache.swift */,
 				BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */,
@@ -245,6 +281,8 @@
 				BBAFFC172C342430005703B0 /* UIViewController+extension.swift */,
 				BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */,
 				BBAFFC072C34218B005703B0 /* URL+extension.swift */,
+				BBAFFC2D2C342A0D005703B0 /* UserDefaultsStore.swift */,
+				BB3C2EF92C6A0D3B00149867 /* Network Layer */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -372,7 +410,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint; then\n    swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]\nthen\n  export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif command -v swiftlint >/dev/null 2>&1\nthen\n  swiftlint --quiet\nelse\n  echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -382,12 +420,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBAFFC142C342328005703B0 /* DebounceProvider.swift in Sources */,
+				BB3C2EFB2C6A0D5A00149867 /* NetworkResponseProtocol.swift in Sources */,
+				BB3C2EF82C6A0CBC00149867 /* DependencyFactory.swift in Sources */,
 				BBAFFBF02C341B35005703B0 /* Dictionary+extension.swift in Sources */,
+				BB3C2EFD2C6A0D6C00149867 /* EndPointProtocol.swift in Sources */,
 				BBAFFBF82C341D33005703B0 /* UIView+constraints.swift in Sources */,
 				BBAFFBFC2C341DCB005703B0 /* KeychainService.swift in Sources */,
 				BBAFFBE62C341881005703B0 /* NotificationManager.swift in Sources */,
 				BBAFFC0E2C34225C005703B0 /* JSONWorker.swift in Sources */,
 				BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */,
+				BB3C2F032C6A0DA800149867 /* NetworkError.swift in Sources */,
 				BBAFFBE42C340EE7005703B0 /* CoreDataManager.swift in Sources */,
 				BBAFFC0C2C34220F005703B0 /* MeasureTest.swift in Sources */,
 				BBAFFC102C342274005703B0 /* DispatchWorker.swift in Sources */,
@@ -395,6 +437,7 @@
 				BBBD51F02C36A1E500557CD3 /* AVCaptureDevice+extension.swift in Sources */,
 				BBAFFC242C342840005703B0 /* DynamicHeightCollectionView.swift in Sources */,
 				BBAFFC1C2C342689005703B0 /* KeyboardNotificationProtocol.swift in Sources */,
+				BB3C2F092C6A0E2800149867 /* NetworkManager.swift in Sources */,
 				BBAFFC0A2C3421EF005703B0 /* Logger.swift in Sources */,
 				BBAFFBE22C340EB6005703B0 /* ThreadSafe.swift in Sources */,
 				BBAFFC162C342349005703B0 /* HostingView.swift in Sources */,
@@ -403,17 +446,21 @@
 				BBAFFC1A2C34252F005703B0 /* Observable.swift in Sources */,
 				BBAFFBF22C341C31005703B0 /* EncryptionCryptoProtocol.swift in Sources */,
 				BBAFFBE82C3418AA005703B0 /* NotificationAction.swift in Sources */,
+				BB3C2F0B2C6A10F800149867 /* ServiceLocator.swift in Sources */,
 				BBAFFBEE2C341A98005703B0 /* Array+extension.swift in Sources */,
 				BBAFFC182C342430005703B0 /* UIViewController+extension.swift in Sources */,
 				BBBD51EA2C36803600557CD3 /* ContactsWorker.swift in Sources */,
 				BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */,
 				BBB163A22C3701D800182E37 /* PasswordValidator.swift in Sources */,
-				BBAFFC2E2C342A0D005703B0 /* KeyValueStore.swift in Sources */,
+				BBAFFC2E2C342A0D005703B0 /* UserDefaultsStore.swift in Sources */,
+				BB3C2F072C6A0DE300149867 /* Bundle+extension.swift in Sources */,
 				BBAFFC2C2C342887005703B0 /* SelfSizedTableView.swift in Sources */,
+				BB3C2F052C6A0DB600149867 /* ConsoleLogger.swift in Sources */,
 				BBCC22D52C35208F00CC19C9 /* BiometricIDAuth.swift in Sources */,
 				BBAFFBF62C341CC2005703B0 /* UIView+extension.swift in Sources */,
 				BBAFFC042C342152005703B0 /* Date+extension.swift in Sources */,
 				BBBD51EC2C369B5700557CD3 /* ImageFilter.swift in Sources */,
+				BB3C2EFF2C6A0D8900149867 /* ParameterEncoder.swift in Sources */,
 				BBAFFC082C34218B005703B0 /* URL+extension.swift in Sources */,
 				BBAFFC2A2C342877005703B0 /* Encodable+extension.swift in Sources */,
 				BBAFFBF42C341C59005703B0 /* EncryptionError.swift in Sources */,
@@ -423,6 +470,7 @@
 				BBCC22D12C3513CD00CC19C9 /* TemporaryImageCache.swift in Sources */,
 				BBAFFC062C342171005703B0 /* Locale+extension.swift in Sources */,
 				BBAFFBEA2C34194A005703B0 /* UIColor+extension.swift in Sources */,
+				BB3C2F012C6A0D9900149867 /* HTTPMethod.swift in Sources */,
 				BBCC22D72C35246200CC19C9 /* NLLanguage+extension.swift in Sources */,
 				BBAFFC022C342126005703B0 /* Character+extension.swift in Sources */,
 				BBAFFC202C34278A005703B0 /* UIImage+extension.swift in Sources */,

@@ -16,7 +16,7 @@ public protocol ImageCache {
 /// # Example:
 /// ``` swift
 /// let imageCache = TemporaryImageCache()
-/// let sampleKey = NSString(string: "sampleImageKey")
+/// let sampleKey = "sampleImageKey"
 /// let sampleImage = UIImage(named: "sampleImage")
 ///
 /// // Store image in cache
@@ -64,6 +64,7 @@ public class TemporaryImageCache: ImageCache {
         }
     }
 
+    /// Clears all cache images
     public func clearCache() {
         queue.async(flags: .barrier) {
             self.cache.removeAllObjects()
