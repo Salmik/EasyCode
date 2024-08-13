@@ -24,4 +24,4 @@ To add EasyCode to your Xcode project using Swift Package Manager:
 4. Click `Add Package` to add EasyCode to your project.
 
 ## Documentation
-- [x] [Complete Documentation](https://salmik.github.io/EasyCode/)
+- [x] [Complete Documentation](https://salmik.github.io/EasyCode/documentation/easycode/)
