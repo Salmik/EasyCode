@@ -89,8 +89,8 @@ public extension UIColor {
     /// # Example:
     /// ```swift
     /// let dynamicColor = UIColor.makeDynamicColor(
-    ///     light: UIColor(hex: "#FFFFFF"),  // White color for light mode
-    ///     dark: UIColor(hex: "#000000")    // Black color for dark mode
+    ///     light: UIColor(hex: "#FFFFFF"), // White color for light mode
+    ///     dark: UIColor(hex: "#000000") // Black color for dark mode
     /// )
     /// view.backgroundColor = dynamicColor
     /// ```

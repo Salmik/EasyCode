@@ -39,7 +39,7 @@ public extension Int {
     /// let number = 42
     /// print(number.string) // "42"
     /// ```
-    var string: String { return String(self) }
+    var string: String { String(self) }
 }
 
 public extension Float {
@@ -53,7 +53,7 @@ public extension Float {
     /// let number: Float = 3.14
     /// print(number.string) // "3.14"
     /// ```
-    var string: String { return String(self) }
+    var string: String { String(self) }
 
     /// Converts the float to a string with a specified precision.
     ///
@@ -80,7 +80,7 @@ public extension Double {
     /// let number: Double = 3.14
     /// print(number.string) // "3.14"
     /// ```
-    var string: String { return String(self) }
+    var string: String { String(self) }
 
     /// Converts the double to a string with a specified precision.
     ///

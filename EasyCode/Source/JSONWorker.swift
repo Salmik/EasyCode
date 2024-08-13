@@ -29,13 +29,16 @@ public class JSONWorker {
     /// ```
     public func read<T: Decodable>(fromFile fileName: String) -> T? {
         let name = fileName.drop(suffix: ".json")
-        guard let url = Bundle.main.url(forResource: name, withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let output = try? JSONDecoder().decode(T.self, from: data) else {
+        do {
+            guard let url = Bundle.main.url(forResource: name, withExtension: "json") else { return nil }
+
+            let data = try Data(contentsOf: url)
+            let output = try JSONDecoder().decode(T.self, from: data)
+            return output
+        } catch {
+            dump(error, name: "JSONWorker")
             return nil
         }
-
-        return output
     }
 
     /// Converts an encodable object into a JSON string.
@@ -47,25 +50,25 @@ public class JSONWorker {
     /// ``` swift
     /// let worker = JSONWorker()
     /// let user = User(name: "John", age: 30)
-    /// if let jsonString = worker.makeJSon(from: user) {
-    ///     print("JSON string: \(jsonString)")
-    /// } else {
-    ///     print("Failed to convert object to JSON.")
-    /// }
+    /// let jsonString = worker.makeJSon(from: user)
+    /// print("JSON string: \(jsonString)")
     /// ```
-    public func makeJSon<T: Encodable>(from object: T) -> String? {
+    public func makeJSon<T: Encodable>(from object: T) -> String {
         let writingOptions: JSONSerialization.WritingOptions = [
             .fragmentsAllowed,
             .prettyPrinted,
             .sortedKeys,
             .withoutEscapingSlashes
         ]
-        guard let jsonData = try? JSONEncoder().encode(object),
-              let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves),
-              let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: writingOptions),
-              let jsonString = String(data: prettyJsonData, encoding: .utf8) else {
-            return nil
+        do {
+            let jsonData = try JSONEncoder().encode(object)
+            let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves)
+            let prettyJsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: writingOptions)
+            let jsonString = String(data: prettyJsonData, encoding: .utf8) ?? ""
+            return jsonString.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
+        } catch {
+            dump(error, name: "JSONWorker")
+            return ""
         }
-        return jsonString.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
     }
 }

@@ -248,9 +248,9 @@ public extension UIViewController {
     @objc
     private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error {
-            print("Error saving image: \(error.localizedDescription)")
+            Logger.print("Error saving image: \(error.localizedDescription)")
         } else {
-            print("Image successfully saved to gallery")
+            Logger.print("Image successfully saved to gallery")
         }
     }
 }
