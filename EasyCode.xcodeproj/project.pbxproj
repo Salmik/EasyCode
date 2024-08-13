@@ -73,6 +73,8 @@
 		BBCC22D52C35208F00CC19C9 /* BiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */; };
 		BBCC22D72C35246200CC19C9 /* NLLanguage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */; };
 		BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */; };
+		BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D742C6B679C00133020 /* PaddedLabel.swift */; };
+		BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D762C6B6BB500133020 /* TipViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +155,8 @@
 		BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDAuth.swift; sourceTree = "<group>"; };
 		BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NLLanguage+extension.swift"; sourceTree = "<group>"; };
 		BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailConfiguration.swift; sourceTree = "<group>"; };
+		BBEE8D742C6B679C00133020 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
+		BBEE8D762C6B6BB500133020 /* TipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +268,7 @@
 				BBAFFBE52C341881005703B0 /* NotificationManager.swift */,
 				BBAFFBF92C341DA1005703B0 /* NSLayoutConstraint+extension.swift */,
 				BBAFFC192C34252F005703B0 /* Observable.swift */,
+				BBEE8D742C6B679C00133020 /* PaddedLabel.swift */,
 				BBB163A12C3701D800182E37 /* PasswordValidator.swift */,
 				BBAFFBDD2C340E20005703B0 /* PerformManager.swift */,
 				BBAFFBFF2C342012005703B0 /* RegularExpression.swift */,
@@ -272,6 +277,7 @@
 				BBAFFBEB2C341987005703B0 /* String+extension.swift */,
 				BBCC22D02C3513CD00CC19C9 /* TemporaryImageCache.swift */,
 				BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */,
+				BBEE8D762C6B6BB500133020 /* TipViewController.swift */,
 				BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */,
 				BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */,
 				BBAFFC1F2C34278A005703B0 /* UIImage+extension.swift */,
@@ -433,6 +439,7 @@
 				BBAFFBE42C340EE7005703B0 /* CoreDataManager.swift in Sources */,
 				BBAFFC0C2C34220F005703B0 /* MeasureTest.swift in Sources */,
 				BBAFFC102C342274005703B0 /* DispatchWorker.swift in Sources */,
+				BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */,
 				BBAFFBDE2C340E20005703B0 /* PerformManager.swift in Sources */,
 				BBBD51F02C36A1E500557CD3 /* AVCaptureDevice+extension.swift in Sources */,
 				BBAFFC242C342840005703B0 /* DynamicHeightCollectionView.swift in Sources */,
@@ -441,6 +448,7 @@
 				BBAFFC0A2C3421EF005703B0 /* Logger.swift in Sources */,
 				BBAFFBE22C340EB6005703B0 /* ThreadSafe.swift in Sources */,
 				BBAFFC162C342349005703B0 /* HostingView.swift in Sources */,
+				BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */,
 				BBAFFBDC2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift in Sources */,
 				BBAFFC122C3422DD005703B0 /* NetworkMonitor.swift in Sources */,
 				BBAFFC1A2C34252F005703B0 /* Observable.swift in Sources */,

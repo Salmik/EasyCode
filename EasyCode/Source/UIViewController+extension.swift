@@ -233,6 +233,61 @@ public extension UIViewController {
         }
     }
 
+    /// Presents a view controller as a popover from a specified view in a parent view controller.
+    ///
+    /// This method configures the `viewController` to be presented as a popover with a calculated preferred content size,
+    /// sets its presentation style, and configures the popover's arrow direction and source view.
+    ///
+    /// - Parameters:
+    ///   - parentViewController: The view controller from which the popover is presented.
+    ///   - viewController: The view controller to present as a popover.
+    ///   - sender: The view from which the popover originates. This view is used to position the popover.
+    ///   - arrowDirection: The direction of the popover's arrow. Default is `.down`.
+    ///
+    /// - Note: The `viewController`'s `preferredContentSize` is calculated based on its content, ensuring that the popover
+    /// will have an appropriate size. The method also sets the `parentViewController` as the delegate for the popover's
+    /// presentation controller, allowing it to control adaptive presentations.
+    func presentPopover(
+        _ parentViewController: UIViewController,
+        _ viewController: UIViewController,
+        sender: UIView,
+        arrowDirection: UIPopoverArrowDirection = .down
+    ) {
+        viewController.preferredContentSize = viewController.calculatePreferredContentSize()
+        viewController.modalPresentationStyle = .popover
+        if let presentationController = viewController.presentationController {
+            presentationController.delegate = parentViewController
+        }
+        parentViewController.present(viewController, animated: true)
+        if let pop = viewController.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+            pop.permittedArrowDirections = arrowDirection
+        }
+    }
+
+    /// Calculates and returns the preferred content size of the view controller's view based on its content.
+    ///
+    /// This method forces the view to layout its subviews and then calculates the fitting size for the view, taking into
+    /// account its width and a compressed height. It adds a small margin to the calculated height to ensure that the
+    /// content is not clipped.
+    ///
+    /// - Returns: A `CGSize` representing the preferred content size of the view, with an additional margin for height.
+    ///
+    /// - Note: This method is useful for determining the ideal size for presenting the view controller as a popover or
+    /// other modal presentation where the content size should match the view's content.
+    func calculatePreferredContentSize() -> CGSize {
+        view.setNeedsLayout()
+
+        let targetSize = CGSize(
+            width: view.bounds.width,
+            height: UIView.layoutFittingCompressedSize.height
+        )
+        let size = view.systemLayoutSizeFitting(targetSize)
+
+        return CGSize(width: size.width, height: size.height + 20)
+    }
+
     /// Saves an image to the device's photo gallery.
     ///
     /// # Example:
@@ -264,5 +319,15 @@ extension UIViewController: MFMailComposeViewControllerDelegate, UINavigationCon
         error: Error?
     ) {
         controller.dismiss(animated: true)
+    }
+}
+
+extension UIViewController: UIPopoverPresentationControllerDelegate {
+
+    public func adaptivePresentationStyle(
+        for controller: UIPresentationController,
+        traitCollection: UITraitCollection
+    ) -> UIModalPresentationStyle {
+        return .none
     }
 }
