@@ -18,9 +18,6 @@ jobs:
           default_bump: false
           custom_release_rules: patch:patch,minor:minor,major:major
 
-      - name: Debug tag
-        run: echo "Created tag: ${{ steps.tag_version.outputs.new_tag }}"  # Кавычки вокруг строки
-
       - name: GitHub Release
         uses: ncipollo/release-action@v1.13.0
         with:
