@@ -1,0 +1,40 @@
+name: Pull request
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - main
+
+jobs:
+  check_title:
+    name: Check title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Slashgear/action-check-pr-title@v4.3.0
+        with:
+          regexp: '(patch|minor|major): +.+$'
+          helpMessage: 'Your PR title does not match the required format. It should start with "patch:", "minor:", or "major:" followed by the description.'
+
+  test:
+    name: Test
+    runs-on: macos-latest
+    needs: check_title
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Configure
+      run: |
+        export LANG=en_US.UTF-8
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        brew install xcbeautify
+        brew unlink xcbeautify
+        brew link xcbeautify
+
+    - name: Run tests
+      run: |
+        xcodebuild \
+          -scheme EasyCode \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=${{ vars.SIMULATOR }}' | xcbeautify
