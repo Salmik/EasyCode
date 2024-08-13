@@ -21,7 +21,7 @@ import UIKit
 /// ```
 public class DynamicHeightCollectionView: UICollectionView {
 
-    convenience public init(layout: UICollectionViewLayout) {
+    convenience public init(layout: UICollectionViewLayout = UICollectionViewFlowLayout()) {
         self.init(frame: .zero, collectionViewLayout: layout)
     }
 

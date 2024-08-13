@@ -10,6 +10,10 @@ import Foundation
 /// Extension providing additional functionality to the `Data` type.
 public extension Data {
 
+    var dictionary: [String: Any]? {
+        return try? JSONSerialization.jsonObject(with: self) as? [String: Any]
+    }
+
     /// Converts the data to a hexadecimal string representation.
     var hexString: String { map { String(format: "%02hhx", $0) }.joined() }
 
@@ -17,20 +21,22 @@ public extension Data {
     var sizeString: String { ByteCountFormatter.string(fromByteCount: Int64(self.count), countStyle: .file) }
 
     /// Converts the data to a JSON formatted string, if possible.
-    var jsonString: String? {
+    var jsonString: String {
         let writingOptions: JSONSerialization.WritingOptions = [
             .fragmentsAllowed,
             .prettyPrinted,
             .sortedKeys,
             .withoutEscapingSlashes
         ]
-        guard let jsonObject = try? JSONSerialization.jsonObject(with: self),
-              let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: writingOptions),
-              let jsonString = String(data: data, encoding: .utf8) else {
-            return String(data: self, encoding: .utf8)
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: self)
+            let data = try JSONSerialization.data(withJSONObject: jsonObject, options: writingOptions)
+            let jsonString = String(data: data, encoding: .utf8) ?? ""
+            return jsonString.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
+        } catch {
+            dump(error)
+            return ""
         }
-
-        return jsonString.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
     }
 
     /// Determines the MIME type of the data based on its initial byte.
@@ -47,6 +53,12 @@ public extension Data {
         case 0xD0: return "application/vnd"
         case 0x46: return "text/plain"
         default: return "application/octet-stream"
+        }
+    }
+
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8, allowLossyConversion: true) {
+            append(data)
         }
     }
 }
