@@ -1,8 +1,12 @@
-name: Pull request
+name: Pull Request and Deploy
 
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
+    branches:
+      - main
+
+  push:
     branches:
       - main
 
@@ -21,35 +25,29 @@ jobs:
     runs-on: macos-latest
     needs: check_title
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Configure
-      run: |
-        export LANG=en_US.UTF-8
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-        brew install xcbeautify
-        brew unlink xcbeautify
-        brew link xcbeautify
+      - name: Configure
+        run: |
+          export LANG=en_US.UTF-8
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+          brew install xcbeautify
+          brew unlink xcbeautify
+          brew link xcbeautify
 
-    - name: Run tests
-      run: |
-        xcodebuild \
-          -scheme EasyCode \
-          -sdk iphonesimulator \
-          -destination 'platform=iOS Simulator,name=${{ vars.SIMULATOR }}' | xcbeautify
+      - name: Run tests
+        run: |
+          xcodebuild \
+            -scheme EasyCode \
+            test \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=${{ vars.SIMULATOR }}' | xcbeautify
                     
-          
-name: Deploy
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Tag
         id: tag_version
@@ -67,4 +65,3 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          
