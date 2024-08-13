@@ -35,7 +35,7 @@ jobs:
     - name: Run tests
       run: |
         xcodebuild \
-          -scheme Base11 test \
+          -scheme EasyCode \
           -sdk iphonesimulator \
           -destination 'platform=iOS Simulator,name=${{ vars.SIMULATOR }}' | xcbeautify
                     
