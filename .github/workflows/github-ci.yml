@@ -1,0 +1,70 @@
+name: Pull request
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - main
+
+jobs:
+  check_title:
+    name: Check title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Slashgear/action-check-pr-title@v4.3.0
+        with:
+          regexp: '(patch|minor|major): +.+$'
+          helpMessage: 'Your PR title does not match the required format. It should start with "patch:", "minor:", or "major:" followed by the description.'
+
+  test:
+    name: Test
+    runs-on: macos-latest
+    needs: check_title
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Configure
+      run: |
+        export LANG=en_US.UTF-8
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        brew install xcbeautify
+        brew unlink xcbeautify
+        brew link xcbeautify
+
+    - name: Run tests
+      run: |
+        xcodebuild \
+          -scheme Base11 test \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=${{ vars.SIMULATOR }}' | xcbeautify
+                    
+          
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.WORKFLOW_TOKEN }}
+          tag_prefix: 
+          default_bump: false
+          custom_release_rules: patch:patch,minor:minor,major:major
+
+      - name: GitHub Release
+        uses: ncipollo/release-action@v1.13.0
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          
