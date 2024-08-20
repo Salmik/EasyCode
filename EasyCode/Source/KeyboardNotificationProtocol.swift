@@ -34,8 +34,8 @@ public extension KeyboardNotificationProtocol {
     /// }
     /// ```
     func subscribeForKeyboardNotifications() {
-        notificationManager.subscribe(to: .keyboardWillShow)
-        notificationManager.subscribe(to: .keyboardWillHide)
+        notificationManager.subscribe(to: NotificationAction.keyboardWillShow)
+        notificationManager.subscribe(to: NotificationAction.keyboardWillHide)
         notificationManager.delegate = self
     }
 
@@ -51,8 +51,8 @@ public extension KeyboardNotificationProtocol {
     /// }
     /// ```
     func unsubscribeFromKeyboardNotifications() {
-        notificationManager.unsubscribe(from: .keyboardWillShow)
-        notificationManager.unsubscribe(from: .keyboardWillHide)
+        notificationManager.unsubscribe(from: NotificationAction.keyboardWillShow)
+        notificationManager.unsubscribe(from: NotificationAction.keyboardWillHide)
     }
 
     private func scrollToFrameIfNeeded(keyboardFrame: CGRect) {
@@ -66,8 +66,9 @@ public extension KeyboardNotificationProtocol {
 
 public extension KeyboardNotificationProtocol {
 
-    func performOnTrigger(_ notification: NotificationAction, object: Any?, userInfo: [AnyHashable: Any]?) {
-        guard let userInfo = userInfo,
+    func performOnTrigger(_ notification: NotificationKeyProtocol, object: Any?, userInfo: [AnyHashable: Any]?) {
+        guard let notification = notification as? NotificationAction,
+              let userInfo = userInfo,
               let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }

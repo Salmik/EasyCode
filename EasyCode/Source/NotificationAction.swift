@@ -7,30 +7,44 @@
 
 import UIKit
 
-public class NotificationAction: RawRepresentable, Equatable {
+public protocol NotificationKeyProtocol {
 
-    public typealias RawValue = String
-
-    public let rawValue: RawValue
-    public var name: Notification.Name { .init(rawValue: rawValue) }
-
-    required public init(rawValue: String = #function) {
-        self.rawValue = rawValue
-    }
-
-    convenience public init(name: Notification.Name) {
-        self.init(rawValue: name.rawValue)
-    }
+    var rawValue: String { get }
+    var name: Notification.Name { get }
 }
 
-public extension NotificationAction {
+public enum NotificationAction: String, NotificationKeyProtocol {
 
-    static var didBecomeActive: NotificationAction { .init(name: UIApplication.didBecomeActiveNotification) }
-    static var willResignActive: NotificationAction { .init(name: UIApplication.willResignActiveNotification) }
-    static var didEnterBackground: NotificationAction { .init(name: UIApplication.didEnterBackgroundNotification) }
-    static var willEnterForeground: NotificationAction { .init(name: UIApplication.willEnterForegroundNotification) }
-    static var screenCapturedDidChange: NotificationAction { .init(name: UIScreen.capturedDidChangeNotification) }
-    static var keyboardWillShow: NotificationAction { .init(name: UIResponder.keyboardWillShowNotification) }
-    static var keyboardWillHide: NotificationAction { .init(name: UIResponder.keyboardWillHideNotification) }
-    static var didTakeScreenshot: NotificationAction { .init(name: UIApplication.userDidTakeScreenshotNotification) }
+    case didBecomeActive
+    case willResignActive
+    case didEnterBackground
+    case willEnterForeground
+    case screenCapturedDidChange
+    case keyboardWillShow
+    case keyboardWillHide
+    case didTakeScreenshot
+    case testNotification
+
+    public var name: Notification.Name {
+        switch self {
+        case .keyboardWillShow:
+            return UIResponder.keyboardWillShowNotification
+        case .keyboardWillHide:
+            return UIResponder.keyboardWillHideNotification
+        case .didBecomeActive:
+            return UIApplication.didBecomeActiveNotification
+        case .willResignActive:
+            return UIApplication.willResignActiveNotification
+        case .didEnterBackground:
+            return UIApplication.didEnterBackgroundNotification
+        case .willEnterForeground:
+            return UIApplication.willEnterForegroundNotification
+        case .screenCapturedDidChange:
+            return UIScreen.capturedDidChangeNotification
+        case .didTakeScreenshot:
+            return UIApplication.userDidTakeScreenshotNotification
+        default:
+            return Notification.Name(rawValue: self.rawValue)
+        }
+    }
 }
