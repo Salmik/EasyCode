@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SystemConfiguration.CaptiveNetwork
 
 public protocol DeviceInformation {}
 
@@ -52,6 +53,58 @@ public extension DeviceInformation {
 
     /// The preferred language of the device.
     var preferredLanguage: String { Locale.preferredLanguages.first ?? "Unknown" }
+
+    // swiftlint:disable control_statement
+    /// Retrieves the IP address of the device for the preferred network interfaces.
+    ///
+    /// This computed property returns the device's IP address as a `String`, or `nil` if the IP address cannot be determined.
+    ///
+    /// The method iterates over the available network interfaces on the device and checks their address families. If an interface belongs to one of the preferred network interfaces (`en0`, `en1`, `en2`, `en3`) and has an IPv4 address, the IP address is extracted and returned.
+    ///
+    /// - Returns: A `String` representing the IP address of the device, or `nil` if the address cannot be retrieved.
+    var ipAddress: String? {
+        var address: String?
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+
+        if getifaddrs(&ifaddr) == 0 {
+            var pointer = ifaddr
+            let preferredInterfaces = ["en0", "en1", "en2", "en3"]
+
+            while pointer != nil {
+                guard let interface = pointer?.pointee else { break }
+
+                let addrFamily = interface.ifa_addr.pointee.sa_family
+
+                if addrFamily == UInt8(AF_INET) {
+                    let name = String(cString: interface.ifa_name)
+                    print("Interface name: \(name)")
+
+                    if preferredInterfaces.contains(name) {
+                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                        if (
+                            getnameinfo(
+                                interface.ifa_addr,
+                                socklen_t(interface.ifa_addr.pointee.sa_len),
+                                &hostname,
+                                socklen_t(hostname.count),
+                                nil,
+                                socklen_t(0),
+                                NI_NUMERICHOST
+                            ) == 0
+                        ) {
+                            address = String(cString: hostname)
+                            break
+                        }
+                    }
+                }
+
+                pointer = interface.ifa_next
+            }
+            freeifaddrs(ifaddr)
+        }
+
+        return address
+    }
 
     /// The total disk space available on the device.
     var totalDiskSpace: String? {

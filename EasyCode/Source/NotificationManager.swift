@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 /// A protocol that defines the methods a delegate of `NotificationManager` should implement.
 public protocol NotificationManagerDelegate: AnyObject {
@@ -16,13 +17,13 @@ public protocol NotificationManagerDelegate: AnyObject {
     ///   - notification: The notification action that was triggered.
     ///   - object: The object associated with the notification.
     ///   - userInfo: The user info dictionary associated with the notification.
-    func performOnTrigger(_ notification: NotificationAction, object: Any?, userInfo: [AnyHashable: Any]?)
+    func performOnTrigger(_ notification: NotificationKeyProtocol, object: Any?, userInfo: [AnyHashable: Any]?)
 }
 
 /// A class that manages subscriptions to notifications and triggers actions when notifications are posted.
 public class NotificationManager {
 
-    private let notificationCenter = NotificationCenter.default
+    private var subscriptions = [Notification.Name: AnyCancellable]()
     public weak var delegate: NotificationManagerDelegate?
 
     public init() {}
@@ -35,10 +36,18 @@ public class NotificationManager {
     ///
     /// # Example:
     /// ``` swift
-    /// notificationManager.subscribe(to: .exampleNotification)
+    /// notificationManager.subscribe(to: NotificationEnum.exampleNotification)
     /// ```
-    public func subscribe(to notification: NotificationAction, object: Any? = nil) {
-        notificationCenter.addObserver(self, selector: #selector(selector), name: notification.name, object: object)
+    public func subscribe(to notification: NotificationKeyProtocol) {
+        let cancellable = NotificationCenter.default.publisher(for: notification.name)
+            .sink { [weak self] updatedNotification in
+                self?.delegate?.performOnTrigger(
+                    notification,
+                    object: updatedNotification.object,
+                    userInfo: updatedNotification.userInfo
+                )
+            }
+        subscriptions[notification.name] = cancellable
     }
 
     /// Unsubscribes from a notification action.
@@ -49,10 +58,12 @@ public class NotificationManager {
     ///
     /// # Example:
     /// ``` swift
-    /// notificationManager.unsubscribe(from: .exampleNotification)
+    /// notificationManager.unsubscribe(from: NotificationEnum.exampleNotification)
     /// ```
-    public func unsubscribe(from notification: NotificationAction, object: Any? = nil) {
-        notificationCenter.removeObserver(self, name: notification.name, object: object)
+    public func unsubscribe(from notification: NotificationKeyProtocol) {
+        guard let cancellable = subscriptions[notification.name] else { return }
+        cancellable.cancel()
+        subscriptions.removeValue(forKey: notification.name)
     }
 
     /// Triggers a notification action.
@@ -64,17 +75,17 @@ public class NotificationManager {
     ///
     /// # Example:
     /// ``` swift
-    /// notificationManager.trigger(notification: .exampleNotification, userInfo: ["key": "value"])
+    /// notificationManager.trigger(notification: NotificationEnum.exampleNotification, userInfo: ["key": "value"])
     /// ```
-    public func trigger(notification: NotificationAction, object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
-        notificationCenter.post(name: notification.name, object: object, userInfo: userInfo)
-    }
-
-    /// A selector method called when a notification is triggered.
-    ///
-    /// - Parameter notification: The notification that was triggered.
-    @objc private func selector(_ notification: Notification) {
-        let baseNotification = NotificationAction(name: notification.name)
-        delegate?.performOnTrigger(baseNotification, object: notification.object, userInfo: notification.userInfo)
+    public func trigger(
+        notification: NotificationKeyProtocol,
+        object: Any? = nil,
+        userInfo: [AnyHashable: Any]? = nil
+    ) {
+        NotificationCenter.default.post(
+            name: notification.name,
+            object: object as AnyObject,
+            userInfo: userInfo
+        )
     }
 }
