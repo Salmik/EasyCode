@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB0A70632CBF822500084289 /* RSAWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A70622CBF822500084289 /* RSAWorker.swift */; };
 		BB3C2EF82C6A0CBC00149867 /* DependencyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EF72C6A0CBC00149867 /* DependencyFactory.swift */; };
 		BB3C2EFB2C6A0D5A00149867 /* NetworkResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EFA2C6A0D5A00149867 /* NetworkResponseProtocol.swift */; };
 		BB3C2EFD2C6A0D6C00149867 /* EndPointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2EFC2C6A0D6C00149867 /* EndPointProtocol.swift */; };
@@ -88,6 +89,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BB0A70622CBF822500084289 /* RSAWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAWorker.swift; sourceTree = "<group>"; };
 		BB3C2EF72C6A0CBC00149867 /* DependencyFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyFactory.swift; sourceTree = "<group>"; };
 		BB3C2EFA2C6A0D5A00149867 /* NetworkResponseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseProtocol.swift; sourceTree = "<group>"; };
 		BB3C2EFC2C6A0D6C00149867 /* EndPointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPointProtocol.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				BBB163A12C3701D800182E37 /* PasswordValidator.swift */,
 				BBAFFBDD2C340E20005703B0 /* PerformManager.swift */,
 				BBAFFBFF2C342012005703B0 /* RegularExpression.swift */,
+				BB0A70622CBF822500084289 /* RSAWorker.swift */,
 				BBAFFC2B2C342887005703B0 /* SelfSizedTableView.swift */,
 				BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */,
 				BBAFFBEB2C341987005703B0 /* String+extension.swift */,
@@ -465,6 +468,7 @@
 				BBAFFC2C2C342887005703B0 /* SelfSizedTableView.swift in Sources */,
 				BB3C2F052C6A0DB600149867 /* ConsoleLogger.swift in Sources */,
 				BBCC22D52C35208F00CC19C9 /* BiometricIDAuth.swift in Sources */,
+				BB0A70632CBF822500084289 /* RSAWorker.swift in Sources */,
 				BBAFFBF62C341CC2005703B0 /* UIView+extension.swift in Sources */,
 				BBAFFC042C342152005703B0 /* Date+extension.swift in Sources */,
 				BBBD51EC2C369B5700557CD3 /* ImageFilter.swift in Sources */,

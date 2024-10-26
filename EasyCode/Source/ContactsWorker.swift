@@ -216,8 +216,9 @@ public class ContactsWorker {
                             ) == .orderedAscending
                         }
                     }
-
-                    DispatchQueue.main.async { completion() }
+                }
+                DispatchQueue.main.async {
+                    completion()
                 }
             } catch {
                 dump(error, name: "ContactsWorker")

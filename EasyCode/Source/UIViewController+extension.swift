@@ -297,15 +297,54 @@ public extension UIViewController {
     ///
     /// - Parameter image: The image to save.
     func saveImageToGallery(_ image: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        UIImageWriteToSavedPhotosAlbum(
+            image,
+            self,
+            #selector(image(_:didFinishSavingWithError:contextInfo:)),
+            nil
+        )
     }
 
     @objc
-    private func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+    private func image(
+        _ image: UIImage,
+        didFinishSavingWithError error: Error?,
+        contextInfo: UnsafeRawPointer
+    ) {
         if let error {
             Logger.print("Error saving image: \(error.localizedDescription)")
         } else {
             Logger.print("Image successfully saved to gallery")
+        }
+    }
+
+    /// Saves an video to the device's photo gallery.
+    ///
+    /// # Example:
+    /// ``` swift
+    /// self.saveVideoToGallery(videoURL)
+    /// ```
+    ///
+    /// - Parameter videoURL: The url to save video.
+    func saveVideoToGallery(_ videoURL: URL) {
+        UISaveVideoAtPathToSavedPhotosAlbum(
+            videoURL.path,
+            self,
+            #selector(videoSaved(_:didFinishSavingWithError:contextInfo:)),
+            nil
+        )
+    }
+
+    @objc
+    private func videoSaved(
+        _ videoPath: String,
+        didFinishSavingWithError error: Error?,
+        contextInfo: UnsafeRawPointer
+    ) {
+        if let error {
+            Logger.print("Error saving video: \(error.localizedDescription)")
+        } else {
+            Logger.print("Video saved successfully!")
         }
     }
 }
