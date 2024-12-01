@@ -203,6 +203,27 @@ public extension String {
         return predicate.evaluate(with: self)
     }
 
+    /// Converts a JSON-formatted string into a dictionary of type `[String: Any]`
+    /// - Example:
+    /// ```swift
+    /// let jsonString = "{\"name\": \"John\", \"age\": 30}"
+    /// if let dictionary = jsonString.jsonStringToDictionary {
+    ///     print(dictionary) // Output: ["name": "John", "age": 30]
+    /// }
+    /// ```
+    var jsonStringToDictionary: [String: Any]? {
+        guard let data = self.data(using: .utf8) else { return nil }
+
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+            guard let dictionary = jsonObject as? [String: Any] else { return nil }
+            return dictionary
+        } catch {
+            print("Error converting JSON string to dictionary: \(error)")
+            return nil
+        }
+    }
+
     /// Localizes the string using NSLocalizedString.
     /// # Example:
     /// ``` swift
