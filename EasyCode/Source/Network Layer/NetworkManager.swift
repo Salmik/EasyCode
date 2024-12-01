@@ -7,168 +7,9 @@
 
 import Foundation
 
-public typealias HTTPHeaders = [String: String]
-public typealias Parameters = Any
-public typealias MultipartFormDataParameter = (data: Data, name: String, fileName: String, mimeType: String)
-
 /// `NetworkManager` is a class responsible for managing network requests in your application. It provides
 /// methods for making standard HTTP requests, handling multipart form data, and supports SSL pinning for enhanced security.
 /// The class also includes request logging capabilities and offers both callback-based and async/await APIs.
-///
-/// # Example
-///
-/// ```swift
-/// import UIKit
-///
-/// struct Post: Codable {
-///
-///     let userId: Int
-///     let id: Int
-///     let title: String
-///     let body: String
-/// }
-///
-/// class ViewController: UIViewController {
-///
-///     private let performManager = PerformManager()
-///
-///     private let networkManager: NetworkManager = {
-///         let manager = NetworkManager()
-///         manager.certDataItems = Bundle.main.SSLCertificates
-///         manager.isSSLPinningEnabled = false // default is false
-///         manager.isNeedToLogRequests = true // default is true
-///         return manager
-///     }()
-///
-///     override func viewDidLoad() {
-///         super.viewDidLoad()
-///         view.backgroundColor = .white
-///
-///         // async/await
-///         performManager.addTask { [weak networkManager] in
-///             await networkManager?.request(JSONPlaceholderApi.getComments(id: 1))
-///         }
-///         performManager.addTask { [weak networkManager] in
-///             let post = Post(userId: 132, id: 129, title: "Zhanibek", body: "TestBody")
-///             let postRequest = await networkManager?.request(JSONPlaceholderApi.insertPost(post: post))
-///
-///             guard let decodedPost: Post = postRequest?.decode() else { return }
-///             print(decodedPost.title)
-///         }
-///         performManager.addTask { [weak networkManager] in
-///             guard let data = UIImage(systemName: "star")?.jpegData(compressionQuality: 1) else { return }
-///
-///             let arrayOfImages = [
-///                 (data, "image", "image.jpg", data.mimeType),
-///                 (data, "image2", "image2.jpg", data.mimeType),
-///                 (data, "image3", "image3.jpg", data.mimeType)
-///             ]
-///             let _ = await networkManager?.multiPart(JSONPlaceholderApi.multipart, with: arrayOfImages)
-///             print("Multipart")
-///         }
-///         performManager.performTasks(inSequence: true) {
-///             print("AllTasks Done!")
-///             print(Thread.current)
-///         }
-///
-///         // default
-///         networkManager.request(JSONPlaceholderApi.getComments(id: 1)) { response in
-///             guard response.success else { return }
-///             print("Data")
-///         }
-///
-///         let post = Post(userId: 132, id: 129, title: "Zhanibek", body: "TestBody")
-///         networkManager.request(JSONPlaceholderApi.insertPost(post: post)) { response in
-///             guard response.success else { return }
-///
-///             if let post: Post = response.decode() {
-///                 print(post.title)
-///             }
-///         }
-///
-///         if let data = UIImage(systemName: "star")?.jpegData(compressionQuality: 1) {
-///             let arrayOfImages = [
-///                 (data, "image", "image.jpg", data.mimeType),
-///                 (data, "image2", "image2.jpg", data.mimeType),
-///                 (data, "image3", "image3.jpg", data.mimeType)
-///             ]
-///
-///             networkManager.multiPart(JSONPlaceholderApi.multipart, with: arrayOfImages) { response in
-///                 guard response.success else { return }
-///                 print("Data")
-///             }
-///         }
-///     }
-/// }
-///
-/// import Foundation
-///
-/// enum JSONPlaceholderApi: EndPointProtocol {
-///
-///     case getComments(id: Int)
-///     case insertPost(post: Post)
-///     case multipart
-///
-///     var baseURL: String {
-///         switch self {
-///         case .getComments, .insertPost: return "https://jsonplaceholder.typicode.com/"
-///         case .multipart: return "https://httpbin.org/"
-///         }
-///     }
-///
-///     var path: String {
-///         switch self {
-///         case .getComments: return "comments"
-///         case .insertPost: return "posts"
-///         case .multipart: return "post"
-///         }
-///     }
-///
-///     var timeoutInterval: TimeInterval {
-///         switch self {
-///         case .getComments, .insertPost: return 30
-///         case .multipart: return 60
-///         }
-///     }
-///
-///     var cachePolicy: URLRequest.CachePolicy {
-///         switch self {
-///         case .getComments, .insertPost: return .returnCacheDataElseLoad
-///         case .multipart: return .reloadIgnoringLocalAndRemoteCacheData
-///         }
-///     }
-///
-///     var encoding: EncodingType {
-///         switch self {
-///         case .getComments: return .url
-///         case .insertPost: return .json
-///         case .multipart: return .none
-///         }
-///     }
-///
-///     var httpMethod: HTTPMethod {
-///         switch self {
-///         case .getComments: return .get
-///         case .insertPost: return .post
-///         case .multipart: return .post
-///         }
-///     }
-///
-///     var headers: HTTPHeaders? {
-///         switch self {
-///         case .getComments, .insertPost, .multipart: return ["Authorization": "Bearer jgjdfsgnjfdnjhl68430968904"]
-///         }
-///     }
-///
-///     var parameters: Parameters? {
-///         switch self {
-///         case .getComments(let id): return ["postId": id]
-///         case .insertPost(let post): return encode(post)
-///         case .multipart: return nil
-///         }
-///     }
-/// }
-/// ```
 public class NetworkManager: NSObject {
 
     /// The `URLSession` used for making network requests. It is lazily initialized with the default configuration
@@ -240,14 +81,22 @@ public class NetworkManager: NSObject {
     @discardableResult
     public func request(
         _ endpoint: EndPointProtocol,
-        isNeedToResumeImmediatly: Bool = true,
+        isNeedToPerformImmediatly: Bool = true,
         completion: @escaping (NetworkResponseProtocol) -> Void
     ) -> URLSessionDataTask? {
         guard let request = endpoint.makeRequest() else { return nil }
 
+        let identifiedRequest = IdentifiedRequest(request: request)
+        let row = LoggerRow(request: identifiedRequest)
         if isNeedToLogRequests {
             ConsoleLogger().log(request: request)
         }
+        if NetworkGlobals.isLoggerEnabled {
+            DispatchQueue.main.async {
+                NetworkGlobals.loggerViewController.insert(row: row)
+            }
+        }
+
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             guard let manager = self else { return }
 
@@ -256,9 +105,15 @@ public class NetworkManager: NSObject {
             }
 
             let response = manager.composeResponse(data: data, response: response, error: error)
+            if NetworkGlobals.isLoggerEnabled {
+                DispatchQueue.main.async {
+                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: response)
+                }
+            }
+
             completion(response)
         }
-        if isNeedToResumeImmediatly { task.resume() }
+        if isNeedToPerformImmediatly { task.resume() }
 
         return task
     }
@@ -309,12 +164,19 @@ public class NetworkManager: NSObject {
         }
 
         data.append("--\(boundary)--\r\n")
-        request.httpBody = data
 
+        let identifiedRequest = IdentifiedRequest(request: request)
+        let row = LoggerRow(request: identifiedRequest)
         if isNeedToLogRequests {
             ConsoleLogger().log(request: request)
         }
-        let task = session.dataTask(with: request) { [weak self] data, response, error in
+        if NetworkGlobals.isLoggerEnabled {
+            DispatchQueue.main.async {
+                NetworkGlobals.loggerViewController.insert(row: row)
+            }
+        }
+
+        let task = session.uploadTask(with: request, from: data) { [weak self] data, response, error in
             guard let manager = self else { return }
 
             if let response = response as? HTTPURLResponse, manager.isNeedToLogRequests {
@@ -322,6 +184,12 @@ public class NetworkManager: NSObject {
             }
 
             let response = manager.composeResponse(data: data, response: response, error: error)
+            if NetworkGlobals.isLoggerEnabled {
+                DispatchQueue.main.async {
+                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: response)
+                }
+            }
+
             completion(response)
         }
         if isNeedToResumeImmediatly { task.resume() }
@@ -352,9 +220,18 @@ public class NetworkManager: NSObject {
     public func request(_ endpoint: EndPointProtocol) async -> NetworkResponseProtocol? {
         guard let request = endpoint.makeRequest() else { return nil }
 
+        let identifiedRequest = IdentifiedRequest(request: request)
+        let row = LoggerRow(request: identifiedRequest)
+
         if isNeedToLogRequests {
             ConsoleLogger().log(request: request)
         }
+        if NetworkGlobals.isLoggerEnabled {
+            DispatchQueue.main.async {
+                NetworkGlobals.loggerViewController.insert(row: row)
+            }
+        }
+
         do {
             let (data, response) = try await session.data(for: request)
             if let response = response as? HTTPURLResponse, isNeedToLogRequests {
@@ -362,12 +239,25 @@ public class NetworkManager: NSObject {
             }
 
             let composedResponse = composeResponse(data: data, response: response, error: nil)
+            if NetworkGlobals.isLoggerEnabled {
+                DispatchQueue.main.async {
+                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: composedResponse)
+                }
+            }
+
             return composedResponse
+
         } catch {
             if isNeedToLogRequests {
                 ConsoleLogger().log(request: request, response: nil, responseData: nil, error: error)
             }
             let composedResponse = composeResponse(data: nil, response: nil, error: error)
+            if NetworkGlobals.isLoggerEnabled {
+                DispatchQueue.main.async {
+                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: composedResponse)
+                }
+            }
+
             return composedResponse
         }
     }
@@ -412,23 +302,46 @@ public class NetworkManager: NSObject {
         }
 
         data.append("--\(boundary)--\r\n")
-        request.httpBody = data
 
+        let identifiedRequest = IdentifiedRequest(request: request)
+        let row = LoggerRow(request: identifiedRequest)
         if isNeedToLogRequests {
             ConsoleLogger().log(request: request)
         }
+        if NetworkGlobals.isLoggerEnabled {
+            DispatchQueue.main.async {
+                NetworkGlobals.loggerViewController.insert(row: row)
+            }
+        }
         do {
-            let (responseData, response) = try await session.data(for: request)
+            let (responseData, response) = try await session.upload(for: request, from: data)
             if let response = response as? HTTPURLResponse, isNeedToLogRequests {
                 ConsoleLogger().log(request: request, response: response, responseData: responseData, error: nil)
             }
             let composedResponse = composeResponse(data: responseData, response: response, error: nil)
+
+            if NetworkGlobals.isLoggerEnabled {
+                DispatchQueue.main.async {
+                    NetworkGlobals.loggerViewController.update(
+                        id: identifiedRequest.id,
+                        response: composedResponse
+                    )
+                }
+            }
+
             return composedResponse
+
         } catch {
             if isNeedToLogRequests {
                 ConsoleLogger().log(request: request, response: nil, responseData: nil, error: error)
             }
             let composedResponse = composeResponse(data: nil, response: nil, error: error)
+            if NetworkGlobals.isLoggerEnabled {
+                DispatchQueue.main.async {
+                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: composedResponse)
+                }
+            }
+
             return composedResponse
         }
     }

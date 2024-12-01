@@ -27,7 +27,7 @@ public class RSAWorker: RSAService {
 
     public func encrypt(_ string: String, publicKey: String, type: RSAPaddingType) -> Data? {
         guard let formattedKey = extractPublicKey(from: publicKey),
-              let secKey = createPublicKey(from: publicKey) else {
+              let secKey = createPublicKey(from: formattedKey) else {
             return nil
         }
         let data = type == .PKCS1 ? encryptPKCS1(string, publicKey: secKey)

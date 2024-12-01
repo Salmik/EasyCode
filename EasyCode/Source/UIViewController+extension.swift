@@ -347,6 +347,40 @@ public extension UIViewController {
             Logger.print("Video saved successfully!")
         }
     }
+
+    private struct AssociatedKeys {
+        static var bottomSheetTransitioningDelegate = "bottomSheetTransitioningDelegate"
+    }
+
+    private var bottomSheetTransitioningDelegate: BottomSheetTransitioningDelegate? {
+        get {
+            return objc_getAssociatedObject(
+                self,
+                &AssociatedKeys.bottomSheetTransitioningDelegate
+            ) as? BottomSheetTransitioningDelegate
+        }
+        set {
+            objc_setAssociatedObject(
+                self,
+                &AssociatedKeys.bottomSheetTransitioningDelegate,
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+
+    func presentBottomSheet(
+        _ viewControllerToPresent: UIViewController,
+        height: CGFloat? = nil,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
+        let transitioningDelegate = BottomSheetTransitioningDelegate(height: height)
+        viewControllerToPresent.modalPresentationStyle = .custom
+        viewControllerToPresent.transitioningDelegate = transitioningDelegate
+        viewControllerToPresent.bottomSheetTransitioningDelegate = transitioningDelegate
+        present(viewControllerToPresent, animated: animated, completion: completion)
+    }
 }
 
 // MARK: - MFMailComposeViewControllerDelegate

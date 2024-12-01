@@ -23,6 +23,7 @@ public enum NotificationAction: String, NotificationKeyProtocol {
     case keyboardWillShow
     case keyboardWillHide
     case didTakeScreenshot
+    case orientationDidChange
     case testNotification
 
     public var name: Notification.Name {
@@ -43,6 +44,8 @@ public enum NotificationAction: String, NotificationKeyProtocol {
             return UIScreen.capturedDidChangeNotification
         case .didTakeScreenshot:
             return UIApplication.userDidTakeScreenshotNotification
+        case .orientationDidChange:
+            return UIDevice.orientationDidChangeNotification
         default:
             return Notification.Name(rawValue: self.rawValue)
         }

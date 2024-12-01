@@ -9,6 +9,8 @@ import Foundation
 
 public extension URL {
 
+    var isDirectory: Bool { (try? resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true }
+
     /// A computed property that returns the file size as a formatted string.
     ///
     /// - Returns: The file size as a human-readable string (e.g., "10 KB", "5 MB"), or `nil` if the size could not be determined.
