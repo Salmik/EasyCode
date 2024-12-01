@@ -62,7 +62,7 @@ public extension DeviceInformation {
     /// The method iterates over the available network interfaces on the device and checks their address families. If an interface belongs to one of the preferred network interfaces (`en0`, `en1`, `en2`, `en3`) and has an IPv4 address, the IP address is extracted and returned.
     ///
     /// - Returns: A `String` representing the IP address of the device, or `nil` if the address cannot be retrieved.
-    var ipAddress: String? {
+    var wifiOrEthernetIPAddress: String? {
         var address: String?
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
 
@@ -104,6 +104,85 @@ public extension DeviceInformation {
         }
 
         return address
+    }
+
+    /// Retrieves the IP address of the device, prioritizing mobile network interfaces (e.g., cellular) and falling back to preferred Wi-Fi/Ethernet interfaces if no mobile address is available.
+    ///
+    /// This computed property iterates over the available network interfaces on the device, checking for IPv4 addresses. It prioritizes interfaces with a prefix of `pdp_ip` (typically used for mobile/cellular networks). If no valid IP address is found in these interfaces, it checks the preferred Wi-Fi/Ethernet interfaces (`en0`, `en1`, `en2`, `en3`).
+    ///
+    /// Link-local addresses (e.g., `169.254.x.x`) are excluded to ensure the returned IP address is usable for external communication.
+    ///
+    /// - Returns: A `String` representing the device's IP address (mobile or preferred network), or `nil` if no valid IP address can be determined.
+    var mobileOrPreferredIPAddress: String? {
+        var address: String?
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+
+        if getifaddrs(&ifaddr) == 0 {
+            var pointer = ifaddr
+
+            while pointer != nil {
+                guard let interface = pointer?.pointee else { break }
+
+                let addrFamily = interface.ifa_addr.pointee.sa_family
+                let name = String(cString: interface.ifa_name)
+
+                if addrFamily == UInt8(AF_INET), name.hasPrefix("pdp_ip") {
+                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                    if getnameinfo(
+                        interface.ifa_addr,
+                        socklen_t(interface.ifa_addr.pointee.sa_len),
+                        &hostname,
+                        socklen_t(hostname.count),
+                        nil,
+                        socklen_t(0),
+                        NI_NUMERICHOST
+                    ) == 0 {
+                        let ip = String(cString: hostname)
+                        if !ip.hasPrefix("169.254") {
+                            address = ip
+                            break
+                        }
+                    }
+                }
+
+                pointer = interface.ifa_next
+            }
+
+            if address == nil {
+                pointer = ifaddr
+                while pointer != nil {
+                    guard let interface = pointer?.pointee else { break }
+
+                    let addrFamily = interface.ifa_addr.pointee.sa_family
+                    let name = String(cString: interface.ifa_name)
+
+                    if addrFamily == UInt8(AF_INET), name.hasPrefix("en") {
+                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                        if getnameinfo(
+                            interface.ifa_addr,
+                            socklen_t(interface.ifa_addr.pointee.sa_len),
+                            &hostname,
+                            socklen_t(hostname.count),
+                            nil,
+                            socklen_t(0),
+                            NI_NUMERICHOST
+                        ) == 0 {
+                            let ip = String(cString: hostname)
+                            if !ip.hasPrefix("169.254") {
+                                address = ip
+                                break
+                            }
+                        }
+                    }
+
+                    pointer = interface.ifa_next
+                }
+            }
+
+            freeifaddrs(ifaddr)
+        }
+
+        return address ?? ""
     }
 
     /// The total disk space available on the device.
