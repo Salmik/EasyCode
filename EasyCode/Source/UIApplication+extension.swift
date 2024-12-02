@@ -9,19 +9,23 @@ import UIKit
 
 public extension UIApplication {
 
-    var firstActiveWindow: UIWindow? {
+    var firstActiveScene: UIWindowScene? {
         guard let connectedScene = connectedScenes.first(where: { $0.activationState == .foregroundActive }),
-              let scene = connectedScene as? UIWindowScene,
-              let window = scene.windows.first else {
+              let scene = connectedScene as? UIWindowScene else {
             return nil
         }
 
+        return scene
+    }
+
+    var firstActiveWindow: UIWindow? {
+        guard let scene = firstActiveScene, let window = scene.windows.first else { return nil }
         return window
     }
 
     func openAppSettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString), canOpenURL(url) else { return }
-        open(url, options: [:], completionHandler: nil)
+        open(url)
     }
 
     func dismissKeyboard() {
