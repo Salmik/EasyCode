@@ -32,6 +32,8 @@
 		BB3C2F072C6A0DE300149867 /* Bundle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */; };
 		BB3C2F092C6A0E2800149867 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F082C6A0E2800149867 /* NetworkManager.swift */; };
 		BB3C2F0B2C6A10F800149867 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */; };
+		BB3C76C82CFCDFDF005217AF /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C76C72CFCDFDF005217AF /* View+extension.swift */; };
+		BB3C76CA2CFD502D005217AF /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */; };
 		BB8A14152C36649C00F18CE8 /* UnmanagedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */; };
 		BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBC42C340D12005703B0 /* EasyCode.docc */; };
 		BBAFFBCB2C340D12005703B0 /* EasyCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBAFFBC02C340D12005703B0 /* EasyCode.framework */; };
@@ -139,6 +141,8 @@
 		BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+extension.swift"; sourceTree = "<group>"; };
 		BB3C2F082C6A0E2800149867 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
+		BB3C76C72CFCDFDF005217AF /* View+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extension.swift"; sourceTree = "<group>"; };
+		BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
 		BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmanagedWrapper.swift; sourceTree = "<group>"; };
 		BBAFFBC02C340D12005703B0 /* EasyCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAFFBC32C340D12005703B0 /* EasyCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyCode.h; sourceTree = "<group>"; };
@@ -382,6 +386,7 @@
 				BBCC22D02C3513CD00CC19C9 /* TemporaryImageCache.swift */,
 				BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */,
 				BBEE8D762C6B6BB500133020 /* TipViewController.swift */,
+				BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */,
 				BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */,
 				BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */,
 				BBAFFC1F2C34278A005703B0 /* UIImage+extension.swift */,
@@ -393,6 +398,7 @@
 				BBAFFC072C34218B005703B0 /* URL+extension.swift */,
 				BB3B164F2CECB0B60049F5F2 /* UserDefault.swift */,
 				BBAFFC2D2C342A0D005703B0 /* UserDefaultsStore.swift */,
+				BB3C76C72CFCDFDF005217AF /* View+extension.swift */,
 				BB3B162D2CEC95AA0049F5F2 /* ZipManager.swift */,
 				BBBCE97D2CFCBCE10061DB04 /* BottomSheet */,
 				BB3B16472CECAB050049F5F2 /* Combine */,
@@ -582,6 +588,7 @@
 				BBAFFBDE2C340E20005703B0 /* PerformManager.swift in Sources */,
 				BBBD51F02C36A1E500557CD3 /* AVCaptureDevice+extension.swift in Sources */,
 				BBAFFC242C342840005703B0 /* DynamicHeightCollectionView.swift in Sources */,
+				BB3C76C82CFCDFDF005217AF /* View+extension.swift in Sources */,
 				BBAFFC1C2C342689005703B0 /* KeyboardNotificationProtocol.swift in Sources */,
 				BB3C2F092C6A0E2800149867 /* NetworkManager.swift in Sources */,
 				BBAFFC0A2C3421EF005703B0 /* Logger.swift in Sources */,
@@ -600,6 +607,7 @@
 				BBAFFBEE2C341A98005703B0 /* Array+extension.swift in Sources */,
 				BB3B16312CEC96980049F5F2 /* DependencyInjector.swift in Sources */,
 				BBAFFC182C342430005703B0 /* UIViewController+extension.swift in Sources */,
+				BB3C76CA2CFD502D005217AF /* UIApplication+extension.swift in Sources */,
 				BBBCE97C2CFCBAE70061DB04 /* Typealiases.swift in Sources */,
 				BBBD51EA2C36803600557CD3 /* ContactsWorker.swift in Sources */,
 				BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */,

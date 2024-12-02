@@ -54,6 +54,9 @@ public extension DeviceInformation {
     /// The preferred language of the device.
     var preferredLanguage: String { Locale.preferredLanguages.first ?? "Unknown" }
 
+    /// Is device enabled power mode
+    var isLowPowerModeEnabled: Bool { ProcessInfo.processInfo.isLowPowerModeEnabled }
+
     // swiftlint:disable control_statement
     /// Retrieves the IP address of the device for the preferred network interfaces.
     ///

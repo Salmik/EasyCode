@@ -13,6 +13,8 @@ public class DependencyInjector {
     private var weakDependencies: [String: WeakBox] = [:]
     private let queue = DispatchQueue(label: "DependencyContainer.Queue", attributes: .concurrent)
 
+    public init() {}
+
     public func resolve<T>() throws -> T {
         let key = String(describing: T.self)
         return try queue.sync {
