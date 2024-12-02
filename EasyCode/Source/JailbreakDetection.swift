@@ -31,7 +31,7 @@ public class JailbreakDetection: JailbreakDetectionService {
     public var isJailbrokenDevice: Bool {
 
         // Check for simulator
-        #if arch(i386) || arch(x86_64)
+        #if targetEnvironment(simulator)
         return false
         #endif
 
