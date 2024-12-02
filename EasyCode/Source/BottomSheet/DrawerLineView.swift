@@ -20,7 +20,7 @@ class DrawerLineView: UIView {
     }
 
     private func setLayoutConstraints() {
-        lineView.center(to: self)
+        lineView.constraintToCenter(of: self)
         lineView.constraintSize(to: .init(width: 40, height: 5))
     }
 
