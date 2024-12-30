@@ -84,7 +84,7 @@ public class NotificationManager {
     ) {
         NotificationCenter.default.post(
             name: notification.name,
-            object: object as AnyObject,
+            object: object,
             userInfo: userInfo
         )
     }
