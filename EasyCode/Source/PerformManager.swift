@@ -70,8 +70,8 @@ public class PerformManager {
     ///     print("All tasks completed concurrently")
     /// }
     /// ```
-    public func performTasks(inSequence: Bool = false, completion: (() -> Void)? = nil) {
-        executionTask = Task(priority: .userInitiated) { @MainActor in
+    public func performTasks(inSequence: Bool = false, queue: DispatchQueue = .main, completion: (() -> Void)? = nil) {
+        executionTask = Task(priority: .userInitiated) {
             if inSequence {
                 for task in tasks {
                     await task()
@@ -86,7 +86,9 @@ public class PerformManager {
                     await group.waitForAll()
                 }
             }
-            completion?()
+            queue.async {
+                completion?()
+            }
         }
     }
 }

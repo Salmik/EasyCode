@@ -206,6 +206,14 @@ public class PasswordValidator {
         }
         return results
     }
+
+    public func isValid(password: String) -> Bool {
+        var results: [ValidationRule: Bool] = [:]
+        for strategy in strategies {
+            results[strategy.rule] = strategy.isValid(password: password)
+        }
+        return !results.compactMap { $0.value }.contains(false)
+    }
 }
 
 /// Factory class for creating password validation strategies based on rules.

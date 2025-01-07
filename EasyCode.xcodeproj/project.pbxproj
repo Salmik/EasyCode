@@ -10,12 +10,10 @@
 		BB0A70632CBF822500084289 /* RSAWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A70622CBF822500084289 /* RSAWorker.swift */; };
 		BB3B162E2CEC95AA0049F5F2 /* ZipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B162D2CEC95AA0049F5F2 /* ZipManager.swift */; };
 		BB3B16312CEC96980049F5F2 /* DependencyInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */; };
-		BB3B16332CEC96B30049F5F2 /* WeakBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16322CEC96B30049F5F2 /* WeakBox.swift */; };
 		BB3B16352CEC96C30049F5F2 /* DependencyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16342CEC96C30049F5F2 /* DependencyError.swift */; };
 		BB3B16392CEC96FA0049F5F2 /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16382CEC96FA0049F5F2 /* Inject.swift */; };
 		BB3B163B2CEC97290049F5F2 /* WeakInject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B163A2CEC97290049F5F2 /* WeakInject.swift */; };
 		BB3B163D2CEC97470049F5F2 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B163C2CEC97470049F5F2 /* Provider.swift */; };
-		BB3B16412CEC97730049F5F2 /* WeakProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16402CEC97730049F5F2 /* WeakProvider.swift */; };
 		BB3B16442CEC97A20049F5F2 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16432CEC97A20049F5F2 /* KeychainWrapper.swift */; };
 		BB3B16462CEC97EF0049F5F2 /* SecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16452CEC97EF0049F5F2 /* SecureField.swift */; };
 		BB3B16492CECAB160049F5F2 /* PublishedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16482CECAB160049F5F2 /* PublishedProperty.swift */; };
@@ -32,6 +30,8 @@
 		BB3C2F072C6A0DE300149867 /* Bundle+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */; };
 		BB3C2F092C6A0E2800149867 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F082C6A0E2800149867 /* NetworkManager.swift */; };
 		BB3C2F0B2C6A10F800149867 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */; };
+		BB3C76C82CFCDFDF005217AF /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C76C72CFCDFDF005217AF /* View+extension.swift */; };
+		BB3C76CA2CFD502D005217AF /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */; };
 		BB8A14152C36649C00F18CE8 /* UnmanagedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */; };
 		BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBC42C340D12005703B0 /* EasyCode.docc */; };
 		BBAFFBCB2C340D12005703B0 /* EasyCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBAFFBC02C340D12005703B0 /* EasyCode.framework */; };
@@ -99,6 +99,8 @@
 		BBCC22D52C35208F00CC19C9 /* BiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */; };
 		BBCC22D72C35246200CC19C9 /* NLLanguage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */; };
 		BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */; };
+		BBE498CA2D2D06930085233A /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */; };
+		BBEB8E3A2D2CFB6B00988E03 /* UnownedInject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */; };
 		BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D742C6B679C00133020 /* PaddedLabel.swift */; };
 		BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D762C6B6BB500133020 /* TipViewController.swift */; };
 /* End PBXBuildFile section */
@@ -117,12 +119,10 @@
 		BB0A70622CBF822500084289 /* RSAWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAWorker.swift; sourceTree = "<group>"; };
 		BB3B162D2CEC95AA0049F5F2 /* ZipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipManager.swift; sourceTree = "<group>"; };
 		BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjector.swift; sourceTree = "<group>"; };
-		BB3B16322CEC96B30049F5F2 /* WeakBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakBox.swift; sourceTree = "<group>"; };
 		BB3B16342CEC96C30049F5F2 /* DependencyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyError.swift; sourceTree = "<group>"; };
 		BB3B16382CEC96FA0049F5F2 /* Inject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inject.swift; sourceTree = "<group>"; };
 		BB3B163A2CEC97290049F5F2 /* WeakInject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakInject.swift; sourceTree = "<group>"; };
 		BB3B163C2CEC97470049F5F2 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
-		BB3B16402CEC97730049F5F2 /* WeakProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProvider.swift; sourceTree = "<group>"; };
 		BB3B16432CEC97A20049F5F2 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		BB3B16452CEC97EF0049F5F2 /* SecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureField.swift; sourceTree = "<group>"; };
 		BB3B16482CECAB160049F5F2 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
@@ -139,6 +139,8 @@
 		BB3C2F062C6A0DE300149867 /* Bundle+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+extension.swift"; sourceTree = "<group>"; };
 		BB3C2F082C6A0E2800149867 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		BB3C2F0A2C6A10F800149867 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
+		BB3C76C72CFCDFDF005217AF /* View+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extension.swift"; sourceTree = "<group>"; };
+		BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
 		BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmanagedWrapper.swift; sourceTree = "<group>"; };
 		BBAFFBC02C340D12005703B0 /* EasyCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAFFBC32C340D12005703B0 /* EasyCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyCode.h; sourceTree = "<group>"; };
@@ -207,6 +209,8 @@
 		BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDAuth.swift; sourceTree = "<group>"; };
 		BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NLLanguage+extension.swift"; sourceTree = "<group>"; };
 		BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailConfiguration.swift; sourceTree = "<group>"; };
+		BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
+		BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnownedInject.swift; sourceTree = "<group>"; };
 		BBEE8D742C6B679C00133020 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		BBEE8D762C6B6BB500133020 /* TipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,31 +237,14 @@
 		BB3B162F2CEC96910049F5F2 /* DI */ = {
 			isa = PBXGroup;
 			children = (
-				BB3B16372CEC96E50049F5F2 /* Provider */,
-				BB3B16362CEC96DD0049F5F2 /* Inject */,
-				BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */,
-				BB3B16342CEC96C30049F5F2 /* DependencyError.swift */,
-				BB3B16322CEC96B30049F5F2 /* WeakBox.swift */,
-			);
-			path = DI;
-			sourceTree = "<group>";
-		};
-		BB3B16362CEC96DD0049F5F2 /* Inject */ = {
-			isa = PBXGroup;
-			children = (
 				BB3B16382CEC96FA0049F5F2 /* Inject.swift */,
 				BB3B163A2CEC97290049F5F2 /* WeakInject.swift */,
-			);
-			path = Inject;
-			sourceTree = "<group>";
-		};
-		BB3B16372CEC96E50049F5F2 /* Provider */ = {
-			isa = PBXGroup;
-			children = (
+				BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */,
 				BB3B163C2CEC97470049F5F2 /* Provider.swift */,
-				BB3B16402CEC97730049F5F2 /* WeakProvider.swift */,
+				BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */,
+				BB3B16342CEC96C30049F5F2 /* DependencyError.swift */,
 			);
-			path = Provider;
+			path = DI;
 			sourceTree = "<group>";
 		};
 		BB3B16422CEC979D0049F5F2 /* Keychain */ = {
@@ -382,6 +369,7 @@
 				BBCC22D02C3513CD00CC19C9 /* TemporaryImageCache.swift */,
 				BBAFFBE12C340EB6005703B0 /* ThreadSafe.swift */,
 				BBEE8D762C6B6BB500133020 /* TipViewController.swift */,
+				BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */,
 				BBAFFC272C342862005703B0 /* UICollectionView+extension.swift */,
 				BBAFFBE92C34194A005703B0 /* UIColor+extension.swift */,
 				BBAFFC1F2C34278A005703B0 /* UIImage+extension.swift */,
@@ -393,12 +381,14 @@
 				BBAFFC072C34218B005703B0 /* URL+extension.swift */,
 				BB3B164F2CECB0B60049F5F2 /* UserDefault.swift */,
 				BBAFFC2D2C342A0D005703B0 /* UserDefaultsStore.swift */,
+				BB3C76C72CFCDFDF005217AF /* View+extension.swift */,
 				BB3B162D2CEC95AA0049F5F2 /* ZipManager.swift */,
 				BBBCE97D2CFCBCE10061DB04 /* BottomSheet */,
 				BB3B16472CECAB050049F5F2 /* Combine */,
 				BB3B162F2CEC96910049F5F2 /* DI */,
 				BB3B16422CEC979D0049F5F2 /* Keychain */,
 				BB3C2EF92C6A0D3B00149867 /* Network Layer */,
+				BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -566,27 +556,28 @@
 				BBAFFBF02C341B35005703B0 /* Dictionary+extension.swift in Sources */,
 				BB3C2EFD2C6A0D6C00149867 /* EndPointProtocol.swift in Sources */,
 				BBAFFBF82C341D33005703B0 /* UIView+constraints.swift in Sources */,
+				BBEB8E3A2D2CFB6B00988E03 /* UnownedInject.swift in Sources */,
 				BBAFFBFC2C341DCB005703B0 /* KeychainService.swift in Sources */,
 				BBAFFBE62C341881005703B0 /* NotificationManager.swift in Sources */,
 				BBAFFC0E2C34225C005703B0 /* JSONWorker.swift in Sources */,
 				BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */,
 				BB3C2F032C6A0DA800149867 /* NetworkError.swift in Sources */,
 				BBBCE97F2CFCBCF10061DB04 /* DrawerLineView.swift in Sources */,
-				BB3B16332CEC96B30049F5F2 /* WeakBox.swift in Sources */,
 				BBAFFBE42C340EE7005703B0 /* CoreDataManager.swift in Sources */,
 				BB3B162E2CEC95AA0049F5F2 /* ZipManager.swift in Sources */,
 				BBAFFC0C2C34220F005703B0 /* MeasureTest.swift in Sources */,
 				BBAFFC102C342274005703B0 /* DispatchWorker.swift in Sources */,
-				BB3B16412CEC97730049F5F2 /* WeakProvider.swift in Sources */,
 				BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */,
 				BBAFFBDE2C340E20005703B0 /* PerformManager.swift in Sources */,
 				BBBD51F02C36A1E500557CD3 /* AVCaptureDevice+extension.swift in Sources */,
 				BBAFFC242C342840005703B0 /* DynamicHeightCollectionView.swift in Sources */,
+				BB3C76C82CFCDFDF005217AF /* View+extension.swift in Sources */,
 				BBAFFC1C2C342689005703B0 /* KeyboardNotificationProtocol.swift in Sources */,
 				BB3C2F092C6A0E2800149867 /* NetworkManager.swift in Sources */,
 				BBAFFC0A2C3421EF005703B0 /* Logger.swift in Sources */,
 				BBAFFBE22C340EB6005703B0 /* ThreadSafe.swift in Sources */,
 				BBAFFC162C342349005703B0 /* HostingView.swift in Sources */,
+				BBE498CA2D2D06930085233A /* BackgroundTaskManager.swift in Sources */,
 				BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */,
 				BBBCE96E2CFCB7A10061DB04 /* LoggerTableViewController.swift in Sources */,
 				BBAFFBDC2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift in Sources */,
@@ -600,6 +591,7 @@
 				BBAFFBEE2C341A98005703B0 /* Array+extension.swift in Sources */,
 				BB3B16312CEC96980049F5F2 /* DependencyInjector.swift in Sources */,
 				BBAFFC182C342430005703B0 /* UIViewController+extension.swift in Sources */,
+				BB3C76CA2CFD502D005217AF /* UIApplication+extension.swift in Sources */,
 				BBBCE97C2CFCBAE70061DB04 /* Typealiases.swift in Sources */,
 				BBBD51EA2C36803600557CD3 /* ContactsWorker.swift in Sources */,
 				BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */,
