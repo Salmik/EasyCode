@@ -8,15 +8,15 @@
 import Foundation
 
 @propertyWrapper
-struct UserDefault<V> {
+public struct UserDefault<V> {
 
-    let key: String
+    public let key: String
 
-    init(_ key: String) {
+    public init(_ key: String) {
         self.key = key
     }
 
-    var wrappedValue: V? {
+    public var wrappedValue: V? {
         get { UserDefaults.standard.object(forKey: key) as? V }
         set {
             if let newValue {

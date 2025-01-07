@@ -55,7 +55,10 @@ public extension EndPointProtocol {
     /// Creates a `URLRequest` object based on the properties defined in the endpoint.
     /// - Returns: A configured `URLRequest` object, or `nil` if the URL is invalid.
     func makeRequest() -> URLRequest? {
-        guard let url = URL(string: baseURL + path) else { return nil }
+        guard let url = URL(string: baseURL + path) else {
+            Logger.print("Invalid URL: \(baseURL + path)")
+            return nil
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue

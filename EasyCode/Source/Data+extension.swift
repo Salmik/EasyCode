@@ -39,6 +39,26 @@ public extension Data {
         }
     }
 
+    var json: String? {
+        if let jsonObject = try? JSONSerialization.jsonObject(with: self),
+           let data = try? JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted]) {
+            return String(data: data, encoding: .utf8)
+        }
+        return String(data: self, encoding: .utf8)
+    }
+
+    var printableJsonString: String? {
+        guard var json else { return nil }
+
+        let specials = [("\\/", "/"), ("\\t", "\t"), ("\\n", "\n"), ("\\r", "\r"), ("\\\"", "\""), ("\\\'", "\'")]
+        for special in specials {
+            json = json.replacingOccurrences(of: special.0, with: special.1, options: .literal)
+        }
+        json = json.replacingOccurrences(of: "\" : ", with: "\": ", options: .literal)
+
+        return json
+    }
+
     /// Determines the MIME type of the data based on its initial byte.
     var mimeType: String {
         var buffer = UInt8(0)
@@ -52,6 +72,17 @@ public extension Data {
         case 0x25: return "application/pdf"
         case 0xD0: return "application/vnd"
         case 0x46: return "text/plain"
+        case 0x00:
+            if count >= 12 {
+                let subdata = self.subdata(in: 4..<12)
+                let headerString = String(data: subdata, encoding: .ascii)
+                if headerString?.hasPrefix("ftyp") == true {
+                    return "video/mp4"
+                } else if headerString?.hasPrefix("M4V") == true {
+                    return "video/x-m4v"
+                }
+            }
+            return "application/octet-stream"
         default: return "application/octet-stream"
         }
     }
