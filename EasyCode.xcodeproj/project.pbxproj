@@ -99,6 +99,7 @@
 		BBCC22D52C35208F00CC19C9 /* BiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */; };
 		BBCC22D72C35246200CC19C9 /* NLLanguage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */; };
 		BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */; };
+		BBE498CA2D2D06930085233A /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */; };
 		BBEB8E3A2D2CFB6B00988E03 /* UnownedInject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */; };
 		BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D742C6B679C00133020 /* PaddedLabel.swift */; };
 		BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D762C6B6BB500133020 /* TipViewController.swift */; };
@@ -208,6 +209,7 @@
 		BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDAuth.swift; sourceTree = "<group>"; };
 		BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NLLanguage+extension.swift"; sourceTree = "<group>"; };
 		BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailConfiguration.swift; sourceTree = "<group>"; };
+		BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 		BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnownedInject.swift; sourceTree = "<group>"; };
 		BBEE8D742C6B679C00133020 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		BBEE8D762C6B6BB500133020 /* TipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipViewController.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				BB3B162F2CEC96910049F5F2 /* DI */,
 				BB3B16422CEC979D0049F5F2 /* Keychain */,
 				BB3C2EF92C6A0D3B00149867 /* Network Layer */,
+				BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				BBAFFC0A2C3421EF005703B0 /* Logger.swift in Sources */,
 				BBAFFBE22C340EB6005703B0 /* ThreadSafe.swift in Sources */,
 				BBAFFC162C342349005703B0 /* HostingView.swift in Sources */,
+				BBE498CA2D2D06930085233A /* BackgroundTaskManager.swift in Sources */,
 				BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */,
 				BBBCE96E2CFCB7A10061DB04 /* LoggerTableViewController.swift in Sources */,
 				BBAFFBDC2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift in Sources */,
