@@ -10,12 +10,10 @@
 		BB0A70632CBF822500084289 /* RSAWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A70622CBF822500084289 /* RSAWorker.swift */; };
 		BB3B162E2CEC95AA0049F5F2 /* ZipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B162D2CEC95AA0049F5F2 /* ZipManager.swift */; };
 		BB3B16312CEC96980049F5F2 /* DependencyInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */; };
-		BB3B16332CEC96B30049F5F2 /* WeakBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16322CEC96B30049F5F2 /* WeakBox.swift */; };
 		BB3B16352CEC96C30049F5F2 /* DependencyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16342CEC96C30049F5F2 /* DependencyError.swift */; };
 		BB3B16392CEC96FA0049F5F2 /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16382CEC96FA0049F5F2 /* Inject.swift */; };
 		BB3B163B2CEC97290049F5F2 /* WeakInject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B163A2CEC97290049F5F2 /* WeakInject.swift */; };
 		BB3B163D2CEC97470049F5F2 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B163C2CEC97470049F5F2 /* Provider.swift */; };
-		BB3B16412CEC97730049F5F2 /* WeakProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16402CEC97730049F5F2 /* WeakProvider.swift */; };
 		BB3B16442CEC97A20049F5F2 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16432CEC97A20049F5F2 /* KeychainWrapper.swift */; };
 		BB3B16462CEC97EF0049F5F2 /* SecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16452CEC97EF0049F5F2 /* SecureField.swift */; };
 		BB3B16492CECAB160049F5F2 /* PublishedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B16482CECAB160049F5F2 /* PublishedProperty.swift */; };
@@ -101,6 +99,7 @@
 		BBCC22D52C35208F00CC19C9 /* BiometricIDAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */; };
 		BBCC22D72C35246200CC19C9 /* NLLanguage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */; };
 		BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */; };
+		BBEB8E3A2D2CFB6B00988E03 /* UnownedInject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */; };
 		BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D742C6B679C00133020 /* PaddedLabel.swift */; };
 		BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D762C6B6BB500133020 /* TipViewController.swift */; };
 /* End PBXBuildFile section */
@@ -119,12 +118,10 @@
 		BB0A70622CBF822500084289 /* RSAWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAWorker.swift; sourceTree = "<group>"; };
 		BB3B162D2CEC95AA0049F5F2 /* ZipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipManager.swift; sourceTree = "<group>"; };
 		BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjector.swift; sourceTree = "<group>"; };
-		BB3B16322CEC96B30049F5F2 /* WeakBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakBox.swift; sourceTree = "<group>"; };
 		BB3B16342CEC96C30049F5F2 /* DependencyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyError.swift; sourceTree = "<group>"; };
 		BB3B16382CEC96FA0049F5F2 /* Inject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inject.swift; sourceTree = "<group>"; };
 		BB3B163A2CEC97290049F5F2 /* WeakInject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakInject.swift; sourceTree = "<group>"; };
 		BB3B163C2CEC97470049F5F2 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
-		BB3B16402CEC97730049F5F2 /* WeakProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakProvider.swift; sourceTree = "<group>"; };
 		BB3B16432CEC97A20049F5F2 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		BB3B16452CEC97EF0049F5F2 /* SecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureField.swift; sourceTree = "<group>"; };
 		BB3B16482CECAB160049F5F2 /* PublishedProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedProperty.swift; sourceTree = "<group>"; };
@@ -211,6 +208,7 @@
 		BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIDAuth.swift; sourceTree = "<group>"; };
 		BBCC22D62C35246200CC19C9 /* NLLanguage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NLLanguage+extension.swift"; sourceTree = "<group>"; };
 		BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailConfiguration.swift; sourceTree = "<group>"; };
+		BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnownedInject.swift; sourceTree = "<group>"; };
 		BBEE8D742C6B679C00133020 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		BBEE8D762C6B6BB500133020 /* TipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -237,31 +235,14 @@
 		BB3B162F2CEC96910049F5F2 /* DI */ = {
 			isa = PBXGroup;
 			children = (
-				BB3B16372CEC96E50049F5F2 /* Provider */,
-				BB3B16362CEC96DD0049F5F2 /* Inject */,
-				BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */,
-				BB3B16342CEC96C30049F5F2 /* DependencyError.swift */,
-				BB3B16322CEC96B30049F5F2 /* WeakBox.swift */,
-			);
-			path = DI;
-			sourceTree = "<group>";
-		};
-		BB3B16362CEC96DD0049F5F2 /* Inject */ = {
-			isa = PBXGroup;
-			children = (
 				BB3B16382CEC96FA0049F5F2 /* Inject.swift */,
 				BB3B163A2CEC97290049F5F2 /* WeakInject.swift */,
-			);
-			path = Inject;
-			sourceTree = "<group>";
-		};
-		BB3B16372CEC96E50049F5F2 /* Provider */ = {
-			isa = PBXGroup;
-			children = (
+				BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */,
 				BB3B163C2CEC97470049F5F2 /* Provider.swift */,
-				BB3B16402CEC97730049F5F2 /* WeakProvider.swift */,
+				BB3B16302CEC96980049F5F2 /* DependencyInjector.swift */,
+				BB3B16342CEC96C30049F5F2 /* DependencyError.swift */,
 			);
-			path = Provider;
+			path = DI;
 			sourceTree = "<group>";
 		};
 		BB3B16422CEC979D0049F5F2 /* Keychain */ = {
@@ -572,18 +553,17 @@
 				BBAFFBF02C341B35005703B0 /* Dictionary+extension.swift in Sources */,
 				BB3C2EFD2C6A0D6C00149867 /* EndPointProtocol.swift in Sources */,
 				BBAFFBF82C341D33005703B0 /* UIView+constraints.swift in Sources */,
+				BBEB8E3A2D2CFB6B00988E03 /* UnownedInject.swift in Sources */,
 				BBAFFBFC2C341DCB005703B0 /* KeychainService.swift in Sources */,
 				BBAFFBE62C341881005703B0 /* NotificationManager.swift in Sources */,
 				BBAFFC0E2C34225C005703B0 /* JSONWorker.swift in Sources */,
 				BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */,
 				BB3C2F032C6A0DA800149867 /* NetworkError.swift in Sources */,
 				BBBCE97F2CFCBCF10061DB04 /* DrawerLineView.swift in Sources */,
-				BB3B16332CEC96B30049F5F2 /* WeakBox.swift in Sources */,
 				BBAFFBE42C340EE7005703B0 /* CoreDataManager.swift in Sources */,
 				BB3B162E2CEC95AA0049F5F2 /* ZipManager.swift in Sources */,
 				BBAFFC0C2C34220F005703B0 /* MeasureTest.swift in Sources */,
 				BBAFFC102C342274005703B0 /* DispatchWorker.swift in Sources */,
-				BB3B16412CEC97730049F5F2 /* WeakProvider.swift in Sources */,
 				BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */,
 				BBAFFBDE2C340E20005703B0 /* PerformManager.swift in Sources */,
 				BBBD51F02C36A1E500557CD3 /* AVCaptureDevice+extension.swift in Sources */,

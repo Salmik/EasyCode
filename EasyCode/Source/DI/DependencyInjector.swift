@@ -7,66 +7,61 @@
 
 import Foundation
 
+private protocol OptionalType {
+    static var wrappedType: Any.Type { get }
+}
+
 public class DependencyInjector {
 
-    private var strongDependencies: [String: Any] = [:]
-    private var weakDependencies: [String: WeakBox] = [:]
+    private var dependencies: [String: Any] = [:]
     private let queue = DispatchQueue(label: "DependencyContainer.Queue", attributes: .concurrent)
 
     public init() {}
 
     public func resolve<T>() throws -> T {
-        let key = String(describing: T.self)
-        return try queue.sync {
-            if let dependency = strongDependencies[key] as? T {
-                return dependency
-            } else {
-                throw DependencyError.providerNotFound(type: T.self)
-            }
+        let baseType: Any.Type
+        if let optionalMeta = T.self as? OptionalType.Type {
+            baseType = optionalMeta.wrappedType
+        } else {
+            baseType = T.self
         }
-    }
 
-    public func weakResolve<T>() throws -> T {
-        let key = String(describing: T.self)
+        let key = String(describing: baseType)
+
         return try queue.sync {
-            if let weakBox = weakDependencies[key], let dependency = weakBox.value as? T {
-                return dependency
-            } else {
+            guard let dependency = dependencies[key], let typed = dependency as? T else {
                 throw DependencyError.providerNotFound(type: T.self)
             }
+
+            return typed
         }
     }
 
     public func register<T>(dependency: T) {
         let key = String(describing: T.self)
         queue.async(flags: .barrier) {
-            self.strongDependencies[key] = dependency
-        }
-    }
-
-    public func registerWeak<T: AnyObject>(dependency: T) {
-        let key = String(describing: T.self)
-        queue.async(flags: .barrier) {
-            self.weakDependencies[key] = WeakBox(dependency)
+            self.dependencies[key] = dependency
         }
     }
 
     public func unregister<T>(type: T.Type) {
         let key = String(describing: T.self)
         queue.async(flags: .barrier) {
-            self.strongDependencies.removeValue(forKey: key)
-            self.weakDependencies.removeValue(forKey: key)
+            self.dependencies.removeValue(forKey: key)
         }
     }
 
     public func unregisterAll() {
         queue.async(flags: .barrier) {
-            self.strongDependencies.removeAll()
-            self.weakDependencies.removeAll()
+            self.dependencies.removeAll()
         }
     }
 }
 
 extension DependencyInjector {
     public static let shared = DependencyInjector()
+}
+
+extension Optional: OptionalType {
+    static var wrappedType: Any.Type { Wrapped.self }
 }
