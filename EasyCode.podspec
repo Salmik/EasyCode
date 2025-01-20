@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name = 'EasyCode'
   s.license = 'MIT'
-  s.version = '1.4.1'
+  s.version = '1.4.2'
   s.summary = 'EasyCode'
   s.homepage = 'https://github.com/Salmik/EaseCode'
   s.authors = { 'Salmik' => 'salmik94@gmail.com' }
