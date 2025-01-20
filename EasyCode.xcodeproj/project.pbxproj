@@ -101,6 +101,9 @@
 		BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */; };
 		BBE498CA2D2D06930085233A /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */; };
 		BBEB8E3A2D2CFB6B00988E03 /* UnownedInject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */; };
+		BBEBFB5E2D3E03D600E566A6 /* WebSocketManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEBFB5D2D3E03D600E566A6 /* WebSocketManagerDelegate.swift */; };
+		BBEBFB602D3E03E800E566A6 /* WebSocketEndPointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEBFB5F2D3E03E800E566A6 /* WebSocketEndPointProtocol.swift */; };
+		BBEBFB622D3E03F500E566A6 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEBFB612D3E03F500E566A6 /* WebSocketManager.swift */; };
 		BBEE8D752C6B679C00133020 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D742C6B679C00133020 /* PaddedLabel.swift */; };
 		BBEE8D772C6B6BB500133020 /* TipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEE8D762C6B6BB500133020 /* TipViewController.swift */; };
 /* End PBXBuildFile section */
@@ -211,6 +214,9 @@
 		BBCC22D82C352ADF00CC19C9 /* MailConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailConfiguration.swift; sourceTree = "<group>"; };
 		BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 		BBEB8E392D2CFB6B00988E03 /* UnownedInject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnownedInject.swift; sourceTree = "<group>"; };
+		BBEBFB5D2D3E03D600E566A6 /* WebSocketManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManagerDelegate.swift; sourceTree = "<group>"; };
+		BBEBFB5F2D3E03E800E566A6 /* WebSocketEndPointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketEndPointProtocol.swift; sourceTree = "<group>"; };
+		BBEBFB612D3E03F500E566A6 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		BBEE8D742C6B679C00133020 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		BBEE8D762C6B6BB500133020 /* TipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -269,6 +275,7 @@
 		BB3C2EF92C6A0D3B00149867 /* Network Layer */ = {
 			isa = PBXGroup;
 			children = (
+				BBEBFB5C2D3E03C600E566A6 /* WebSocket */,
 				BBBCE96C2CFCB67E0061DB04 /* WindowLogger */,
 				BB3C2EFA2C6A0D5A00149867 /* NetworkResponseProtocol.swift */,
 				BB3C2EFC2C6A0D6C00149867 /* EndPointProtocol.swift */,
@@ -415,6 +422,16 @@
 				BBBCE9822CFCBD870061DB04 /* BottomSheetTransitioningDelegate.swift */,
 			);
 			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		BBEBFB5C2D3E03C600E566A6 /* WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				BBEBFB5D2D3E03D600E566A6 /* WebSocketManagerDelegate.swift */,
+				BBEBFB5F2D3E03E800E566A6 /* WebSocketEndPointProtocol.swift */,
+				BBEBFB612D3E03F500E566A6 /* WebSocketManager.swift */,
+			);
+			path = WebSocket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -596,6 +613,7 @@
 				BBBD51EA2C36803600557CD3 /* ContactsWorker.swift in Sources */,
 				BBCC22D92C352ADF00CC19C9 /* MailConfiguration.swift in Sources */,
 				BBBCE9812CFCBD550061DB04 /* BottomSheetPresentationController.swift in Sources */,
+				BBEBFB602D3E03E800E566A6 /* WebSocketEndPointProtocol.swift in Sources */,
 				BBB163A22C3701D800182E37 /* PasswordValidator.swift in Sources */,
 				BBBCE9722CFCB7D80061DB04 /* LoggerDetailsViewController.swift in Sources */,
 				BBAFFC2E2C342A0D005703B0 /* UserDefaultsStore.swift in Sources */,
@@ -607,6 +625,7 @@
 				BB0A70632CBF822500084289 /* RSAWorker.swift in Sources */,
 				BBAFFBF62C341CC2005703B0 /* UIView+extension.swift in Sources */,
 				BBAFFC042C342152005703B0 /* Date+extension.swift in Sources */,
+				BBEBFB5E2D3E03D600E566A6 /* WebSocketManagerDelegate.swift in Sources */,
 				BBBD51EC2C369B5700557CD3 /* ImageFilter.swift in Sources */,
 				BB3C2EFF2C6A0D8900149867 /* ParameterEncoder.swift in Sources */,
 				BBBCE97A2CFCB8500061DB04 /* NetworkGlobals.swift in Sources */,
@@ -630,6 +649,7 @@
 				BBAFFC022C342126005703B0 /* Character+extension.swift in Sources */,
 				BBAFFC202C34278A005703B0 /* UIImage+extension.swift in Sources */,
 				BB3B164B2CECAB2C0049F5F2 /* PublishedAction.swift in Sources */,
+				BBEBFB622D3E03F500E566A6 /* WebSocketManager.swift in Sources */,
 				BB3B163D2CEC97470049F5F2 /* Provider.swift in Sources */,
 				BBAFFC002C342012005703B0 /* RegularExpression.swift in Sources */,
 				BBAFFC282C342862005703B0 /* UICollectionView+extension.swift in Sources */,
