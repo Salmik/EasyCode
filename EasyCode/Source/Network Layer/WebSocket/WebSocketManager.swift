@@ -11,7 +11,7 @@ import Network
 open class WebSocketManager: NSObject {
 
     public weak var delegate: WebSocketManagerDelegate?
-    public private(set) var isConnected: Bool = false
+    public private(set) var isConnected = false
 
     public var heartbeatInterval: TimeInterval = 15
     public var isAutoReconnectEnabled = true
