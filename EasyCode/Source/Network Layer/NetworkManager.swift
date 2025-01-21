@@ -26,6 +26,8 @@ public class NetworkManager: NSObject {
     /// An array of `Data` objects representing the SSL certificates to be used for SSL pinning.
     public var certDataItems = [Data]()
 
+    private var timers: [UUID: Timer] = [:]
+
     /// Initializes a new instance of `NetworkManager`.
     public override init() {}
 
@@ -344,6 +346,29 @@ public class NetworkManager: NSObject {
 
             return composedResponse
         }
+    }
+
+    public func startLongPolling(
+        endpoint: EndPointProtocol,
+        interval: TimeInterval,
+        completion: @escaping (_ response: NetworkResponseProtocol, _ stopper: () -> Void) -> Void
+    ) {
+        let id = UUID()
+        let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            guard let self else { return }
+
+            self.request(endpoint) { response in
+                let stopper = { [weak self] in
+                    self?.timers[id]?.invalidate()
+                    self?.timers[id] = nil
+                }
+
+                completion(response, stopper)
+            }
+        }
+
+        timers[id] = timer
+        timer.fire()
     }
 }
 
