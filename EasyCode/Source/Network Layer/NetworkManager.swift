@@ -348,6 +348,29 @@ public class NetworkManager: NSObject {
         }
     }
 
+    /// Starts a long-polling process to periodically send HTTP requests to the specified endpoint.
+    ///
+    /// Long-polling involves repeatedly sending requests at a specified interval to fetch updated data.
+    /// Use the `completion` callback to handle each response, and provide a way to stop the polling.
+    ///
+    /// - Parameters:
+    ///   - endpoint: An object conforming to `EndPointProtocol` that defines the request details.
+    ///   - interval: The time interval (in seconds) between successive requests.
+    ///   - completion: A closure that gets called with each response. It provides:
+    ///     - `response`: The response object conforming to `NetworkResponseProtocol`.
+    ///     - `stop`: A closure to terminate the long-polling process.
+    ///
+    /// # Example
+    /// ```swift
+    /// networkManager.startLongPolling(endpoint: myEndpoint, interval: 10) { response, stop in
+    ///     if response.success {
+    ///         print("Long-polling succeeded with data: \(response.data ?? Data())")
+    ///         stop()
+    ///     } else {
+    ///         print("Long-polling failed with error: \(response.error?.errorMessage ?? "Unknown error")")
+    ///     }
+    /// }
+    /// ```
     public func startLongPolling(
         endpoint: EndPointProtocol,
         interval: TimeInterval,
@@ -370,6 +393,9 @@ public class NetworkManager: NSObject {
         longPollTimer?.fire()
     }
 
+    /// Stops the currently running long-polling process.
+    ///
+    /// Call this method to manually terminate the long-polling process.
     public func stopLongPolling() {
         longPollTimer?.invalidate()
         longPollTimer = nil
