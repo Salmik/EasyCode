@@ -151,8 +151,8 @@ open class WebSocketManager: NSObject {
                     self.delegate?.webSocketDidReceiveMessage(text: text)
 
                 case .data(let data):
-                    let base64String = data.base64EncodedString()
                     if self.isNeedToLog {
+                        let base64String = data.base64EncodedString()
                         print("🟢 WEBSOCKET RECEIVED DATA: \(base64String)")
                     }
                     self.delegate?.webSocketDidReceiveData(data)
