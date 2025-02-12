@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,17 +6,7 @@ import PackageDescription
 let package = Package(
     name: "EasyCode",
     platforms: [.iOS(.v14)],
-    products: [
-        .library(name: "EasyCode", targets: ["EasyCode"])
-    ],
-    dependencies: [],
-    targets: [
-        .target(
-            name: "EasyCode",
-            dependencies: [],
-            path: "EasyCode/Source"
-        ),
-        .testTarget(name: "EasyCodeTests", dependencies: ["EasyCode"])
-    ],
+    products: [.library(name: "EasyCode", targets: ["EasyCode"])],
+    targets: [.target(name: "EasyCode", path: "EasyCode/Source")],
     swiftLanguageVersions: [.v5]
 )
