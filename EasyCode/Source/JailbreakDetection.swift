@@ -15,6 +15,8 @@ public protocol JailbreakDetectionService {
 /// A class for detecting jailbroken devices using various checks.
 public class JailbreakDetection: JailbreakDetectionService {
 
+    public init() {}
+
     /// Checks if the device is jailbroken.
     ///
     /// - Returns: `true` if the device is jailbroken, `false` otherwise.
