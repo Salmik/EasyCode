@@ -38,7 +38,7 @@ class BottomSheetPresentationController: UIPresentationController {
         dimmingView.alpha = 0
         containerView.addSubview(dimmingView)
 
-        presentedView.layer.cornerRadius = 12
+        presentedView.layer.cornerRadius = 24
         presentedView.layer.masksToBounds = true
         presentedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 

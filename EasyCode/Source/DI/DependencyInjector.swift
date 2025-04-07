@@ -32,7 +32,6 @@ public class DependencyInjector {
             guard let dependency = dependencies[key], let typed = dependency as? T else {
                 throw DependencyError.providerNotFound(type: T.self)
             }
-
             return typed
         }
     }
@@ -44,8 +43,16 @@ public class DependencyInjector {
         }
     }
 
-    public func unregister<T>(type: T.Type) {
-        let key = String(describing: T.self)
+    public func unregister<T>(_ type: T.Type) {
+        let baseType: Any.Type
+        if let optionalMeta = type as? OptionalType.Type {
+            baseType = optionalMeta.wrappedType
+        } else {
+            baseType = type
+        }
+
+        let key = String(describing: baseType)
+
         queue.async(flags: .barrier) {
             self.dependencies.removeValue(forKey: key)
         }
