@@ -54,11 +54,11 @@ public class TemporaryImageCache: ImageCache {
             }
         }
         set {
-            return queue.async(flags: .barrier) {
+            return queue.async(flags: .barrier) { [weak self] in
                 if let newValue {
-                    self.cache.setObject(newValue, forKey: key as NSString)
+                    self?.cache.setObject(newValue, forKey: key as NSString)
                 } else {
-                    self.cache.removeObject(forKey: key as NSString)
+                    self?.cache.removeObject(forKey: key as NSString)
                 }
             }
         }
@@ -66,8 +66,8 @@ public class TemporaryImageCache: ImageCache {
 
     /// Clears all cache images
     public func clearCache() {
-        queue.async(flags: .barrier) {
-            self.cache.removeAllObjects()
+        queue.async(flags: .barrier) { [weak self] in
+            self?.cache.removeAllObjects()
         }
     }
 }

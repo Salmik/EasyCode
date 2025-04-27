@@ -359,6 +359,23 @@ public extension UIViewController {
         viewControllerToPresent.transitioningDelegate = transitioningDelegate
         present(viewControllerToPresent, animated: animated, completion: completion)
     }
+
+    func dismissAllPresentedControllers(animated: Bool = true, completion: (() -> Void)? = nil) {
+        if let presented = presentedViewController {
+            presented.dismiss(animated: animated) { [weak self] in
+                self?.dismissAllPresentedControllers(completion: completion)
+            }
+        } else {
+            completion?()
+        }
+    }
+
+    func setAlert(title: String, message: String? = nil, actions: [UIAlertAction]? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        defer { present(alertController, animated: true) }
+        guard let actions else { return }
+        actions.forEach { alertController.addAction($0) }
+    }
 }
 
 // MARK: - MFMailComposeViewControllerDelegate

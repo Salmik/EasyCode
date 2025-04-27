@@ -33,6 +33,7 @@
 		BB3C76C82CFCDFDF005217AF /* View+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C76C72CFCDFDF005217AF /* View+extension.swift */; };
 		BB3C76CA2CFD502D005217AF /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */; };
 		BB8A14152C36649C00F18CE8 /* UnmanagedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */; };
+		BBA9A1632DB77423002BC7FB /* FaceAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA9A1622DB77423002BC7FB /* FaceAnalysis.swift */; };
 		BBAFFBC52C340D12005703B0 /* EasyCode.docc in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBC42C340D12005703B0 /* EasyCode.docc */; };
 		BBAFFBCB2C340D12005703B0 /* EasyCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBAFFBC02C340D12005703B0 /* EasyCode.framework */; };
 		BBAFFBD02C340D12005703B0 /* EasyCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFFBCF2C340D12005703B0 /* EasyCodeTests.swift */; };
@@ -145,6 +146,7 @@
 		BB3C76C72CFCDFDF005217AF /* View+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+extension.swift"; sourceTree = "<group>"; };
 		BB3C76C92CFD502D005217AF /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
 		BB8A14142C36649C00F18CE8 /* UnmanagedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnmanagedWrapper.swift; sourceTree = "<group>"; };
+		BBA9A1622DB77423002BC7FB /* FaceAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceAnalysis.swift; sourceTree = "<group>"; };
 		BBAFFBC02C340D12005703B0 /* EasyCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAFFBC32C340D12005703B0 /* EasyCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyCode.h; sourceTree = "<group>"; };
 		BBAFFBC42C340D12005703B0 /* EasyCode.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = EasyCode.docc; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			children = (
 				BBAFFBED2C341A98005703B0 /* Array+extension.swift */,
 				BBBD51EF2C36A1E500557CD3 /* AVCaptureDevice+extension.swift */,
+				BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */,
 				BBAFFBDB2C340DF2005703B0 /* BinaryFloatingPoint+extension.swift */,
 				BBCC22D42C35208F00CC19C9 /* BiometricIDAuth.swift */,
 				BBAFFC012C342126005703B0 /* Character+extension.swift */,
@@ -348,6 +351,7 @@
 				BBAFFC292C342877005703B0 /* Encodable+extension.swift */,
 				BBAFFBF12C341C31005703B0 /* EncryptionCryptoProtocol.swift */,
 				BBAFFBF32C341C59005703B0 /* EncryptionError.swift */,
+				BBA9A1622DB77423002BC7FB /* FaceAnalysis.swift */,
 				BBAFFC152C342349005703B0 /* HostingView.swift */,
 				BBBD51EB2C369B5700557CD3 /* ImageFilter.swift */,
 				BBAFFBFD2C341FE4005703B0 /* JailbreakDetection.swift */,
@@ -395,7 +399,6 @@
 				BB3B162F2CEC96910049F5F2 /* DI */,
 				BB3B16422CEC979D0049F5F2 /* Keychain */,
 				BB3C2EF92C6A0D3B00149867 /* Network Layer */,
-				BBE498C92D2D06930085233A /* BackgroundTaskManager.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 				BB3C2F0B2C6A10F800149867 /* ServiceLocator.swift in Sources */,
 				BBAFFBEE2C341A98005703B0 /* Array+extension.swift in Sources */,
 				BB3B16312CEC96980049F5F2 /* DependencyInjector.swift in Sources */,
+				BBA9A1632DB77423002BC7FB /* FaceAnalysis.swift in Sources */,
 				BBAFFC182C342430005703B0 /* UIViewController+extension.swift in Sources */,
 				BB3C76CA2CFD502D005217AF /* UIApplication+extension.swift in Sources */,
 				BBBCE97C2CFCBAE70061DB04 /* Typealiases.swift in Sources */,

@@ -10,11 +10,25 @@ import Foundation
 /// `NetworkManager` is a class responsible for managing network requests in your application. It provides
 /// methods for making standard HTTP requests, handling multipart form data, and supports SSL pinning for enhanced security.
 /// The class also includes request logging capabilities and offers both callback-based and async/await APIs.
+///
 public class NetworkManager: NSObject {
+
+    public enum SessionType { case main, multipart }
+
+    private let logger = ConsoleLogger()
+    private var longPollTimer: Timer?
 
     /// The `URLSession` used for making network requests. It is lazily initialized with the default configuration
     /// and uses `self` as the delegate.
-    public lazy var session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
+    private lazy var session: URLSession = {
+        let confirguration = URLSessionConfiguration.default
+        confirguration.waitsForConnectivity = true
+        confirguration.timeoutIntervalForResource = 30
+        confirguration.timeoutIntervalForRequest = 30
+        return URLSession(configuration: confirguration, delegate: self, delegateQueue: .main)
+    }()
+
+    private lazy var multipartSession = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
 
     /// A boolean value that indicates whether SSL pinning is enabled. When enabled, the manager will perform SSL
     /// pinning by validating the server's SSL certificate against the certificates included in `certDataItems`.
@@ -25,8 +39,6 @@ public class NetworkManager: NSObject {
 
     /// An array of `Data` objects representing the SSL certificates to be used for SSL pinning.
     public var certDataItems = [Data]()
-
-    private var longPollTimer: Timer?
 
     /// Initializes a new instance of `NetworkManager`.
     public override init() {}
@@ -66,7 +78,10 @@ public class NetworkManager: NSObject {
     ///
     /// - Parameters:
     ///   - endpoint: An object conforming to `EndPointProtocol` that defines the request details.
-    ///   - isNeedToResumeImmediatly: A boolean value indicating whether the request should start immediately.
+    ///   - retryCount: The number of retry attempts to make in case of a timeout (`NSURLErrorTimedOut`) or cancellation
+    ///                 (`NSURLErrorCancelled`). Default is `1`, meaning one initial attempt plus one retry.
+    ///   - retryDeadline: The delay in seconds before each retry. Default is `0` (retry immediately).
+    ///   - isNeedToPerformImmediatly: A boolean value indicating whether the request should start immediately.
     ///   - completion: A closure that is called with the response object conforming to `NetworkResponseProtocol`.
     /// - Returns: The `URLSessionDataTask` for the request, or `nil` if the request could not be created.
     ///
@@ -83,6 +98,8 @@ public class NetworkManager: NSObject {
     @discardableResult
     public func request(
         _ endpoint: EndPointProtocol,
+        retryCount: Int = 1,
+        retryDeadline: TimeInterval = 0,
         isNeedToPerformImmediatly: Bool = true,
         completion: @escaping (NetworkResponseProtocol) -> Void
     ) -> URLSessionDataTask? {
@@ -91,9 +108,7 @@ public class NetworkManager: NSObject {
         let identifiedRequest = IdentifiedRequest(request: request)
         let row = LoggerRow(request: identifiedRequest)
         if isNeedToLogRequests {
-            ConsoleLogger().log(request: request)
-        }
-        if NetworkGlobals.isLoggerEnabled {
+            logger.log(request: request)
             DispatchQueue.main.async {
                 NetworkGlobals.loggerViewController.insert(row: row)
             }
@@ -103,17 +118,35 @@ public class NetworkManager: NSObject {
             guard let manager = self else { return }
 
             if let response = response as? HTTPURLResponse, manager.isNeedToLogRequests {
-                ConsoleLogger().log(request: request, response: response, responseData: data, error: error)
+                manager.logger.log(request: request, response: response, responseData: data, error: error)
             }
 
-            let response = manager.composeResponse(data: data, response: response, error: error)
-            if NetworkGlobals.isLoggerEnabled {
+            let composedResponse = manager.composeResponse(data: data, response: response, error: error)
+            if manager.isNeedToLogRequests {
                 DispatchQueue.main.async {
-                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: response)
+                    NetworkGlobals.loggerViewController.update(
+                        id: identifiedRequest.id,
+                        response: composedResponse
+                    )
                 }
             }
 
-            completion(response)
+            if let error {
+                let nsError = error as NSError
+                if retryCount > 0, nsError.code == -1001 || nsError.code == -999 {
+                    DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + retryDeadline) {
+                        _ = manager.request(
+                            endpoint,
+                            retryCount: retryCount - 1,
+                            retryDeadline: retryDeadline,
+                            isNeedToPerformImmediatly: isNeedToPerformImmediatly,
+                            completion: completion
+                        )
+                    }
+                }
+            } else {
+                completion(composedResponse)
+            }
         }
         if isNeedToPerformImmediatly { task.resume() }
 
@@ -124,7 +157,10 @@ public class NetworkManager: NSObject {
     ///
     /// - Parameters:
     ///   - endpoint: An object conforming to `EndPointProtocol` that defines the request details.
-    ///   - isNeedToResumeImmediatly: A boolean value indicating whether the request should start immediately.
+    ///   - retryCount: The number of retry attempts to make in case of a timeout (`NSURLErrorTimedOut`) or cancellation
+    ///                 (`NSURLErrorCancelled`). Default is `1`, meaning one initial attempt plus one retry.
+    ///   - retryDeadline: The delay in seconds before each retry. Default is `0` (retry immediately).
+    ///   - isNeedToPerformImmediatly: A boolean value indicating whether the request should start immediately.
     ///   - multiPartParams: An array of `MultipartFormDataParameter` representing the form data.
     ///   - completion: A closure that is called with the response object conforming to `NetworkResponseProtocol`.
     /// - Returns: The `URLSessionDataTask` for the request, or `nil` if the request could not be created.
@@ -146,6 +182,8 @@ public class NetworkManager: NSObject {
     @discardableResult
     public func multiPart(
         _ endpoint: EndPointProtocol,
+        retryCount: Int = 1,
+        retryDeadline: TimeInterval = 0,
         isNeedToResumeImmediatly: Bool = true,
         with multiPartParams: [MultipartFormDataParameter],
         completion: @escaping (NetworkResponseProtocol) -> Void
@@ -156,7 +194,6 @@ public class NetworkManager: NSObject {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var data = Data()
-
         for param in multiPartParams {
             data.append("\r\n--\(boundary)\r\n")
             data.append("Content-Disposition: form-data; name=\"\(param.name)\"; filename=\"\(param.fileName)\"\r\n")
@@ -164,35 +201,51 @@ public class NetworkManager: NSObject {
             data.append(param.data)
             data.append("\r\n")
         }
-
         data.append("--\(boundary)--\r\n")
 
         let identifiedRequest = IdentifiedRequest(request: request)
         let row = LoggerRow(request: identifiedRequest)
         if isNeedToLogRequests {
-            ConsoleLogger().log(request: request)
-        }
-        if NetworkGlobals.isLoggerEnabled {
+            logger.log(request: request)
             DispatchQueue.main.async {
                 NetworkGlobals.loggerViewController.insert(row: row)
             }
         }
 
-        let task = session.uploadTask(with: request, from: data) { [weak self] data, response, error in
+        let task = multipartSession.uploadTask(with: request, from: data) { [weak self] data, response, error in
             guard let manager = self else { return }
 
             if let response = response as? HTTPURLResponse, manager.isNeedToLogRequests {
-                ConsoleLogger().log(request: request, response: response, responseData: data, error: error)
+               manager.logger.log(request: request, response: response, responseData: data, error: error)
             }
 
-            let response = manager.composeResponse(data: data, response: response, error: error)
-            if NetworkGlobals.isLoggerEnabled {
+            let composedResponse = manager.composeResponse(data: data, response: response, error: error)
+            if manager.isNeedToLogRequests {
                 DispatchQueue.main.async {
-                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: response)
+                    NetworkGlobals.loggerViewController.update(
+                        id: identifiedRequest.id,
+                        response: composedResponse
+                    )
                 }
             }
 
-            completion(response)
+            if let error {
+                let nsError = error as NSError
+                if retryCount > 0, nsError.code == -1001 || nsError.code == -999 {
+                    DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + retryDeadline) {
+                        _ = manager.multiPart(
+                            endpoint,
+                            retryCount: retryCount - 1,
+                            retryDeadline: retryDeadline,
+                            isNeedToResumeImmediatly: isNeedToResumeImmediatly,
+                            with: multiPartParams,
+                            completion: completion
+                        )
+                    }
+                }
+            } else {
+                completion(composedResponse)
+            }
         }
         if isNeedToResumeImmediatly { task.resume() }
 
@@ -203,7 +256,11 @@ public class NetworkManager: NSObject {
 
     /// Sends an HTTP request using async/await and returns the response.
     ///
-    /// - Parameter endpoint: An object conforming to `EndPointProtocol` that defines the request details.
+    /// - Parameters:
+    ///   - endpoint: An object conforming to `EndPointProtocol` that defines the request details.
+    ///   - retryCount: The number of retry attempts to make in case of a timeout (`NSURLErrorTimedOut`) or cancellation
+    ///                 (`NSURLErrorCancelled`). Default is `1`, meaning one initial attempt plus one retry.
+    ///   - retryDeadline: The delay in seconds before each retry. Default is `0` (retry immediately).
     /// - Returns: A `NetworkResponseProtocol` object representing the response, or `nil` if the request could not be created.
     ///
     /// # Example
@@ -219,55 +276,84 @@ public class NetworkManager: NSObject {
     /// }
     /// ```
     @discardableResult
-    public func request(_ endpoint: EndPointProtocol) async -> NetworkResponseProtocol? {
+    public func request(
+        _ endpoint: EndPointProtocol,
+        retryCount: Int = 1,
+        retryDeadline: UInt64 = 0
+    ) async -> NetworkResponseProtocol? {
         guard let request = endpoint.makeRequest() else { return nil }
 
-        let identifiedRequest = IdentifiedRequest(request: request)
-        let row = LoggerRow(request: identifiedRequest)
-
-        if isNeedToLogRequests {
-            ConsoleLogger().log(request: request)
-        }
-        if NetworkGlobals.isLoggerEnabled {
-            DispatchQueue.main.async {
-                NetworkGlobals.loggerViewController.insert(row: row)
-            }
-        }
-
-        do {
-            let (data, response) = try await session.data(for: request)
-            if let response = response as? HTTPURLResponse, isNeedToLogRequests {
-                ConsoleLogger().log(request: request, response: response, responseData: data, error: nil)
-            }
-
-            let composedResponse = composeResponse(data: data, response: response, error: nil)
-            if NetworkGlobals.isLoggerEnabled {
-                DispatchQueue.main.async {
-                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: composedResponse)
-                }
-            }
-
-            return composedResponse
-
-        } catch {
+        var attempts = 0
+        let maximumAttempts = retryCount + 1
+        while attempts < maximumAttempts {
+            let identifiedRequest = IdentifiedRequest(request: request)
+            let row = LoggerRow(request: identifiedRequest)
             if isNeedToLogRequests {
-                ConsoleLogger().log(request: request, response: nil, responseData: nil, error: error)
-            }
-            let composedResponse = composeResponse(data: nil, response: nil, error: error)
-            if NetworkGlobals.isLoggerEnabled {
-                DispatchQueue.main.async {
-                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: composedResponse)
-                }
+                logger.log(request: request)
+                await MainActor.run { NetworkGlobals.loggerViewController.insert(row: row) }
             }
 
-            return composedResponse
+            do {
+                let (data, response) = try await session.data(for: request)
+                if let response = response as? HTTPURLResponse, isNeedToLogRequests {
+                    logger.log(request: request, response: response, responseData: data, error: nil)
+                }
+                let composedResponse = composeResponse(data: data, response: response, error: nil)
+                if isNeedToLogRequests {
+                    await MainActor.run {
+                        NetworkGlobals.loggerViewController.update(
+                            id: identifiedRequest.id,
+                            response: composedResponse
+                        )
+                    }
+                }
+                return composedResponse
+            } catch {
+                let nsError = error as NSError
+                if (nsError.code == -1001 || nsError.code == -999) && attempts < retryCount {
+                    attempts += 1
+                    if isNeedToLogRequests {
+                        logger.log(request: request, response: nil, responseData: nil, error: error)
+                        let composedResponse = composeResponse(data: nil, response: nil, error: error)
+                        await MainActor.run {
+                            NetworkGlobals.loggerViewController.update(
+                                id: identifiedRequest.id,
+                                response: composedResponse
+                            )
+                        }
+                    }
+                    if retryDeadline > 0 {
+                        try? await Task.sleep(nanoseconds: retryDeadline * 1_000_000_000)
+                    }
+                } else {
+                    if isNeedToLogRequests {
+                        logger.log(request: request, response: nil, responseData: nil, error: error)
+                    }
+                    let composedResponse = composeResponse(data: nil, response: nil, error: error)
+                    if isNeedToLogRequests {
+                        await MainActor.run {
+                            NetworkGlobals.loggerViewController.update(
+                                id: identifiedRequest.id,
+                                response: composedResponse
+                            )
+                        }
+                    }
+
+                    return composedResponse
+                }
+            }
         }
+
+        return nil
     }
 
     /// Sends a multipart form-data request using async/await and returns the response.
     ///
     /// - Parameters:
     ///   - endpoint: An object conforming to `EndPointProtocol` that defines the request details.
+    ///   - retryCount: The number of retry attempts to make in case of a timeout (`NSURLErrorTimedOut`) or cancellation
+    ///                 (`NSURLErrorCancelled`). Default is `1`, meaning one initial attempt plus one retry.
+    ///   - retryDeadline: The delay in seconds before each retry. Default is `0` (retry immediately).
     ///   - multiPartParams: An array of `MultipartFormDataParameter` representing the form data.
     /// - Returns: A `NetworkResponseProtocol` object representing the response, or `nil` if the request could not be created.
     ///
@@ -286,6 +372,8 @@ public class NetworkManager: NSObject {
     @discardableResult
     public func multiPart(
         _ endpoint: EndPointProtocol,
+        retryCount: Int = 1,
+        retryDeadline: UInt64 = 0,
         with multiPartParams: [MultipartFormDataParameter]
     ) async -> NetworkResponseProtocol? {
         guard var request = endpoint.makeRequest() else { return nil }
@@ -294,7 +382,6 @@ public class NetworkManager: NSObject {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var data = Data()
-
         for param in multiPartParams {
             data.append("\r\n--\(boundary)\r\n")
             data.append("Content-Disposition: form-data; name=\"\(param.name)\"; filename=\"\(param.fileName)\"\r\n")
@@ -302,50 +389,69 @@ public class NetworkManager: NSObject {
             data.append(param.data)
             data.append("\r\n")
         }
-
         data.append("--\(boundary)--\r\n")
 
-        let identifiedRequest = IdentifiedRequest(request: request)
-        let row = LoggerRow(request: identifiedRequest)
-        if isNeedToLogRequests {
-            ConsoleLogger().log(request: request)
-        }
-        if NetworkGlobals.isLoggerEnabled {
-            DispatchQueue.main.async {
-                NetworkGlobals.loggerViewController.insert(row: row)
-            }
-        }
-        do {
-            let (responseData, response) = try await session.upload(for: request, from: data)
-            if let response = response as? HTTPURLResponse, isNeedToLogRequests {
-                ConsoleLogger().log(request: request, response: response, responseData: responseData, error: nil)
-            }
-            let composedResponse = composeResponse(data: responseData, response: response, error: nil)
-
-            if NetworkGlobals.isLoggerEnabled {
-                DispatchQueue.main.async {
-                    NetworkGlobals.loggerViewController.update(
-                        id: identifiedRequest.id,
-                        response: composedResponse
-                    )
-                }
-            }
-
-            return composedResponse
-
-        } catch {
+        var attempts = 0
+        let maximumAttempts = retryCount + 1
+        while attempts < maximumAttempts {
+            let identifiedRequest = IdentifiedRequest(request: request)
+            let row = LoggerRow(request: identifiedRequest)
             if isNeedToLogRequests {
-                ConsoleLogger().log(request: request, response: nil, responseData: nil, error: error)
+                logger.log(request: request)
+                await MainActor.run { NetworkGlobals.loggerViewController.insert(row: row) }
             }
-            let composedResponse = composeResponse(data: nil, response: nil, error: error)
-            if NetworkGlobals.isLoggerEnabled {
-                DispatchQueue.main.async {
-                    NetworkGlobals.loggerViewController.update(id: identifiedRequest.id, response: composedResponse)
+            do {
+                let (responseData, response) = try await multipartSession.upload(for: request, from: data)
+                if let response = response as? HTTPURLResponse, isNeedToLogRequests {
+                    logger.log(request: request, response: response, responseData: responseData, error: nil)
+                }
+                let composedResponse = composeResponse(data: responseData, response: response, error: nil)
+                if isNeedToLogRequests {
+                    await MainActor.run {
+                        NetworkGlobals.loggerViewController.update(
+                            id: identifiedRequest.id,
+                            response: composedResponse
+                        )
+                    }
+                }
+                return composedResponse
+            } catch {
+                let nsError = error as NSError
+                if (nsError.code == -1001 || nsError.code == -999) && attempts < retryCount {
+                    attempts += 1
+                    if isNeedToLogRequests {
+                        logger.log(request: request, response: nil, responseData: nil, error: error)
+                        let composedResponse = composeResponse(data: nil, response: nil, error: error)
+                        await MainActor.run {
+                            NetworkGlobals.loggerViewController.update(
+                                id: identifiedRequest.id,
+                                response: composedResponse
+                            )
+                        }
+                    }
+                    if retryDeadline > 0 {
+                        try? await Task.sleep(nanoseconds: retryDeadline * 1_000_000_000)
+                    }
+                } else {
+                    if isNeedToLogRequests {
+                        logger.log(request: request, response: nil, responseData: nil, error: error)
+                    }
+                    let composedResponse = composeResponse(data: nil, response: nil, error: error)
+                    if isNeedToLogRequests {
+                        await MainActor.run {
+                            NetworkGlobals.loggerViewController.update(
+                                id: identifiedRequest.id,
+                                response: composedResponse
+                            )
+                        }
+                    }
+
+                    return composedResponse
                 }
             }
-
-            return composedResponse
         }
+
+        return nil
     }
 
     /// Starts a long-polling process to periodically send HTTP requests to the specified endpoint.
@@ -374,20 +480,32 @@ public class NetworkManager: NSObject {
     public func startLongPolling(
         endpoint: EndPointProtocol,
         interval: TimeInterval,
-        completion: @escaping (_ response: NetworkResponseProtocol, _ stop: () -> Void) -> Void
+        retryCount: Int = 1,
+        retryDeadline: TimeInterval = 0,
+        isNeedToPerformImmediatly: Bool = true,
+        completion: @escaping (_ response: NetworkResponseProtocol, _ stop: @escaping () -> Void) -> Void
     ) {
         stopLongPolling()
 
         longPollTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
             guard let self else { return }
 
-            self.request(endpoint) { response in
+            self.request(
+                endpoint,
+                retryCount: retryCount,
+                retryDeadline: retryDeadline,
+                isNeedToPerformImmediatly: isNeedToPerformImmediatly
+            ) { response in
                 let stopClosure = { [weak self] in
                     guard let self else { return }
                     self.stopLongPolling()
                 }
                 completion(response, stopClosure)
             }
+        }
+
+        if let longPollTimer {
+            RunLoop.main.add(longPollTimer, forMode: .common)
         }
 
         longPollTimer?.fire()
@@ -400,9 +518,33 @@ public class NetworkManager: NSObject {
         longPollTimer?.invalidate()
         longPollTimer = nil
     }
+
+    /// Sets a new `URLSession` instance for the specified session type.
+    ///
+    /// This method allows you to replace the session used for either `.main` or `.multipart`
+    /// operations. Useful when you need a custom session configuration for specific request types.
+    ///
+    /// - Parameters:
+    ///   - sessionType: The type of session to configure (`.main` or `.multipart`).
+    ///   - session: The new `URLSession` instance to assign for the given type.
+    ///
+    /// Example:
+    /// ```swift
+    /// let customSession = URLSession(configuration: .default)
+    /// setNewSession(for: .main, session: customSession)
+    /// ```
+    public func setNewSession(for sessionType: SessionType, session: URLSession) {
+        switch sessionType {
+        case .main:
+            self.session = session
+        case .multipart:
+            multipartSession = session
+        }
+    }
 }
 
 // MARK: - URLSessionDelegate
+
 extension NetworkManager: URLSessionDelegate {
 
     /// Handles SSL pinning by validating the server's certificate against the stored certificates.
@@ -416,57 +558,55 @@ extension NetworkManager: URLSessionDelegate {
         didReceive challenge: URLAuthenticationChallenge,
         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
     ) {
-        DispatchQueue.global(qos: .utility).async { [weak self] in
-            guard let manager = self else {
-                completionHandler(.cancelAuthenticationChallenge, nil)
-                return
-            }
+        var disposition: URLSession.AuthChallengeDisposition = isSSLPinningEnabled ? .cancelAuthenticationChallenge
+                                                                                   : .performDefaultHandling
+        var urlCredential: URLCredential?
 
-            var disposition: URLSession.AuthChallengeDisposition = .cancelAuthenticationChallenge
-
-            guard manager.isSSLPinningEnabled else {
-                completionHandler(.performDefaultHandling, nil)
-                return
-            }
-
-            guard challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
-                  let serverTrust = challenge.protectionSpace.serverTrust else {
-                completionHandler(.cancelAuthenticationChallenge, nil)
-                return
-            }
-
-            var secError: CFError?
-            let isServerTrusted = SecTrustEvaluateWithError(serverTrust, &secError)
-
-            if #available(iOS 15.0, *) {
-                if isServerTrusted,
-                   let certificates = SecTrustCopyCertificateChain(serverTrust) as? [SecCertificate],
-                   let serverCertificate = certificates.first {
-                    let serverCertificateData = SecCertificateCopyData(serverCertificate) as Data
-
-                    for localCertData in manager.certDataItems where serverCertificateData == localCertData {
-                        let credential = URLCredential(trust: serverTrust)
-                        disposition = .useCredential
-                        completionHandler(disposition, credential)
-                        return
-                    }
-                }
-            } else {
-                let serverCertificates = (0..<SecTrustGetCertificateCount(serverTrust))
-                        .compactMap { SecTrustGetCertificateAtIndex(serverTrust, $0) }
-                let serverCertificateData = serverCertificates.first.map { SecCertificateCopyData($0) as Data }
-
-                if let serverCertificateData = serverCertificateData {
-                    for localCertData in manager.certDataItems where serverCertificateData == localCertData {
-                        let credential = URLCredential(trust: serverTrust)
-                        disposition = .useCredential
-                        completionHandler(disposition, credential)
-                        return
-                    }
-                }
-            }
-
+        guard challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
+              let serverTrust = challenge.protectionSpace.serverTrust else {
             completionHandler(disposition, nil)
+            return
         }
+
+        if !isSSLPinningEnabled {
+            completionHandler(.performDefaultHandling, nil)
+            return
+        }
+
+        let isTrusted = SecTrustEvaluateWithError(serverTrust, nil)
+        if !isTrusted {
+            completionHandler(.cancelAuthenticationChallenge, nil)
+            return
+        }
+
+        let serverCertificateData: Data?
+        if #available(iOS 15.0, *) {
+            if let certificates = SecTrustCopyCertificateChain(serverTrust) as? [SecCertificate],
+               let firstCert = certificates.first {
+                serverCertificateData = SecCertificateCopyData(firstCert) as Data
+            } else {
+                serverCertificateData = nil
+            }
+        } else {
+            if let firstCert = SecTrustGetCertificateAtIndex(serverTrust, 0) {
+                serverCertificateData = SecCertificateCopyData(firstCert) as Data
+            } else {
+                serverCertificateData = nil
+            }
+        }
+
+        guard let serverCertData = serverCertificateData else {
+            completionHandler(.cancelAuthenticationChallenge, nil)
+            return
+        }
+
+        for localCertData in certDataItems where serverCertData == localCertData {
+            let credential = URLCredential(trust: serverTrust)
+            disposition = .useCredential
+            urlCredential = credential
+            break
+        }
+
+        completionHandler(disposition, urlCredential)
     }
 }
